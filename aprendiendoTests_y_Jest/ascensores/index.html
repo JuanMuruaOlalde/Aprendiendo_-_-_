@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="favicon-susosise-16x16.png" />
+        <title>Ascensores</title>
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <header>
+            <h1 id="titulo_de_la_pagina">Un edificio con algunos ascensores</h1>
+            <!--Es importante que solo haya un título principal <h1> en la página-->
+        </header>
+
+        <main>
+            <div
+                id="espacio_para_mostrar_los_ascensores"
+                class="enmarcado_dentro_de_una_caja"
+            ></div>
+            <form id="frmLlamarAlAscensor" class="enmarcado_dentro_de_una_caja">
+                <label for="piso_llamar"
+                    >Estoy en el piso:<input
+                        id="piso_llamar"
+                        name="piso_llamar"
+                        required
+                        type="number"
+                /></label>
+                <input type="submit" value="Llamar al ascensor" />
+            </form>
+            <form id="frmMoverUnAscensor" class="enmarcado_dentro_de_una_caja">
+                <label for="ascensor"
+                    >El ascensor:<input
+                        id="ascensor"
+                        name="ascensor"
+                        required
+                        type="number"
+                /></label>
+                <label for="piso_mover"
+                    >Al piso:<input
+                        id="piso_mover"
+                        name="piso_mover"
+                        required
+                        type="number"
+                        size="8"
+                /></label>
+                <input type="submit" value="Mover ascensor" />
+            </form>
+        </main>
+
+        <footer>
+            <p>
+                Una muestra de posible solución a esta
+                <a
+                    href="https://github.com/JuanMuruaOlalde/sugerencias-para-practicar-programacion/tree/main/Ascensores"
+                    >sugerencia para practicar programación</a
+                >
+            </p>
+        </footer>
+
+        <script type="module" src="index.js"></script>
+    </body>
+</html>

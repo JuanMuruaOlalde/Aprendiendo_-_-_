@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+}
+
+main {
+    padding: 0 20px;
+}
+
+section {
+    margin-left: 2em;
+}
+
+h2,
+h3 {
+    margin-top: 2em;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.5em;
+}
+
+button {
+    padding: 7px;
+    border: 2px solid grey;
+    border-radius: 2px;
+}
+
+form {
+    display: inline-block;
+}
+
+input[type="submit"],
+input[type="button"],
+button[type="submit"] {
+    margin: 1em;
+    padding: 0.5em;
+    background-color: oldlace;
+}
+
+.enmarcado_dentro_de_una_caja {
+    margin: 1em;
+    padding: 1em;
+    background-color: whitesmoke;
+    border: 1px solid grey;
+    border-radius: 2px;
+    box-shadow: 2px 2px green;
+}

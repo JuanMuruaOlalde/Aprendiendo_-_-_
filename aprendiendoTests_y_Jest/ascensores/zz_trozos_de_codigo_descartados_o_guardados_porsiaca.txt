@@ -1,0 +1,74 @@
+=============================================================
+En lugar de ir dejando código comentado por aquí y por allá,
+ensuciando los archivos reales,... mejor dejarlo aquí aparte.
+=============================================================
+=======================================================================
+
+function crearEdificio(piso_mas_bajo, piso_mas_alto) {
+    let ascensores = [
+        crearAscensor(piso_mas_bajo, piso_mas_alto),
+        crearAscensor(piso_mas_bajo, piso_mas_alto),
+        crearAscensor(piso_mas_bajo, piso_mas_alto),
+        crearAscensor(piso_mas_bajo, piso_mas_alto),
+    ];
+
+    return {
+        pulsarBotonDeLlamadaAscensorEnPiso(piso) {
+            try {
+                ascensor.irAlPiso(piso);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+        getPosicionesDeLosAscensores() {
+            return ascensores.map((x) => x.getPisoEnQueEsta());
+        },
+    };
+}
+
+=======================================================================
+
+function crearAscensor() {
+    let piso_en_que_esta = 0;
+
+    return {
+        irAlPiso(piso) {
+            piso_en_que_esta = piso;
+        },
+
+        getPisoEnQueEsta() {
+            return piso_en_que_esta;
+        },
+    };
+}
+
+export { crearAscensor };
+
+=======================================================================
+
+function crearAscensor(piso_mas_bajo, piso_mas_alto) {
+    let piso_en_que_esta = 0;
+
+    return {
+        irAlPiso(piso) {
+            if (piso >= piso_mas_bajo && piso <= piso_mas_alto) {
+                piso_en_que_esta = piso;
+            } else {
+                throw new Error(
+                    `No se puede ir al piso ${piso}. El ascensor solo va desde ${piso_mas_bajo} al ${piso_mas_alto}.`
+                );
+            }
+        },
+
+        getPisoEnQueEsta() {
+            return piso_en_que_esta;
+        },
+    };
+    
+}
+
+export { crearAscensor };
+
+=======================================================================
+
+

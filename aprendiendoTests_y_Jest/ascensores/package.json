@@ -1,0 +1,21 @@
+{
+    "name": "ascensores",
+    "version": "1.0.0",
+    "description": "Ejercicio para practicar TDD",
+    "main": "index.js",
+    "scripts": {
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose"
+    },
+    "author": "susosise.es",
+    "license": "MIT",
+    "type": "module",
+    "jest": {
+        "transform": {}
+    },
+    "dependencies": {
+        "ascensores": "file:"
+    },
+    "devDependencies": {
+        "jest": "^29.7.0"
+    }
+}
