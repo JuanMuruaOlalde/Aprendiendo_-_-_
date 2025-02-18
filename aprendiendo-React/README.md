@@ -1,11 +1,6 @@
 # Aprendiendo React
 
-En la carpeta `_docs_` hay enlaces a sitios web que me han parecido interesantes en este proceso de aprendizaje.
-Y un par de resumenes:
-
--   [para empezar a trabajar con Node y sus paquetes](https://github.com/JuanMuruaOlalde/Aprendiendo_-_-_/blob/main/aprendiendo-React/_documentacion_/_1b_%20resumen%20rapido%20para%20empezar%20a%20trabajar%20con%20Node%20y%20sus%20paquetes%20.md)
-
--   [para empezar a trabajar con React](https://github.com/JuanMuruaOlalde/Aprendiendo_-_-_/blob/main/aprendiendo-React/_documentacion_/_1a_%20resumen%20rapido%20para%20empezar%20a%20trabajar%20con%20React.md)
+En la carpeta `_documentacion_` hay enlaces a sitios web que me han parecido interesantes en este proceso de aprendizaje.
 
 Las carpetas `pruebasConEsbuild` y `pruebasConParcel`, son un comienzo mínimo para hacer algo con React. (Con el empaquetador esbuild o con el empaquetador parcel, respectivamente.)
 
