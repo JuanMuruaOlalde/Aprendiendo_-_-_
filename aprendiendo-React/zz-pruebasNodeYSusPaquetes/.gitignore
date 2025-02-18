@@ -1,0 +1,32 @@
+# Todo lo que contenga secretos, 
+# nunca puede llegar al repositorio.
+configuracion.json
+
+# Todo lo que no es codigo fuente propiamente dicho
+# (lo que se puede recuperar con facilidad desde otras fuentes o compilando el código),
+# es inutil que esté ocupando sitio en el repositorio.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/dist
+/.cache
+/.parcel-cache
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

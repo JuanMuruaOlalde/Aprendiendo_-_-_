@@ -1,0 +1,9 @@
+// Esto esta sin elaborar del todo, por ahora son solo pruebas.
+grant {
+    //esta es para el registry
+    permission java.net.SocketPermission "localhost:1099", "connect,resolve";
+    //esta es para el servicio
+    permission java.net.SocketPermission "localhost:8881", "listen,resolve";
+    //esta para que el servidor pueda leer clases del cliente
+    permission java.io.FilePermission "*", "read";
+};

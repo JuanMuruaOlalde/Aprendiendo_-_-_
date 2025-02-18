@@ -1,0 +1,1 @@
+La configuración ha de ir en un archivo 'default.json' dentro de una carpeta 'config'.
