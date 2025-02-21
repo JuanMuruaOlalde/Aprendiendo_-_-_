@@ -88,7 +88,7 @@ Trabajar TDD se resume en RED-GREEN-REFACTOR:
 
 4.	Comprobar que el test falla  (ejecutar el código y ver como ese test falla) (RED).
 
-5.	Escribir el código de funcinalidad mínimo para que el test pase (ejecutar el código y ver que todos los test pasan) (GREEN).
+5.	Escribir el código de funcionalidad mínimo para que el test pase (ejecutar el código y ver que todos los test pasan) (GREEN).
 
 6.	Volver sobre nuestros pasos y (re)pensar en el diseño del programa, en su arquitectura. Ver si conviene refactorizar algo para que encaje de forma más coherente en el diseño del programa. (REFACTOR).
 
