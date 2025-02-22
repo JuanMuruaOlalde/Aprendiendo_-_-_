@@ -2,23 +2,26 @@
 
 Trabajar con test unitarios es tan sencillo como comenzar a escribir funciones cuyo cometido es comprobar que otras partes del código funcionan como se espera que lo hagan.
 
-Esas funciones han de ser independientes unas de otras:
+## Funciones test
 
-- Cada función comprueba un aspecto concreto. De hecho, se tiende a darles nombres largos que expresen de forma clara el aspecto que comprueban. 
+Esas funciones: 
 
-- Cada función prepara el entorno adecuado para ejecutarse. Ninguna ha de depender, ni verse afectada, por otras que se ejecuten antes o después.
+- No reciben ningún parámetro.
 
 - El único resultado que devuelven es binario: o pasa o falla.
 
+- Cada función comprueba un aspecto concreto. De hecho, se tiende a darles nombres largos que expresen de forma clara el aspecto que comprueban. 
+
+- Cada función prepara todo el entorno adecuado para ejecutarse. Después realiza  operaciones concretas, con valores concretos; de las que se espera produzcan unos resultados concretos. Para terminar comprobando si se han dado o no esos resultados, (pasa o falla).
 
 ¡importante!: 
 
-Como se ha dicho, cada test prepara el entorno adecuado para ejecutarse. Ninguno ha de depender, ni verse afectado, por otros que se ejecuten antes o después. Ni por factores externos (como por ejemplo, que un cierto servidor de base de datos o de APIs o de ERP, o... esté en un cierto estado conteniendo ciertos datos concretos)
+Como se ha dicho, cada test prepara el entorno adecuado para ejecutarse. Ninguno ha de depender, ni verse afectado, por otros test que se ejecuten antes o después. Ni por factores externos (como por ejemplo, otros programas que estén corriendo junto a los test).
 
-Cada test ha de crear, inicializar, cargar,... todos los elementos que necesite. Y los ha de preparar expresamente para que estén exactamente en el estado que necesite que estén, o para que contengan exactamente lo que necesite que contengan. Antes de empezar a realizar las operaciones a comprobar y los chequeos de resultados.
+Cada test ha de crear, inicializar, cargar,... todos los elementos que necesite. Y los ha de preparar expresamente para que estén exactamente en el estado que necesite que estén, o para que contengan exactamente lo que necesite que contengan. Antes de empezar a realizar las operaciones a comprobar y a chequear sus resultados.
 
 
-## Plataforma de tests unitarios ("Test Harness" o "Test Runner")
+## Plataforma de tests ("Test Harness" o "Test Runner")
 
 Al poco de estar escribiendo ese tipo de funciones test, se va echando de menos algún sistema que:
 
@@ -30,19 +33,27 @@ Al poco de estar escribiendo ese tipo de funciones test, se va echando de menos 
 
 - Permita abstraer las partes complicadas o costosas de preparar. Suministrado sucedáneos simplificados ("mocs"). Sucedáneos que simplemente permiten comprobar que las llamadas y respuestas a esas partes se realizan correctamente. Pero sin necesidad de utilizar las partes reales.
 
-Esos cuatro aspectos son los proporcionados por una plataforma de tests unitarios. Suele haber varias de dichas plataformas para cada lenguaje de programación y cada entorno de trabajo. Es cuestión de comparar y escoger la que más se adapte a nuestras necesidades o a nuestros gustos.
+Esos cuatro aspectos son los proporcionados por una plataforma de tests.
+
+aviso: Para cada lenguaje de programación y cada entorno de trabajo puede haber varias de ese tipo de plataformas. Es cuestión de comparar y escoger la que más se adapte a nuestras necesidades o a nuestros gustos.
 
 ## Algunas recomendaciones prácticas de trabajo
 
 ### Lo que se ha de testear:
 
--  Los casos "*felices*": Comprobar que se obtienen los resultados esperados, en el uso habitual que se espera. Con una muestra dentro de los datos típicos con los que se va a trabajar. Probando todas las ramas de la lógica implementada.
+Un grupo de tests para una funcionalidad concreta han de cubrir:
 
--  Los casos "*límite*": Comprobar que se obtienen los resultados esperados, en los posibles usos extraños que puedan suceder. (Por ejemplo, una función para sumar una ristra de números recibe un solo número en lugar de una ristra; o, peor aún, recibe una ristra vacia; o recibe una ristra de textos; o...) Nota: En lugar de testear, si es posible, mejor evitar desde el principio que sucedan esos casos extraños. (Por ejemplo, usar la encapsulación de objetos y el tipado fuerte para evitar que ningún método reciba un tipo de parámetros que no debería recibir.)
+- Los casos "*felices*": el comportamiento en casos normales, habituales. Con una muestra dentro de los parámetros típicos con los que se va a trabajar. Probando las principales ramas de la lógica implementada.
 
-- Los casos "*erroneos*": Comprobar que se dan las reacciones esperadas, ante fallos que se preve puedan tener los usuarios al utilizar la aplicación. (Nota: Dentro de esas reacciones de nuestro programa, es muy importante asegurarnos de mantener informado al usuario.)
+- Los casos "*justo al límite*": el comportamiento frente a valores extremos; casi erroneos, pero válidos. (Por ejemplo, con valores miles o millones de veces mayores que los habituales; pero que podrian admitirse. O, por ejemplo, con el máximo y con el mínimo admisible.)
 
-- Los casos "*excepcionales*": Comprobar que se dan las reacciones esperadas, ante los errores y situaciones anómalas que se preve puedan darse en algún momento dado. (Por ejemplo: no existe un determinado archivo, la conexión con la base de datos esta caida,...)
+- Los casos "*fuera de límite*": el comportamiento frente a valores que técnicamente podrian utilizarse, pero que no son válidos. (Por ejemplo, si a una función se le pasa una fecha en parámetro tipo `string`, la función podria recibir un string vacio o una fecha con mes 13 o día 33. O, por ejemplo, si a una función se le pasa una temperatura en grados Kelvin en un tipo `int`, podria recibir -450)
+
+  Nota: En lugar de testear el comportamiento en esos casos. Siempre que sea posible, es mejor prevenirlos. Usar para ello la encapsulación de objetos o el tipado fuerte u otros mecanismo que permitan evitar valores no válidos. (Por ejemplo, una función que recibe un parámetro tipo `Date`, es imposible que reciba un mes 13 o un día 33.)
+
+- Los casos "*anómalos*": el comportamiento frente a situaciones que normalmente no suceden, pero que podrian suceder. (Por ejemplo: si alguien externo ha borrado un archivo o una carpeta donde la función suele leer o escribir. O, por ejemplo, si el servicio de base de datos está parado al lanzarle una consulta.)
+
+Resumiendo: los test han de expresar explícitamente los comportamiendos previstos; en el máximo abanico posible de casuisticas que se hayan podido prever.
 
 ### En qué momento escribir los test:
 
@@ -61,19 +72,19 @@ Los test no se escriben para intentar cubrir todos los casos posibles (cosa que 
 Los test han de escribirse porque se ven útiles para comprobar de que el código funcional hace lo que se supone que ha de hacer. 
 
 
-## Tests "end-to-end"
+### La falacia de los "tests end-to-end"
 
-No confundir los tests unitarios con los test "end-to-end".
+Los tests unitarios son aquellos que comprueban una función o un elemento concreto. Los test de integración son aquellos que comprueban el funcionamiento de unos pocos elementos relacionados o dependientes entre sí trabajando conjuntamente.
 
-Las plataformas de test "end-to-end" son aquellas que permiten utilizar el programa completo, como si lo hiciera un usuario final. Para comprobar su comportamiento en ciertas operaciones o trabajos reales completos.
+Las plataformas de test "end-to-end" son aquellas que permiten utilizar el programa completo, como si lo hiciera un usuario final. Para comprobar su comportamiento ante ciertas operaciones o trabajos reales.
 
-Existen algunas que incluso llegan a intentar cubrir automáticamente toda la casuística de interacción posible. Por ejemplo, detectan cuales son los campos editables o clicables de cada pantalla y van realizando el máximo de combinaciones de acciones posibles sobre ellas. Reportando los posibles errores que surjan.
+Existen algunas plataformas que incluso llegan a intentar cubrir automáticamente toda la casuística de interacción posible. Por ejemplo, detectan cuales son los campos editables o clicables de cada pantalla y van realizando el máximo de combinaciones de acciones posibles sobre ellas. Reportando los posibles errores o resulados anómalos que surjan.
 
 Pero este tipo de test "end-to-end" tienden a ser frágiles y pesados. 
 
-Solo son efectivos en programas con funcionalidades e interfaces muy estables.
+Solo son efectivos en programas con elementos, funcionalidades e interfaces muy estables.
 
-Son útiles como comprobación completa de un sistema, con todos sus componentes reales. Pero es muy fácil que dejen de mantenerse y de utilizarse por resultar demasiado farragosos e inestables.
+Pueden ser útiles como comprobación completa de un sistema, con todos sus componentes reales. Pero suelen presentar una fuerte tendencia a que se dejen mantener o de utilizar por resultar demasiado oneroso su uso.
 
 
 ## TDD (Test Driven Development)
@@ -94,7 +105,7 @@ Trabajar TDD se resume en RED-GREEN-REFACTOR:
 
 7.	Ir al punto 1 y ¡a por el siguiente paso!.
 
-nota: En el punto 6 (refactorización), es impagable el paraguas que ofrecen todos los test ya escritos. En el momento en que metamos la pata al refactorizar y rompamos algo, es muy posible que casque algún test y nos avise de lo que hemos roto. Por otro lado, trabajando TDD, como avanzamos en pequeños pasos, con frecuentes ejecuciones de los test existentes, no suele costar mucho darnos cuenta de lo que hemos roto.
+nota: En el punto 6 (refactorización), es impagable el paraguas que ofrecen todos los test ya escritos. En el momento en que metamos la pata al refactorizar y rompamos algo, es muy posible que casque algún test y nos avise de lo que hemos roto. Por otro lado, como avanzamos en pequeños pasos, con frecuentes ejecuciones de los test existentes, no suele costar mucho darnos cuenta de lo que hemos roto.
 
 
 TDD es algo que puede sonar un poco “alien” en un primer momento. Y, definitivamente, “se hace muy raro” las primeras veces que lo pruebas tal cual. (Creo que es muy conveniente practicar las primeras veces junto a alguien experimentado en el tema.) 
