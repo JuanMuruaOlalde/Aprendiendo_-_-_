@@ -130,6 +130,9 @@ https://jestjs.io/docs/ecmascript-modules
 
 https://stackoverflow.com/questions/49656706/test-es6-modules-with-jest
 
+### nota: lanzar tests en modo "debug"
+
+[How to debug Jest tests with VSCode (2021 Version)](https://mattmazzola.medium.com/how-to-debug-jest-tests-with-vscode-2021-version-36b52b089605)
 
 ## Preparar el entorno en cada test
 

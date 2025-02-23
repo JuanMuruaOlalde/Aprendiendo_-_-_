@@ -14,11 +14,13 @@ Esas funciones:
 
 - Cada función prepara todo el entorno adecuado para ejecutarse. Después realiza  operaciones concretas, con valores concretos; de las que se espera produzcan unos resultados concretos. Para terminar comprobando si se han dado o no esos resultados, (pasa o falla).
 
-¡importante!: 
+>¡importante!: 
+>
+>Como se ha dicho, cada test prepara el entorno adecuado para ejecutarse. Ninguno ha de depender, ni verse afectado, por otros test que se ejecuten antes o después. Ni por factores externos (como por ejemplo, otros programas que estén corriendo junto a los test).
+>
+>Cada test ha de crear, inicializar, cargar,... todos los elementos que necesite. Y los ha de preparar expresamente para que estén exactamente en el estado que necesite que estén, o para que contengan exactamente lo que necesite que contengan. Antes de empezar a realizar las operaciones a comprobar y a chequear sus resultados.
 
-Como se ha dicho, cada test prepara el entorno adecuado para ejecutarse. Ninguno ha de depender, ni verse afectado, por otros test que se ejecuten antes o después. Ni por factores externos (como por ejemplo, otros programas que estén corriendo junto a los test).
-
-Cada test ha de crear, inicializar, cargar,... todos los elementos que necesite. Y los ha de preparar expresamente para que estén exactamente en el estado que necesite que estén, o para que contengan exactamente lo que necesite que contengan. Antes de empezar a realizar las operaciones a comprobar y a chequear sus resultados.
+![anatomia de una función test](./anatomia_de_una_funcion_test.drawio.png)
 
 
 ## Plataforma de tests ("Test Harness" o "Test Runner")
