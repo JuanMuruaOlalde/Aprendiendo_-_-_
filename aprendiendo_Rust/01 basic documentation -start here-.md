@@ -24,6 +24,29 @@ As in any other language, it is very difficult to do anything serious without us
 
 - [Rust std library](https://doc.rust-lang.org/std/)
 
+
+### Ownership
+
+Very important to understand it right!
+
+[Understanding Ownership - The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+
+[Ownership and Functions](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#ownership-and-functions)
+
+[References and Borrowing](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
+
+[Understanding Ownership - Brown University](https://rust-book.cs.brown.edu/ch04-00-understanding-ownership.html)
+
+[Rust Does Not Permit Manual Memory Management](https://rust-book.cs.brown.edu/ch04-01-what-is-ownership.html#rust-does-not-permit-manual-memory-management)
+
+[References and Borrowing](https://rust-book.cs.brown.edu/ch04-02-references-and-borrowing.html)
+
+[RustOwl, a new tool for visualizing Rust lifetimes - Let's Get Rusty - Youtube](https://youtu.be/NV6Xo_el_2o)
+
+[RustOwl tool - Github](https://github.com/cordx56/rustowl)
+
+
+
 ## Hands-on learning
 
 If you want to start practicing without installing anything, you can try Rust online with (https://play.rust-lang.org/). 

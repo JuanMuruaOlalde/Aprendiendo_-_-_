@@ -1,8 +1,7 @@
 # More documentation
 
+## some books and practical resources
 
-[-----Rust Koans-----](https://users.rust-lang.org/t/rust-koans/2408)
-An article in The Rust Programming Language Forum
 
 [Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
 
@@ -10,17 +9,30 @@ An article in The Rust Programming Language Forum
 
 [Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
-[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
-
 [Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
 
+[mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
+
+[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
+
+
+
+## (quasi)forbiden, arcane practice
+
+[-----Rust Koans-----](https://users.rust-lang.org/t/rust-koans/2408)
+An article in The Rust Programming Language Forum
+
 [-----The Rustonomicon-----](https://doc.rust-lang.org/nightly/nomicon/#the-rustonomicon) The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs. Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book. 
+
+
+## some assorted resources
 
 [Why Rust?](https://rerun.io/blog/why-rust)
 
 [The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
 
 [Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
+
 [Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
 
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty/featured)
