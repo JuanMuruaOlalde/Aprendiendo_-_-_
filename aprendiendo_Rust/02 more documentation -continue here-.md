@@ -61,3 +61,6 @@ An article in The Rust Programming Language Forum
 
 [UUID v7 vs. v4 + Rust Programming Examples](https://www.youtube.com/watch?v=zIebRwU0FOw&list=PL7r-PXl6ZPcCIOFaL7nVHXZvBmHNhrh_Q&index=3)
 
+[Ferrocene, mission-critical Rust](https://ferrocene.dev/en/)
+
+[RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)

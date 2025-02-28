@@ -74,6 +74,11 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [google-comprehensive-rust-](https://github.com/google/comprehensive-rust) This is the Rust course used by the Android team at Google. The course covers all aspects of Rust, from basic syntax to generics and error handling. It also includes deep dives on Android, Chromium, bare-metal, and concurrency. [Syllabus](https://google.github.io/comprehensive-rust/)
 
+[Practical Rust Web Development](https://dev.to/werner/practical-rust-web-development-api-rest-29g1)
+
+[Zero To Production in Rust - an opinionated introduction to backend development in Rust](https://www.zero2prod.com/index.html)
+
+
 ### If you like to program GUI (Graphic User Interface) based programs instead of CLI (Command Line Interface) based ones
 
 Here are some sugestions:
@@ -91,6 +96,12 @@ Here are some sugestions:
 [iced - A cross-platform GUI library for Rust, inspired by Elm - documentation](https://docs.rs/iced/latest/iced/)
 
 [iced – A cross-platform GUI library for Rust, inspired by Elm - Github repository](https://github.com/iced-rs/iced)
+
+[Yew - A framework for creating reliable and efficient web applications](https://yew.rs/)
+
+[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
+
+[Building a Rust App With Yew! - Let's Get Rusty - Youtube](https://www.youtube.com/watch?v=KmOeFrwz8BM)
 
 
 
