@@ -117,6 +117,8 @@ Here are some sugestions:
 
 [The rustup book](https://rust-lang.github.io/rustup/index.html)
 
+[The rustc book](https://doc.rust-lang.org/nightly/rustc/what-is-rustc.html)
+
 [Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
 
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
@@ -761,6 +763,28 @@ impl Edificio {
 [OpenVR - c++ API and runtime that allows access to VR hardware from multiple vendors](https://github.com/ValveSoftware/openvr)
 
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
+
+
+## Toolchains
+
+Un toolchain es una versión específica de las herramientas de Rust (components), para máquinas con una arquitectura específica (targets).
+
+[toolchains](https://rust-lang.github.io/rustup/concepts/toolchains.html)
+
+[components in a toolchain](https://rust-lang.github.io/rustup/concepts/components.html)
+
+[targets](https://doc.rust-lang.org/nightly/rustc/platform-support.html)
+
+Cabe destacar que el compilador de Rust, `rustc`, tiene capacidad para cross-compilar programas para un target diferente de aquel en el que está corriendo. Es decir, podemos generar ejecutables para máquinas con arquitecturas distintas a aquella en que estamos trabajando.
+
+[Cross-compilation](https://rust-lang.github.io/rustup/cross-compilation.html)
+
+
+Algunos comandos útiles:
+
+- `rustup show`, para ver los toolchains instalados.
+
+- `rustup default`, para fijar el toolchain a usar por defecto.
 
 
 ## Interoperabilidad de Rust con otros lenguajes
