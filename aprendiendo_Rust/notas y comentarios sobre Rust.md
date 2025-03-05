@@ -113,15 +113,25 @@ Here are some sugestions:
 
 [Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
 
+[rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
+
+[The rustup book](https://rust-lang.github.io/rustup/index.html)
+
+[Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
+
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
 [Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
 [Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
 
+[Rust 🦀 and WebAssembly 🕸](https://rustwasm.github.io/docs/book/introduction.html)
+
 [mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
 
 [The Embedded Rust Book](https://docs.rust-embedded.org/book/)
+
+[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
 
 
 
@@ -552,6 +562,221 @@ impl Edificio {
 ### Functional iterators
 
 
+## Algunas bibliotecas-crates-
+
+[crates.io - The Rust community’s crate registry](https://crates.io/)
+
+[lib.rs - The unofficial catalog of programs written in Rust](https://lib.rs/about)
+
+[Top 10 Rust crates you must know](https://www.youtube.com/watch?v=FPRH66r-zUQ)
+
+### standard library
+
+[std::collections](https://doc.rust-lang.org/std/collections/)
+
+[std::String](https://doc.rust-lang.org/std/string/struct.String.html)
+
+[std::split](https://doc.rust-lang.org/std/primitive.str.html#method.split)
+
+[std::Thread](https://doc.rust-lang.org/std/thread/)
+
+[std::sync](https://doc.rust-lang.org/std/sync/index.html)
+
+[std::channel](https://doc.rust-lang.org/std/sync/mpsc/fn.channel.html)
+
+
+
+### utilidades generales
+
+[regex - Regular Expressions](https://docs.rs/regex/latest/regex/)
+
+[anyhow - a trait object based error type for easy idiomatic error handling](https://docs.rs/anyhow/latest/anyhow/)
+
+[thiserror - a convenient derive macro for the standard library’s std::error::Error trait](https://docs.rs/thiserror/latest/thiserror/)
+
+[log - a lightweight logging facade](https://github.com/rust-lang/log)
+
+[tracing - a framework for instrumenting Rust programs](https://github.com/tokio-rs/tracing)
+
+[serde - a framework for serializing and deserializing Rust data structures efficiently and generically](https://docs.rs/serde/latest/serde/)
+
+[serde - introduction](https://crates.io/crates/serde)
+
+[serde - documentation](https://serde.rs/)
+
+[num_format - producing string representations of numbers](https://docs.rs/num-format/latest/num_format/)
+
+[json - parse and serialize JSON with ease](https://docs.rs/json/latest/json/)
+
+[base64 - decoding and encoding](https://docs.rs/base64/latest/base64/)
+
+[bincode - a tiny binary serialization strategy](https://docs.rs/bincode/latest/bincode/)
+
+[chrono - operations on dates and times](https://docs.rs/chrono/latest/chrono/)
+
+[plotters - drawing library designed for rendering figures, plots, and charts](https://docs.rs/plotters/latest/plotters/)
+
+[image - encoding and decoding as well as some basic manipulation functions](https://docs.rs/image/latest/image/index.html)
+
+[serialimage - extends the image crate with serializable DynamicImages](https://docs.rs/serialimage/latest/serialimage/)
+
+[palette - linear color calculations and conversions](https://docs.rs/palette/latest/palette/)
+
+[Tokio - an asynchronous runtime - provides the building blocks needed for writing network applications](https://tokio.rs/)
+
+[tokio](https://docs.rs/tokio/latest/tokio/)
+
+[RustCrypto - cryptographic algorithms](https://github.com/RustCrypto)
+
+[printers - send files or bytes to print on unix and windows](https://docs.rs/printers/latest/printers/)
+
+[windows-rs - let you call any Windows API](https://github.com/microsoft/windows-rs)
+
+
+### i18n y l10n
+
+[Are we i18n Yet? - The state of internazionalization in Rust](https://www.arewewebyet.org/topics/i18n/)
+
+[rust_i18n - for loading localized text from a set of (YAML, JSON or TOML) mapping files](https://docs.rs/rust-i18n/latest/rust_i18n/index.html)
+
+[fluent - to unleash the entire expressive power of natural language translations](https://crates.io/crates/fluent)
+
+[fluent-bundle](https://crates.io/crates/fluent-bundle)
+
+[gettext - safe bindings for gettext](https://crates.io/crates/gettext-rs)
+
+### bases de datos
+
+[sqlx - The async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
+
+[sqlx - database drivers](https://docs.rs/sqlx/latest/sqlx/database/index.html)
+
+[sqlx - Dataform SQLX](https://sqlx.dev/)
+
+[Polars - blazingly fast DataFrame library for manipulating structured data](https://docs.pola.rs/)
+
+
+### gráficos
+
+[Beby - a refreshingly simple data-driven game engine](https://github.com/bevyengine/bevy)
+
+[Beby Engine](https://bevyengine.org/)
+
+[integración Bevy-egui](https://github.com/vladbat00/bevy_egui)
+
+[three-d - a OpenGL/WebGL/OpenGL ES renderer and drawer](https://github.com/asny/three-d)
+
+[gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
+
+### Graphic User Interface (GUI)
+
+[Are we GUI Yet? - The state of building user interfaces in Rust](https://areweguiyet.com/)
+
+[egui - a simple, fast, and highly portable immediate mode GUI library](https://crates.io/crates/egui)
+
+[eframe - the egui framework](https://github.com/emilk/egui/tree/master/crates/eframe)
+
+[eframe template](https://github.com/emilk/eframe_template/tree/main)
+
+[egui file dialog](https://lib.rs/crates/egui-file-dialog)
+
+[egui - documentation](https://docs.rs/egui/latest/egui/)
+
+[egui - github repository](https://github.com/emilk/egui)
+
+[egui - demo code](https://www.egui.rs/#demo)
+
+[egui - examples](https://egui.info/examples/)
+
+[egui - tutorial](https://whoisryosuke.com/blog/2023/getting-started-with-egui-in-rust#what-is-egui)
+
+[GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book/)
+
+[iced - a cross-platform GUI library inspired by Elm](https://iced.rs/)
+
+[iced - github repository](https://github.com/iced-rs/iced)
+
+[iced](https://crates.io/crates/iced)
+
+[Ratatui - for cooking up Terminal User Interfaces](https://ratatui.rs/)
+
+[slit - declarative GUI for Rust, C++, JavaScript & Python](https://slint.dev/)
+
+[slint - youtube tutorial](https://www.youtube.com/watch?v=7aFgeUG9TK4)
+
+[Tauri - Create small, fast, secure, cross-platform applications](https://tauri.app/)
+
+[Tauri - documentation](https://tauri.app/start/)
+
+### web
+
+[Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
+
+[reqwest - a higher-level HTTP Client](https://docs.rs/reqwest/latest/reqwest/index.html)
+
+[Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
+
+[Yew](https://docs.rs/yew/latest/yew/)
+
+[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
+
+[Rocket - web framework for backend](https://rocket.rs/guide/v0.5/introduction/)
+
+[Actix Web - web framework for backend](https://actix.rs/)
+
+[Axum - github](https://github.com/tokio-rs/axum)
+
+[A guide to Axum - web framework for backend](https://www.shuttle.dev/blog/2023/12/06/using-axum-rust?mode=reply)
+
+[leptos - a full-stack framework for building web applications](https://docs.rs/leptos/latest/leptos/)
+
+[gotham - a flexible web framework](https://docs.rs/gotham/latest/gotham/)
+
+[warp - a super-easy, composable, web server framework](https://docs.rs/warp/latest/warp/)
+
+### red - industrial - tiempo real - control
+
+[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits/featured)
+
+[Floodplain - Youtube channel](https://www.youtube.com/@floodplainnl)
+
+[Embassy - write safe, correct and energy-efficient embedded code faster](https://embassy.dev/)
+
+[rtic - Real-Time Interrupt-driven Concurrency](https://github.com/rtic-rs/rtic)
+
+[pnets - a framework for manipulating Petri nets](https://docs.rs/pnets/latest/pnets/)
+
+[socketcan - using CAN bus devices](https://docs.rs/socketcan/latest/socketcan/)
+
+[tokio_modbus - using Modbus devices](https://docs.rs/tokio-modbus/latest/tokio_modbus/)
+
+[pcap - a packet capture library](https://docs.rs/pcap/latest/pcap/)
+
+[pnet - a cross-platform API for low level networking](https://docs.rs/pnet/latest/pnet/)
+
+### VR - AR
+
+[Are we game yet? - The state of virtual reality in Rust](https://arewegameyet.rs/ecosystem/vr/#:~:text=rust-webvr.%20Safe%20rust%20API%20that%20provides%20a%20way)
+
+[OpenVR - c++ API and runtime that allows access to VR hardware from multiple vendors](https://github.com/ValveSoftware/openvr)
+
+[rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
+
+
+## Interoperabilidad de Rust con otros lenguajes
+
+[The bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
+
+[Interop with C](https://paandahl.github.io/rust-interop/c-intro.html)
+
+[A little C with your Rust](https://docs.rust-embedded.org/book/interoperability/c-with-rust.html)
+
+[CXX — safe interop between Rust and C++](https://cxx.rs/)
+
+[rust-cpp — embed C++ code directly in Rust](https://github.com/mystor/rust-cpp)
+
+[Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
+
 
 ## Algo más de documentación
 
@@ -563,6 +788,10 @@ impl Edificio {
 An article in The Rust Programming Language Forum
 
 [-----The Rustonomicon-----](https://doc.rust-lang.org/nightly/nomicon/#the-rustonomicon) The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs. Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book. 
+
+
+### algunos cursos-libros-videos
+
 
 
 ### some assorted resources

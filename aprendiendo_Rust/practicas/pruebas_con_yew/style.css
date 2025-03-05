@@ -1,0 +1,93 @@
+html {
+    font-family: sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+}
+
+nav {
+    margin-bottom: 30px;
+    line-height: 0;
+}
+
+nav li {
+    display: inline;
+    margin-left: 2em;
+}
+
+nav button {
+    padding: 7px;
+    border: 2px solid grey;
+    border-radius: 2px;
+}
+
+main {
+    border: 1px solid;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 80% 20%;
+}
+
+#contenedor_principal {
+    grid-column: 1;
+    font-family: serif;
+}
+
+section {
+    margin-left: 2em;
+}
+
+h2,
+h3 {
+    margin-top: 2em;
+}
+
+form {
+    display: inline-block;
+}
+
+.enmarcado_dentro_de_una_caja {
+    padding: 1em;
+    background-color: whitesmoke;
+    border: 1px solid grey;
+    border-radius: 2px;
+    box-shadow: 2px 2px green;
+}
+
+input[type="submit"],
+input[type="button"],
+button[type="submit"] {
+    margin: 1em;
+    padding: 0.5em;
+    background-color: oldlace;
+}
+
+.contenedor_de_una_respuesta {
+    width: 100%;
+}
+
+aside {
+    grid-column: 2;
+    border: 1px dotted;
+    padding: 0 20px;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+aside.fit img {
+    width: 100%;
+    height: 100%;
+    object-fit: content;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.5em;
+}
