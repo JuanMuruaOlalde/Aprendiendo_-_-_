@@ -167,6 +167,31 @@ Here are some sugestions:
 
 [Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
 
+## Ownership , Borrow-checker
+
+[Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
+
+[Ownership - examples](https://doc.rust-lang.org/rust-by-example/scope/move.html)
+
+[Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
+
+En Rust, todo trozo de memoria es propiedad de una sola variable (el nombre con el que se accede a ese trozo) y ese trozo de memoria es liberado cuando dicha variable deja de existir.
+
+Se puede traspasar esa propiedad, asignando el valor (el trozo de memoria) a otra variable; o pasándola como parámetro a una función (el parámetro coge la propiedad).
+
+También se puede prestar esa propiedad, incluso a varias propiedades, haciendo que esas otras variables tengan una referencia de solo lectura (&). Pero, en ese caso, ninguna de esas variables podrá tener una vida (lifetime) más larga que la variable propietaria.
+
+
+### Move semantics
+
+Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna a otra o se pasa como parámetro a una función, pierde el derecho de usar el trozo de memoria al que hacia referencia. La propiedad pasa a esa otra variable o a ese parámetro.
+
+Hablando en terminologia C: solo puede existir un único puntero de escritura a cada trozo de memoria reservado.
+
+Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Cosa que puede resultar algo frustrante al principio. Pero, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura del código más clara y lógica de la que habíamos pensado en un primer momento.
+
+nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo las dependencias entre partes. Y esa estructura es la que Rust necesita.
+
 
 ## Strong typed
 
@@ -174,7 +199,7 @@ https://doc.rust-lang.org/book/ch03-02-data-types.html
 
 Rust es un lenguaje "fuertemente tipado". El compilador se encarga de revisar el uso de valores del tipo adecuado en todo momento.
 
-Por ejemplo, en Rust no se pueden sumar un `i32` y un `f32`. Para hacerlo es necesario indicar expresamente cuál se convierte de tipo, para saber con claridad cuál será el tipo resultante.
+Por ejemplo, en Rust no se pueden sumar un `i32` y un `f32`. Para hacerlo es necesario indicar expresamente cuál se convierte de un tipo a otro, para saber con claridad cuál será el tipo resultante que se desea.
 
 ```
 ## esta suma:
@@ -543,25 +568,98 @@ impl Edificio {
 
 ### Enums
 
+[Enums and Pattern Matching](https://doc.rust-lang.org/book/ch06-00-enums.html)
+
 ### Option
+
+[The Option Enum and Its Advantages Over Null Values](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
 
 ### Result
 
+[Error Handling](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
+
+[Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
+
+[You’re Doing Exceptions Wrong - Matt Burke - NDC London 2025](https://www.youtube.com/watch?v=oWvX-hdIAQo) Conclusión extraida de esta conferencia: `Result` es para tratar con "Vexing Exceptions" y algunos casos de "Exogenous Exceptions" (cuando podemos hacer algo en ellos);  `panic` es para tratar con "Fatal Exceptions", "Boneheaded Exceptions" (en su primera fase) y algunos casos de "Exogenous Exceptions" (cuando no podemos hacer nada en ellos)
+
+
 ### Pattern matching
 
-## Ownership , Borrow-checker
+[Patterns and Matching](https://doc.rust-lang.org/book/ch19-00-patterns.html?highlight=Patterns#patterns-and-matching)
 
-### Move semantics
+
 
 ## Lifetimes
 
+[Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
+
+[Lifetimes - examples](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
+
+Como se ha comentado antes, cada trozo de memoria es propiedad de una sola variable y se libera cuando dicha variable deja de existir. Por eso, es importante indicarle al compilador las ocasiones en que se necesite prolongar el ciclo de vida normal de alguna variable.
+
+Normalmente, una variable solo está viva en el alcance (scope) donde se defina: dentro de una instancia de un `struct`, dentro de una función `fn`, dentro de un bucle `for`, dentro de una rama condicional `if`,...
+
+Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
+
+
 ## Traits
+
+[Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
+
+Podemos pensar en los "trait" de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. De tal forma que distintos `struct` que implementen (`impl`) ese "trait" puedan utilizarse como si fueran todos del mismo tipo. (Obviamente, solo si se utilizan las funciones del "trait" y no otras que pueda tener además cada `struct`.)
 
 ## Slices
 
-## Iterators
+[The Slice Type](https://doc.rust-lang.org/book/ch04-03-slices.html)
 
-### Functional iterators
+Son trozos de una colección. Muy útiles cuando se necesita trabajar con una parte de la misma en lugar de con la colección completa.
+
+## Iterators, Functional Iterators
+
+Rust trabaja con formas propias de un lenguaje funcional al tratar con colecciones.
+
+[Processing a Series of Items with Iterators](https://doc.rust-lang.org/book/ch13-02-iterators.html)
+
+[Comparing Performance: Loops vs. Iterators](https://doc.rust-lang.org/book/ch13-04-performance.html)
+
+[Making Code Clearer with Iterator Adapters](https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html?highlight=filter#making-code-clearer-with-iterator-adapters)
+
+## Toolchains
+
+Un toolchain es una versión específica de las herramientas de Rust (components), para máquinas con una arquitectura específica (targets).
+
+[toolchains](https://rust-lang.github.io/rustup/concepts/toolchains.html)
+
+[components in a toolchain](https://rust-lang.github.io/rustup/concepts/components.html)
+
+[targets](https://doc.rust-lang.org/nightly/rustc/platform-support.html)
+
+Cabe destacar que el compilador de Rust, `rustc`, tiene capacidad para cross-compilar programas para un target diferente de aquel en el que está corriendo. Es decir, podemos generar ejecutables para máquinas con arquitecturas distintas a aquella en que estamos trabajando.
+
+[Cross-compilation](https://rust-lang.github.io/rustup/cross-compilation.html)
+
+
+Algunos comandos útiles:
+
+- `rustup show`, para ver los toolchains instalados.
+
+- `rustup default`, para fijar el toolchain a usar por defecto.
+
+
+## Interoperabilidad de Rust con otros lenguajes
+
+[The bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
+
+[Interop with C](https://paandahl.github.io/rust-interop/c-intro.html)
+
+[A little C with your Rust](https://docs.rust-embedded.org/book/interoperability/c-with-rust.html)
+
+[CXX — safe interop between Rust and C++](https://cxx.rs/)
+
+[rust-cpp — embed C++ code directly in Rust](https://github.com/mystor/rust-cpp)
+
+[Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
+
 
 
 ## Algunas bibliotecas-crates-
@@ -647,29 +745,6 @@ impl Edificio {
 
 [gettext - safe bindings for gettext](https://crates.io/crates/gettext-rs)
 
-### bases de datos
-
-[sqlx - The async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
-
-[sqlx - database drivers](https://docs.rs/sqlx/latest/sqlx/database/index.html)
-
-[sqlx - Dataform SQLX](https://sqlx.dev/)
-
-[Polars - blazingly fast DataFrame library for manipulating structured data](https://docs.pola.rs/)
-
-
-### gráficos
-
-[Beby - a refreshingly simple data-driven game engine](https://github.com/bevyengine/bevy)
-
-[Beby Engine](https://bevyengine.org/)
-
-[integración Bevy-egui](https://github.com/vladbat00/bevy_egui)
-
-[three-d - a OpenGL/WebGL/OpenGL ES renderer and drawer](https://github.com/asny/three-d)
-
-[gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
-
 ### Graphic User Interface (GUI)
 
 [Are we GUI Yet? - The state of building user interfaces in Rust](https://areweguiyet.com/)
@@ -736,6 +811,31 @@ impl Edificio {
 
 [warp - a super-easy, composable, web server framework](https://docs.rs/warp/latest/warp/)
 
+
+### bases de datos
+
+[sqlx - The async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
+
+[sqlx - database drivers](https://docs.rs/sqlx/latest/sqlx/database/index.html)
+
+[sqlx - Dataform SQLX](https://sqlx.dev/)
+
+[Polars - blazingly fast DataFrame library for manipulating structured data](https://docs.pola.rs/)
+
+
+### gráficos
+
+[Beby - a refreshingly simple data-driven game engine](https://github.com/bevyengine/bevy)
+
+[Beby Engine](https://bevyengine.org/)
+
+[integración Bevy-egui](https://github.com/vladbat00/bevy_egui)
+
+[three-d - a OpenGL/WebGL/OpenGL ES renderer and drawer](https://github.com/asny/three-d)
+
+[gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
+
+
 ### red - industrial - tiempo real - control
 
 [The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits/featured)
@@ -765,43 +865,6 @@ impl Edificio {
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
 
-## Toolchains
-
-Un toolchain es una versión específica de las herramientas de Rust (components), para máquinas con una arquitectura específica (targets).
-
-[toolchains](https://rust-lang.github.io/rustup/concepts/toolchains.html)
-
-[components in a toolchain](https://rust-lang.github.io/rustup/concepts/components.html)
-
-[targets](https://doc.rust-lang.org/nightly/rustc/platform-support.html)
-
-Cabe destacar que el compilador de Rust, `rustc`, tiene capacidad para cross-compilar programas para un target diferente de aquel en el que está corriendo. Es decir, podemos generar ejecutables para máquinas con arquitecturas distintas a aquella en que estamos trabajando.
-
-[Cross-compilation](https://rust-lang.github.io/rustup/cross-compilation.html)
-
-
-Algunos comandos útiles:
-
-- `rustup show`, para ver los toolchains instalados.
-
-- `rustup default`, para fijar el toolchain a usar por defecto.
-
-
-## Interoperabilidad de Rust con otros lenguajes
-
-[The bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
-
-[Interop with C](https://paandahl.github.io/rust-interop/c-intro.html)
-
-[A little C with your Rust](https://docs.rust-embedded.org/book/interoperability/c-with-rust.html)
-
-[CXX — safe interop between Rust and C++](https://cxx.rs/)
-
-[rust-cpp — embed C++ code directly in Rust](https://github.com/mystor/rust-cpp)
-
-[Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
-
-
 ## Algo más de documentación
 
 
@@ -812,9 +875,6 @@ Algunos comandos útiles:
 An article in The Rust Programming Language Forum
 
 [-----The Rustonomicon-----](https://doc.rust-lang.org/nightly/nomicon/#the-rustonomicon) The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs. Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book. 
-
-
-### algunos cursos-libros-videos
 
 
 
