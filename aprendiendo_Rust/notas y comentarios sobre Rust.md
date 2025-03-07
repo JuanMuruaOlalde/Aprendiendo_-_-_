@@ -60,6 +60,8 @@ Some resources and tutorials:
 
 [Working the Rust Lang Book](https://www.youtube.com/playlist?list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8) - Let's Get Rusty - YouTube
 
+[Rust by Practice](https://practice.course.rs/)
+
 [Rust By Example](https://doc.rust-lang.org/rust-by-example/index.html)
 
 [Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
@@ -74,6 +76,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 [Getting started with Rust. A brief Introduction to the language - YouTube](https://www.youtube.com/watch?v=4q3Z5RBX7hQ)
 
 [Learn Rust Programming - Complete Course 🦀 - freeCodeCamp - YouTube](https://www.youtube.com/watch?v=BpPEoZW5IiY)
+
+[100 Exercises To Learn Rust](https://rust-exercises.com/100-exercises/)
 
 [google-comprehensive-rust-](https://github.com/google/comprehensive-rust) This is the Rust course used by the Android team at Google. The course covers all aspects of Rust, from basic syntax to generics and error handling. It also includes deep dives on Android, Chromium, bare-metal, and concurrency. [Syllabus](https://google.github.io/comprehensive-rust/)
 
