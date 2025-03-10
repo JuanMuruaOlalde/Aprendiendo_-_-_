@@ -1,8 +1,23 @@
 # Conceptos generales sobre testing
 
-Trabajar con test unitarios es tan sencillo como comenzar a escribir funciones cuyo cometido es comprobar que otras partes del código funcionan como se espera que lo hagan.
+En este documento nos centraremos en los test unitarios y los test de integración. Tests destinados a comprobar que ciertas partes del código hacen lo que se supone que deberían hacer. Test que se programan en el propio código, con la ayuda de algo de infraestructura específica (un "test framework"). 
+
+Existen también otros tipos de test que suelen resultar útiles, pero que requieren de algo más de preparación/infraestructura. Como por ejemplo: los test de carga (ver cómo se comporta el sistema ante mucha demanda o en equipos con pocos recursos), los test de aceptación (comprobar que se cumplen ciertos requisitos "sine qua non"), etc. 
+
+Y existen asimismo otros tipos de test que resultan apetecibles sobre el papel, pero que son complicados de implementar en la práctica. Como por ejemplo: los test "end-to-end" (ejecutar ciertos procesos en el sistema como lo haria un usuario y comprobar que responde como deberia responder), los test de seguridad (verificar que el sistema es robusto frente a cierto número de amenazas conocidas), etc.
+
+Lo que comparten todos ellos es que, para ser efectivos:
+
+- Se han de ejecutar de forma automatizada (para permitir que se lancen con una sola orden).
+
+- Han de ser rápidos (para permitir que se ejecuten a menudo).
+
+- Sus resultados han de ser claros (fáciles de leer/interpretar y que señalen directamente a los puntos problemáticos que se detecten).
+
 
 ## Funciones test
+
+Trabajar con test unitarios es tan sencillo como comenzar a escribir funciones cuyo cometido es comprobar que otras partes del código funcionan como se espera que lo hagan.
 
 Esas funciones: 
 
@@ -55,7 +70,12 @@ Un grupo de tests para una funcionalidad concreta han de cubrir:
 
 - Los casos "*anómalos*": el comportamiento frente a situaciones que normalmente no suceden, pero que podrian suceder. (Por ejemplo: si alguien externo ha borrado un archivo o una carpeta donde la función suele leer o escribir. O, por ejemplo, si el servicio de base de datos está parado al lanzarle una consulta.)
 
-Resumiendo: los test han de expresar explícitamente los comportamiendos previstos; en el máximo abanico posible de casuisticas que se hayan podido prever.
+Resumiendo: 
+
+Los test han de expresar explícitamente los comportamientos previstos; en el máximo abanico posible de casuísticas que se hayan podido prever.
+
+En ese sentido, se podría decir que unos buenos tests son como una "documentación autoejecutable"; ya que expresan con claridad la forma en que se se ha pensado el uso de cada parte del programa e indican las respuestas que se pueden esperar como resultado de ese uso.
+
 
 ### En qué momento escribir los test:
 
