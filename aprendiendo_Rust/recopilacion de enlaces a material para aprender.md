@@ -6,8 +6,7 @@
 
 [A recopilation of books and other materials - Let's Get Rusty](https://letsgetrusty.kartra.com/page/XDk8)
 
-[Getting Started with Rust bundle](https://www.manning.com/bundles/getting-started-with-rust)
-
+[Getting Started with Rust](https://www.manning.com/bundles/getting-started-with-rust)
 
 [Zero To Production In Rust, An introduction to backend development](https://www.zero2prod.com/index.html)
 
@@ -105,7 +104,21 @@
 
 [Rust stole C++'s best features](https://www.youtube.com/watch?v=sjsnuirLyKM)
 
-### Mainmatter
+### The Dev Method
+
+[Rust: Structs](https://www.youtube.com/watch?v=MDT9vNjtGsY)
+
+[Rust: Ownership and Borrowing](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
+
+[Rust: Error Handling](https://www.youtube.com/watch?v=y3wUCb-uS3g)
+
+[Rust: Iterators](https://www.youtube.com/watch?v=Zcg6wmqdbzc)
+
+[Rust: Closures](https://www.youtube.com/watch?v=IAeCSglFUK0)
+
+[Rust: Automated Testing](https://www.youtube.com/watch?v=vft2M1aRev4)
+
+### Mainmatter - Rust exercises
 
 [Rust Exercises](https://rust-exercises.com/)
 
@@ -162,6 +175,7 @@
 
 [Image Manipulation - Unicode & ANSI Alchemy: Turn Text into Images in Your Console](https://www.youtube.com/watch?v=MMJ1KRzWZwI&list=PLy68GuC77sUT7xppVqjE4dh3IopqrIdmv)
 
+
 ### Thomas - nyxtom
 
 [Rust Programming Exercises: Markdown Blog with Tide](https://www.youtube.com/watch?v=BcR6TnkKubQ&list=PLb1VOxJqFzDdS-xV9OkKKPfXvtQ8y1Wzk)
@@ -174,30 +188,6 @@
 
 [You Should Really Know These Traits in Rust](https://www.youtube.com/watch?v=tWa19Td87gw)
 
-### The Dev Method
-
-[Rust: Structs](https://www.youtube.com/watch?v=MDT9vNjtGsY)
-
-[Rust: Ownership and Borrowing](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
-
-[Rust: Error Handling](https://www.youtube.com/watch?v=y3wUCb-uS3g)
-
-[Rust: Iterators](https://www.youtube.com/watch?v=Zcg6wmqdbzc)
-
-[Rust: Closures](https://www.youtube.com/watch?v=IAeCSglFUK0)
-
-[Rust: Automated Testing](https://www.youtube.com/watch?v=vft2M1aRev4)
-
-
-### timClicks
-
-[Rust in Production](https://www.youtube.com/playlist?list=PLwtLEJr-BkXY4RpN4N_0cC0WYttcpbHGe)
-
-[Produce JSON-formatted output from Rust's tracing crate](https://www.youtube.com/watch?v=LoCrkbK3sos&list=PLwtLEJr-BkXY4RpN4N_0cC0WYttcpbHGe)
-
-[Learn Rust Programming](https://www.youtube.com/playlist?list=PLwtLEJr-BkXZ9PmoAlqaFdoj47o61TWrS)
-
-[Pascal's Triangle 🦀 #rustlang live stream](https://www.youtube.com/watch?v=RQE4GeDe4yw&list=PLwtLEJr-BkXZ9PmoAlqaFdoj47o61TWrS)
 
 
 ### Rust Youtube channel
