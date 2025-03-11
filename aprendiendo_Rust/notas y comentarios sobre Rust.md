@@ -104,6 +104,10 @@ Here are some sugestions:
 
 [iced – A cross-platform GUI library for Rust, inspired by Elm - Github repository](https://github.com/iced-rs/iced)
 
+[Tauri - Create small, fast, secure, cross-platform applications](https://tauri.app/)
+
+[Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
+
 [Yew - A framework for creating reliable and efficient web applications](https://yew.rs/)
 
 [Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
@@ -576,15 +580,27 @@ impl Edificio {
 
 ### Option
 
+Para cuando necesitamos distinguir claramente si una variable tiene un valor (`Some`) o no lo tiene (`None`).
+
 [The Option Enum and Its Advantages Over Null Values](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
 
 ### Result
+
+Para cuando necesitamos distinguir claramente si una función devuelve un resultado (`Ok`) o un error (`Error`).
 
 [Error Handling](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
 
 [Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
 
-[You’re Doing Exceptions Wrong - Matt Burke - NDC London 2025](https://www.youtube.com/watch?v=oWvX-hdIAQo) Conclusión extraida de esta conferencia: `Result` es para tratar con "Vexing Exceptions" y algunos casos de "Exogenous Exceptions" (cuando podemos hacer algo en ellos);  `panic` es para tratar con "Fatal Exceptions", "Boneheaded Exceptions" (en su primera fase) y algunos casos de "Exogenous Exceptions" (cuando no podemos hacer nada en ellos)
+[Unrecoverable Errors with panic!](https://doc.rust-lang.org/book/ch09-01-unrecoverable-errors-with-panic.html)
+
+[You’re Doing Exceptions Wrong - Matt Burke - NDC London 2025](https://www.youtube.com/watch?v=oWvX-hdIAQo) Conclusión extraida de esta conferencia: `Result` es con lo que Rust evita las "Vexing Exceptions" y trata los casos de "Exogenous Exceptions" en los que podemos hacer algo para mitigar la excepción; `panic` es con lo que Rust trata las "Fatal Exceptions", las "Boneheaded Exceptions" (en su primera fase, antes de corregir el bug que la causaba) y los casos de "Exogenous Exceptions" en los que no podemos hacer nada.
+
+### ControlFlow
+
+Para cuando necesitamos distinguir claramente entre continuar (`Continue`) o parar (`Break`).
+
+[The ControlFlow Enum](https://doc.rust-lang.org/stable/std/ops/enum.ControlFlow.html)
 
 
 ### Pattern matching
@@ -749,7 +765,7 @@ Algunos comandos útiles:
 
 [gettext - safe bindings for gettext](https://crates.io/crates/gettext-rs)
 
-### Graphic User Interface (GUI)
+### GUI
 
 [Are we GUI Yet? - The state of building user interfaces in Rust](https://areweguiyet.com/)
 
@@ -771,17 +787,17 @@ Algunos comandos útiles:
 
 [egui - tutorial](https://whoisryosuke.com/blog/2023/getting-started-with-egui-in-rust#what-is-egui)
 
-[GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book/)
-
 [iced - a cross-platform GUI library inspired by Elm](https://iced.rs/)
 
 [iced - github repository](https://github.com/iced-rs/iced)
 
 [iced](https://crates.io/crates/iced)
 
+[GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book/)
+
 [Ratatui - for cooking up Terminal User Interfaces](https://ratatui.rs/)
 
-[slit - declarative GUI for Rust, C++, JavaScript & Python](https://slint.dev/)
+[slint - declarative GUI for Rust, C++, JavaScript & Python](https://slint.dev/)
 
 [slint - youtube tutorial](https://www.youtube.com/watch?v=7aFgeUG9TK4)
 
@@ -801,19 +817,12 @@ Algunos comandos útiles:
 
 [Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
 
-[Rocket - web framework for backend](https://rocket.rs/guide/v0.5/introduction/)
-
 [Actix Web - web framework for backend](https://actix.rs/)
 
 [Axum - github](https://github.com/tokio-rs/axum)
 
 [A guide to Axum - web framework for backend](https://www.shuttle.dev/blog/2023/12/06/using-axum-rust?mode=reply)
 
-[leptos - a full-stack framework for building web applications](https://docs.rs/leptos/latest/leptos/)
-
-[gotham - a flexible web framework](https://docs.rs/gotham/latest/gotham/)
-
-[warp - a super-easy, composable, web server framework](https://docs.rs/warp/latest/warp/)
 
 
 ### bases de datos
@@ -860,7 +869,7 @@ Algunos comandos útiles:
 
 [pnet - a cross-platform API for low level networking](https://docs.rs/pnet/latest/pnet/)
 
-### VR - AR
+### juegos - VR - AR
 
 [Are we game yet? - The state of virtual reality in Rust](https://arewegameyet.rs/ecosystem/vr/#:~:text=rust-webvr.%20Safe%20rust%20API%20that%20provides%20a%20way)
 
