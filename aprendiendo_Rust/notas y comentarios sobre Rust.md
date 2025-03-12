@@ -92,15 +92,9 @@ Here are some sugestions:
 
 [Are we GUI yet](https://areweguiyet.com/)
 
-[egui - an easy-to-use immediate mode GUI in pure Rust - documentation](https://docs.rs/egui/latest/egui/)
-
 [egui - an easy-to-use immediate mode GUI in pure Rust - Github repository](https://github.com/emilk/egui)
 
-[egui - Getting started with egui in Rust](https://whoisryosuke.com/blog/2023/getting-started-with-egui-in-rust)
-
 [egui - Some sample code - Demo](https://www.egui.rs/#demo)
-
-[iced - A cross-platform GUI library for Rust, inspired by Elm - documentation](https://docs.rs/iced/latest/iced/)
 
 [iced – A cross-platform GUI library for Rust, inspired by Elm - Github repository](https://github.com/iced-rs/iced)
 
@@ -130,8 +124,6 @@ Here are some sugestions:
 [Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
 
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
-
-[Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
 [Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
 
@@ -183,11 +175,13 @@ Here are some sugestions:
 
 [Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
 
-En Rust, todo trozo de memoria es propiedad de una sola variable (el nombre con el que se accede a ese trozo) y ese trozo de memoria es liberado cuando dicha variable deja de existir.
+En Rust, todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
 
-Se puede traspasar esa propiedad, asignando el valor (el trozo de memoria) a otra variable; o pasándola como parámetro a una función (el parámetro coge la propiedad).
+Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una propietaria por cada trozo de memoria.)
 
-También se puede prestar esa propiedad, incluso a varias propiedades, haciendo que esas otras variables tengan una referencia de solo lectura (&). Pero, en ese caso, ninguna de esas variables podrá tener una vida (lifetime) más larga que la variable propietaria.
+También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (&). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
+
+nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
 
 
 ### Move semantics
@@ -198,7 +192,9 @@ Hablando en terminologia C: solo puede existir un único puntero de escritura a 
 
 Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Cosa que puede resultar algo frustrante al principio. Pero, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura del código más clara y lógica de la que habíamos pensado en un primer momento.
 
-nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo las dependencias entre partes. Y esa estructura es la que Rust necesita.
+nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional. Pasando valores y devolviendo resultados, en lugar de modificar variables.
+
+nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes. Con flujos de datos entre partes claros y bien definidos.
 
 
 ## Strong typed
@@ -644,6 +640,9 @@ Rust trabaja con formas propias de un lenguaje funcional al tratar con coleccion
 
 [Making Code Clearer with Iterator Adapters](https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html?highlight=filter#making-code-clearer-with-iterator-adapters)
 
+[Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
+
+
 ## Toolchains
 
 Un toolchain es una versión específica de las herramientas de Rust (components), para máquinas con una arquitectura específica (targets).
@@ -682,7 +681,7 @@ Algunos comandos útiles:
 
 
 
-## Algunas bibliotecas-crates-
+## Lista de algunas bibliotecas-crates-
 
 [crates.io - The Rust community’s crate registry](https://crates.io/)
 
@@ -771,21 +770,7 @@ Algunos comandos útiles:
 
 [egui - a simple, fast, and highly portable immediate mode GUI library](https://crates.io/crates/egui)
 
-[eframe - the egui framework](https://github.com/emilk/egui/tree/master/crates/eframe)
-
-[eframe template](https://github.com/emilk/eframe_template/tree/main)
-
-[egui file dialog](https://lib.rs/crates/egui-file-dialog)
-
-[egui - documentation](https://docs.rs/egui/latest/egui/)
-
 [egui - github repository](https://github.com/emilk/egui)
-
-[egui - demo code](https://www.egui.rs/#demo)
-
-[egui - examples](https://egui.info/examples/)
-
-[egui - tutorial](https://whoisryosuke.com/blog/2023/getting-started-with-egui-in-rust#what-is-egui)
 
 [iced - a cross-platform GUI library inspired by Elm](https://iced.rs/)
 
@@ -813,15 +798,15 @@ Algunos comandos útiles:
 
 [Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
 
-[Yew](https://docs.rs/yew/latest/yew/)
-
 [Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
+
+[Gloo - A modular toolkit for building fast, reliable Web applications and libraries with Rust and Wasm](https://gloo-rs.web.app/)
 
 [Actix Web - web framework for backend](https://actix.rs/)
 
-[Axum - github](https://github.com/tokio-rs/axum)
-
 [A guide to Axum - web framework for backend](https://www.shuttle.dev/blog/2023/12/06/using-axum-rust?mode=reply)
+
+[Axum - github](https://github.com/tokio-rs/axum)
 
 
 
@@ -878,8 +863,49 @@ Algunos comandos útiles:
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
 
+## Notas sobre algunos aspectos concretos
+
+Aquí voy recogiendo aquello que voy practicando...
+
+### egui
+
+[egui - documentation](https://docs.rs/egui/latest/egui/)
+
+[egui - github repository](https://github.com/emilk/egui)
+
+[egui - demo code](https://www.egui.rs/#demo)
+
+[egui - examples](https://egui.info/examples/)
+
+[egui - tutorial](https://whoisryosuke.com/blog/2023/getting-started-with-egui-in-rust#what-is-egui)
+
+[eframe - the egui framework](https://github.com/emilk/egui/tree/master/crates/eframe)
+
+[eframe template](https://github.com/emilk/eframe_template/tree/main)
+
+[egui file dialog](https://lib.rs/crates/egui-file-dialog)
+
+
+### Yew
+
+[Yew](https://yew.rs/)
+
+[Yew - documentation](https://yew.rs/docs/getting-started/introduction)
+
+[Yew - docs.rs](https://docs.rs/yew/latest/yew/)
+
+[Yew - Github repository](https://github.com/yewstack/yew)
+
+[A curated list of awesome things related to Yew](https://github.com/jetli/awesome-yew)
+
+[A codebase containing real world examples (CRUD, auth, advanced patterns, etc)](https://github.com/jetli/rust-yew-realworld-example-app/tree/master)
+
+[Rust Fullstack Web Application: Wasm, Yew, Rocket, Postgres and Docker - Francesco Ciulla](https://www.youtube.com/watch?v=FYVbt6YFMsM&list=PLPoSdR46FgI5QaLuj6muwN2T8WHUfV3AF)
+
+
 ## Algo más de documentación
 
+Aquí voy recogiendo aquello que no veo claro dónde encajar...
 
 
 ### (quasi)forbiden, arcane practice
