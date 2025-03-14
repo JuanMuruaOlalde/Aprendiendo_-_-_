@@ -812,13 +812,16 @@ Algunos comandos útiles:
 
 ### bases de datos
 
+[Diesel- a Safe, Extensible ORM and Query Builder](https://diesel.rs/)
+
 [sqlx - The async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
 
 [sqlx - database drivers](https://docs.rs/sqlx/latest/sqlx/database/index.html)
 
 [sqlx - Dataform SQLX](https://sqlx.dev/)
 
-[Polars - blazingly fast DataFrame library for manipulating structured data](https://docs.pola.rs/)
+[tokio_postgres - An asynchronous, pipelined, PostgreSQL client](https://docs.rs/tokio-postgres/latest/tokio_postgres/)
+
 
 
 ### gráficos
