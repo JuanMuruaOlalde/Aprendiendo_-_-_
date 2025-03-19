@@ -26,7 +26,6 @@ nav button {
 }
 
 main {
-    border: 1px solid;
     padding: 0 20px;
     display: grid;
     grid-template-columns: 80% 20%;
@@ -60,7 +59,8 @@ form {
 
 input[type="submit"],
 input[type="button"],
-button[type="submit"] {
+button[type="submit"],
+button {
     margin: 1em;
     padding: 0.5em;
     background-color: oldlace;

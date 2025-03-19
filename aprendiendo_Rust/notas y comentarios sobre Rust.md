@@ -798,6 +798,8 @@ Algunos comandos útiles:
 
 [Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
 
+[Sycamore - an UI library powered by fine-grained reactivity](https://sycamore.dev/)
+
 [Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
 
 [Gloo - A modular toolkit for building fast, reliable Web applications and libraries with Rust and Wasm](https://gloo-rs.web.app/)
@@ -899,11 +901,25 @@ Aquí voy recogiendo aquello que voy practicando...
 
 [Yew - Github repository](https://github.com/yewstack/yew)
 
+[Yew - tutorial](https://yew.rs/docs/tutorial)
+
+Yew suele trabajar con otras dos dependencias:
+
+- [trunk](https://trunkrs.dev/), un "compilador-empaquetador" (bundler) para gestionar Rust->WASM
+
+- [wasm32-unknown-unknow](https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-unknown-unknown.html), un "objetivo" (target) del compilador de Rust para generar código webassembly destinado a ser ejecutado en cualquier navegador web.
+
+
+
+#### algunos enlaces a documentación
+
 [A curated list of awesome things related to Yew](https://github.com/jetli/awesome-yew)
 
 [A codebase containing real world examples (CRUD, auth, advanced patterns, etc)](https://github.com/jetli/rust-yew-realworld-example-app/tree/master)
 
 [Rust Fullstack Web Application: Wasm, Yew, Rocket, Postgres and Docker - Francesco Ciulla](https://www.youtube.com/watch?v=FYVbt6YFMsM&list=PLPoSdR46FgI5QaLuj6muwN2T8WHUfV3AF)
+
+
 
 
 ## Algo más de documentación
