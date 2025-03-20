@@ -632,7 +632,21 @@ Son trozos de una colección. Muy útiles cuando se necesita trabajar con una pa
 
 ## Iterators, Functional Iterators
 
-Rust trabaja con formas propias de un lenguaje funcional al tratar con colecciones.
+https://doc.rust-lang.org/std/iter/trait.Iterator.html
+
+Rust trabaja con formas propias de un lenguaje funcional al tratar con colecciones. Por ejemplo:
+
+- [for_each](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.for_each)
+- [find](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find)
+- [filter](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.filter)
+- [map](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.map)
+- [reduce](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.reduce)
+- [fold](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold)
+- [flatten](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.flatten)
+- [zip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip)
+- [unzip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.unzip)
+- [collect](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect)
+
 
 [Processing a Series of Items with Iterators](https://doc.rust-lang.org/book/ch13-02-iterators.html)
 
@@ -910,6 +924,81 @@ Yew suele trabajar con otras dos dependencias:
 - [wasm32-unknown-unknow](https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-unknown-unknown.html), un "objetivo" (target) del compilador de Rust para generar código webassembly destinado a ser ejecutado en cualquier navegador web.
 
 
+En Yew, el interfaz de usuario se va construyendo a partir de componentes. De forma muy similar a cómo se hace en [React](https://react.dev/). Estos componentes se pueden definir de dos formas:
+
+- Los componentes sencillos son una función decorada con `#[function_component]`
+
+  ````
+  #[function_component(NombreDelComponente)]
+  fn nombre_de_la_funcion(parámetros) -> Html {
+  
+      // código variado para realizar acciones o preparar datos...
+
+      html! {
+          //código para generar el html que va a devolver el componente...
+      }
+
+  }
+  ````
+
+- Los componentes normales son un `struct` que implementa el trait `Component`
+
+  ````
+    #[derive(Properties, PartialEq, Default)]
+    struct NombreDelComponente {
+        atributo1: AttrValue,
+        atributo2: AttrValue,
+        ...
+    }
+    
+    pub enum MensajeQueElComponentePuedeRecibir {
+        NoHacerNada,
+        HacerAlgo,
+        HacerOtroAlgo,
+    }
+    
+    impl Component for NombreDelComponente {
+        type Message = MensajeQueElComponentePuedeRecibir;
+        type Properties = NombreDelComponente;
+    
+        fn create(_ctx: &Context<Self>) -> Self {
+            Self {
+                atributo1: AttrValue::from("......."),
+                atributo2: AttrValue::from("....."),
+                ...
+            }
+        }
+    
+        fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
+            match msg {
+                MensajeQueElComponentePuedeRecibir::NoHacerNada => {
+                    // código variado para realizar acciones o preparar datos...
+                    true
+                }
+                MensajeQueElComponentePuedeRecibir::HacerAlgo => {
+                    // código variado para realizar acciones o preparar datos...
+                    true
+                }
+                MensajeQueElComponentePuedeRecibir::HacerOtroAlgo => {
+                    // código variado para realizar acciones o preparar datos...
+                    true
+                }
+            }
+        }
+    
+        fn view(&self, ctx: &Context<Self>) -> Html {
+          
+              // código variado para realizar acciones o preparar datos...
+        
+              html! {
+                  //código para generar el html que va a devolver el componente...
+              }
+        
+        }
+  }
+  ````
+
+
 
 #### algunos enlaces a documentación
 
@@ -933,6 +1022,25 @@ Aquí voy recogiendo aquello que no veo claro dónde encajar...
 An article in The Rust Programming Language Forum
 
 [-----The Rustonomicon-----](https://doc.rust-lang.org/nightly/nomicon/#the-rustonomicon) The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs. Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book. 
+
+
+
+### some links to security related info
+
+[It’s Not As Simple As “Use A Memory Safe Language"](https://youtu.be/iQ-eTaW6-cM)
+
+- Bindings code generation ([bindgen](https://github.com/rust-lang/rust-bindgen))
+- Static analysis ([rustc](https://rustc-dev-guide.rust-lang.org/about-this-guide.html), [clippy](https://doc.rust-lang.org/stable/clippy/index.html))
+- Undefined behavior interpreter ([Miri](https://github.com/rust-lang/miri))
+- Model checking ([Kani](https://model-checking.github.io/kani/), [CBMC](https://www.cprover.org/cbmc))
+- Property testing ([Proptest](https://proptest-rs.github.io/proptest/))
+- Dynamic analysis ([sanitizers](https://doc.rust-lang.org/beta/unstable-book/compiler-flags/sanitizer.html))
+- Fuzzing ([cargo fuzz](https://rust-fuzz.github.io/book/cargo-fuzz.html))
+
+Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-profile):
+- Pro.type: type safety
+- Pro.bounds: bounds safety
+- Pro.lifetime: lifetime safety
 
 
 
@@ -975,3 +1083,4 @@ An article in The Rust Programming Language Forum
 [Ferrocene, mission-critical Rust](https://ferrocene.dev/en/)
 
 [RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)
+
