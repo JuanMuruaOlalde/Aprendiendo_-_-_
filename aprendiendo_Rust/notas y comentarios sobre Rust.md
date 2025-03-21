@@ -113,6 +113,8 @@ Here are some sugestions:
 
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
 
+[The Dev Method - Youtube channel](https://www.youtube.com/@TheDevMethod)
+
 [Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
 
 [rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
@@ -127,14 +129,9 @@ Here are some sugestions:
 
 [Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
 
+[Rust: Managing a Growing Project](https://www.youtube.com/watch?v=JIvi-g5K8gk)
+
 [Rust 🦀 and WebAssembly 🕸](https://rustwasm.github.io/docs/book/introduction.html)
-
-[mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
-
-[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
-
-[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
-
 
 
 ### Some additional material to read/view
@@ -166,6 +163,7 @@ Here are some sugestions:
 [Top 5 deadly Rust anti-patterns to avoid - YouTube](https://www.youtube.com/watch?v=SWwTD2neodE)
 
 [Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
+
 
 ## Ownership , Borrow-checker
 
@@ -932,7 +930,7 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
   #[function_component(NombreDelComponente)]
   fn nombre_de_la_funcion(parámetros) -> Html {
   
-      // código variado para realizar acciones o preparar datos...
+      // código para realizar acciones o preparar datos...
 
       html! {
           //código para generar el html que va a devolver el componente...
@@ -972,15 +970,15 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
         fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
             match msg {
                 MensajeQueElComponentePuedeRecibir::NoHacerNada => {
-                    // código variado para realizar acciones o preparar datos...
+                    // código para realizar acciones o preparar datos...
                     true
                 }
                 MensajeQueElComponentePuedeRecibir::HacerAlgo => {
-                    // código variado para realizar acciones o preparar datos...
+                    // código para realizar acciones o preparar datos...
                     true
                 }
                 MensajeQueElComponentePuedeRecibir::HacerOtroAlgo => {
-                    // código variado para realizar acciones o preparar datos...
+                    // código para realizar acciones o preparar datos...
                     true
                 }
             }
@@ -988,7 +986,7 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
     
         fn view(&self, ctx: &Context<Self>) -> Html {
           
-              // código variado para realizar acciones o preparar datos...
+              // código para realizar acciones o preparar datos...
         
               html! {
                   //código para generar el html que va a devolver el componente...
@@ -998,6 +996,13 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
   }
   ````
 
+El HTML se genera con la macro [macro html!](https://yew.rs/docs/concepts/html), usando una sintaxis parecida a JSX para incorporar resultados y valores de código Rust en el HTML.
+
+Para interacciones más directas con el HTML o con Javascript, se puede usar el crate [web_sys](https://rustwasm.github.io/wasm-bindgen/api/web_sys/) que va integrado en Yew.
+
+[DOM nodes](https://yew.rs/docs/concepts/html/elements)
+
+[events](https://yew.rs/docs/concepts/html/events)
 
 
 #### algunos enlaces a documentación
@@ -1008,7 +1013,7 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
 
 [Rust Fullstack Web Application: Wasm, Yew, Rocket, Postgres and Docker - Francesco Ciulla](https://www.youtube.com/watch?v=FYVbt6YFMsM&list=PLPoSdR46FgI5QaLuj6muwN2T8WHUfV3AF)
 
-
+[Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
 ## Algo más de documentación
@@ -1042,6 +1047,11 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 - Pro.bounds: bounds safety
 - Pro.lifetime: lifetime safety
 
+[cargo audit](https://docs.rs/cargo-audit/latest/cargo_audit/)
+
+[RustSEC - a vulnerability database for the Rust ecosystem](https://rustsec.org/)
+
+[Secure Code Working Group - making it easy to write secure code in Rust](https://github.com/rust-secure-code/wg?tab=readme-ov-file)
 
 
 ### some assorted resources
@@ -1072,6 +1082,16 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [GUI programming with Rust](https://medium.com/digitalfrontiers/gui-programming-with-rust-c71fe4051b1a)
 
+[Dario - Youtube channel](https://www.youtube.com/@dario.lencina/featured)
+
+[Let's Build a RUST WebAssembly Frontend App With Yew](https://youtu.be/In09Lgqxp6Y)
+
+[mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
+
+[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
+
+[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
+
 [Rust on an STM32 microcontroller](https://medium.com/digitalfrontiers/rust-on-a-stm32-microcontroller-90fac16f6342)
 
 [Rust on AWS (Amazon Web Services)](https://aws.amazon.com/developer/language/rust/)
@@ -1083,4 +1103,6 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Ferrocene, mission-critical Rust](https://ferrocene.dev/en/)
 
 [RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)
+
+[Rust Nederland (RustNL) - Youtube channel](https://www.youtube.com/@rustnederlandrustnl/featured)
 
