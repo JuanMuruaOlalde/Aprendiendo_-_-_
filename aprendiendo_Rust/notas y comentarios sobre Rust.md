@@ -953,14 +953,72 @@ Cuatro tipos de documentación técnica:
 
 Yew suele trabajar con otras dos dependencias:
 
-- [trunk](https://trunkrs.dev/), un "compilador-empaquetador" (bundler) para gestionar Rust->WASM
+- [trunk](https://trunkrs.dev/), un "compilador-empaquetador" (bundler) para gestionar Rust==>WASM
 
-- [wasm32-unknown-unknow](https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-unknown-unknown.html), un "objetivo" (target) del compilador de Rust para generar código webassembly destinado a ser ejecutado en cualquier navegador web.
+- [wasm32-unknown-unknow](https://doc.rust-lang.org/nightly/rustc/platform-support/wasm32-unknown-unknown.html), el objetivo ("target") del compilador de Rust para generar código webassembly (WASM) destinado a ser ejecutado en un navegador web.
 
 
-En Yew, el interfaz de usuario se va construyendo a partir de componentes. De forma muy similar a cómo se hace en [React](https://react.dev/). Estos componentes se pueden definir de dos formas:
+En Yew, el interfaz de usuario se va construyendo a partir de componentes. De forma muy similar a cómo se hace en [React](https://react.dev/). 
 
-- Los componentes sencillos son una función decorada con `#[function_component]`
+Los componentes van en el `<body>` del `index.html`. Esa parte `<body>` es rellenada por un componente principal `App`, que inicia la aplicación:
+```
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>Pruebas con Yew</title>
+        <meta
+            name="description"
+            content="Pruebas y experimentos para aprender a usar Yew"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link data-trunk rel="css" href="style.css" />
+        ................. 
+    </head>
+    <body>
+        <!-- aquí va lo que se rellena con la aplicación usando componentes Yew-->
+    </body>
+</html>
+```
+
+```
+use yew::prelude::*;
+
+fn main() {
+    yew::Renderer::<App>::new().render();
+}
+
+#[function_component(App)]
+fn app() -> Html {
+    ................. 
+    html! {
+    <body>
+        <header>
+            <h1>{"Haciendo pruebas con Yew"}</h1>
+            ................. 
+        </header>
+
+        <nav>
+            ................. 
+        </nav>
+
+        <main>
+            ................. 
+            <NombreDeUnComponente ... con sus props/>
+            ................. 
+        </main>
+
+        <footer>
+            ................. 
+        </footer>
+    </body>
+    }
+}
+```
+
+Los componentes Yew se pueden definir de dos formas:
+
+- Los componentes sencillos: son una `fn` decorada con la etiqueta `#[function_component]`
 
   ````
   #[function_component(NombreDelComponente)]
@@ -975,7 +1033,7 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
   }
   ````
 
-- Los componentes normales son un `struct` que implementa el trait `Component`
+- Los componentes normales: son un `struct` que implementa el trait `Component`
 
   ````
     #[derive(Properties, PartialEq, Default)]
@@ -1030,16 +1088,44 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
   }
   ````
 
-El HTML se genera con la macro [macro html!](https://yew.rs/docs/concepts/html), usando una sintaxis parecida a JSX para incorporar resultados y valores de código Rust en el HTML.
+Se usa la [macro html!](https://yew.rs/docs/concepts/html) para generar el HTML a mostrar en la página que está viendo el usuario. 
 
-Para interacciones más directas con el HTML o con Javascript, se puede usar el crate [web_sys](https://rustwasm.github.io/wasm-bindgen/api/web_sys/) que va integrado en Yew.
+Para incorporar resultados y valores del código Rust al HTML, se usa una sintaxis parecida a JSXL.
+```
+    let nombre = use_state(|| String::new());
+    let obtener_nombre =  Callback::from ({
+        let nombre = nombre.clone();
+        move |evento: InputEvent| {
+            let entrada: HtmlInputElement = evento
+                .target()
+                .unwrap_throw()
+                .dyn_into()
+                .unwrap_trown();
+            nombre.set(entrada.value());
+        }
+    });
+    
+    html! {
+        <div >
+            <label for="nombre">{"Nombre:"}</label>
+            <input {obtener_nombre} type="text" name="nombre" id="nombre" />
+            <button {on_clic_saludar}>{"Saludar"}</button>
+            <div class="enmarcado_dentro_de_una_caja">
+                <p>{"Hola, "}{&*nombre}{"."} </p>
+            </div>
+         </div>
+    }
+```
+
+
+Para interacciones más directas con el DOM de HTML o con código Javascript, se puede usar el crate [web_sys](https://rustwasm.github.io/wasm-bindgen/api/web_sys/) que va integrado en Yew.
 
 [DOM nodes](https://yew.rs/docs/concepts/html/elements)
 
 [events](https://yew.rs/docs/concepts/html/events)
 
 
-#### algunos enlaces a documentación
+#### algunos enlaces para leer más
 
 [A curated list of awesome things related to Yew](https://github.com/jetli/awesome-yew)
 
