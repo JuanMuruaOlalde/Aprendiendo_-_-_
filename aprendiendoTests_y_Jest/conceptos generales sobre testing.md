@@ -56,7 +56,13 @@ aviso: Para cada lenguaje de programación y cada entorno de trabajo puede haber
 
 ## Algunas recomendaciones prácticas de trabajo
 
-### Lo que se ha de testear:
+### "Unit" en "Unit Testing"
+
+Una funcionalidad a testear es un trozo de código donde las relaciones entre sus entradas y sus salidas son lo suficientemente claras como para poder comprobarlas con facilidad.
+
+La base de un código testeable es una adecuada estructuración del programa, una adecuada arquitectura. Una que permita tener trozos con funcionalidad suficiente y con pocas, claras, dependencias con el resto de trozos del programa. 
+
+### Los casos ha testear:
 
 Un grupo de tests para una funcionalidad concreta han de cubrir:
 
@@ -83,7 +89,7 @@ En ese sentido, se podría decir que unos buenos tests son como una "documentaci
 
 - Pero, en la práctica, sobre todo al comienzo, es muy posible que sigamos escribiendo primero el código que implementa una o varias funcionalidades; que sigamos probándolo de forma manual durante dicha escritura; y, cuando el código funcional esté ya funcionando, pensemos en los test. Una buena sugerencia es que, justo mientras tenemos fresco el trabajo que hemos hecho, usemos las pruebas manuales que hemos ido haciendo como inspiración para escribir esos test.
 
-De todas formas, como se comenta más adelante, si perseveramos en el tema de test, tarde o temprano es muy posible que acabemos llegando al TDD. A medida que vemos que los test ayudan a las pruebas manuales durante la escritura  del código funcional; es muy posible que vayamos tendiendo de forma natural a escribir primero test y luego funcional.
+De todas formas, como se comenta más adelante, si perseveramos en el tema de los test, tarde o temprano es muy posible que acabemos llegando al TDD. A medida que vemos que los test ayudan a las pruebas manuales durante la escritura  del código funcional; es muy posible que vayamos tendiendo de forma natural a escribir primero test y luego funcional.
 
 ### La falacia de la "cobertura"
 
