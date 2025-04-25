@@ -127,6 +127,8 @@ Here are some sugestions:
 
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
+[Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
+
 [Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
 
 [Rust: Managing a Growing Project](https://www.youtube.com/watch?v=JIvi-g5K8gk)
@@ -878,9 +880,47 @@ Algunos comandos útiles:
 
 ## Notas sobre algunos aspectos concretos
 
-Aquí voy recogiendo aquello que voy practicando...
+Aquí voy recogiendo aquello que voy estudiando o practicando...
 
-### egui
+### Escribir documentación
+
+[The rustdoc book](https://doc.rust-lang.org/stable/rustdoc/)
+
+[Rust by Example - Documentation](https://doc.rust-lang.org/rust-by-example/meta/doc.html)
+
+[document_features - a macro that extracts “documentation” comments from Cargo.toml](https://docs.rs/document-features/latest/document_features/)
+
+[Rust API Guidelines - Documentation](https://rust-lang.github.io/api-guidelines/documentation.html)
+
+[mdBook - a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
+
+
+Algunas ideas para documentar software:
+
+- Dar una visión general del propósito, las funcionalidades y los casos de uso principales.
+
+- Detallar el contexto en el que se puede usar (y en el que no). Explicitar los requisitos necesarios. Explicitar las asunciones, los valores por defecto,...
+
+- Dar un mapa de las partes internas principales y las relaciones entre ellas. Comentar las relaciones con otras partes externas, si las tuviera. 
+
+- Explicar la forma de usar.
+
+- Dar algunos ejemplos de código para los usos más habituales.
+
+- Citar otras fuentes donde poder ampliar información.
+
+[Diátaxis - A systematic approach to technical documentation authoring](https://diataxis.fr/)
+
+Cuatro tipos de documentación técnica:
+- Tutoriales.
+- How-to X, guias de cómo hacer X
+- Explicaciones.
+- Referencias.
+
+[The Good Docs Project](https://www.thegooddocsproject.dev/)
+
+
+### egui - interfaz de usuario
 
 [egui - documentation](https://docs.rs/egui/latest/egui/)
 
@@ -899,7 +939,7 @@ Aquí voy recogiendo aquello que voy practicando...
 [egui file dialog](https://lib.rs/crates/egui-file-dialog)
 
 
-### Yew
+### Yew - interfaz de usuario
 
 [Yew](https://yew.rs/)
 
@@ -1076,6 +1116,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Why Rust?](https://rerun.io/blog/why-rust)
 
+[EuroRust event](https://www.youtube.com/@eurorust)
+
 [The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
 
 [Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
@@ -1103,8 +1145,6 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Dario - Youtube channel](https://www.youtube.com/@dario.lencina/featured)
 
 [Let's Build a RUST WebAssembly Frontend Video App With Yew](https://youtu.be/In09Lgqxp6Y)
-
-[mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
 
 [Rust on AWS (Amazon Web Services)](https://aws.amazon.com/developer/language/rust/)
 
