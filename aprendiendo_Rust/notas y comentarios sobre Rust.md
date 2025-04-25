@@ -753,10 +753,6 @@ Algunos comandos útiles:
 
 [palette - linear color calculations and conversions](https://docs.rs/palette/latest/palette/)
 
-[Tokio - an asynchronous runtime - provides the building blocks needed for writing network applications](https://tokio.rs/)
-
-[tokio](https://docs.rs/tokio/latest/tokio/)
-
 [RustCrypto - cryptographic algorithms](https://github.com/RustCrypto)
 
 [printers - send files or bytes to print on unix and windows](https://docs.rs/printers/latest/printers/)
@@ -808,6 +804,10 @@ Algunos comandos útiles:
 
 [reqwest - a higher-level HTTP Client](https://docs.rs/reqwest/latest/reqwest/index.html)
 
+[Tokio - an asynchronous runtime - provides the building blocks needed for writing network applications](https://tokio.rs/)
+
+[tonic - a gRPC over HTTP/2 implementation](https://docs.rs/tonic/latest/tonic/)
+
 [Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
 
 [Sycamore - an UI library powered by fine-grained reactivity](https://sycamore.dev/)
@@ -851,13 +851,9 @@ Algunos comandos útiles:
 [gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
 
 
-### red - industrial - tiempo real - control
+### embedded - industrial - red - control - tiempo real
 
-[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits/featured)
-
-[Floodplain - Youtube channel](https://www.youtube.com/@floodplainnl)
-
-[Embassy - write safe, correct and energy-efficient embedded code faster](https://embassy.dev/)
+[embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
 
 [rtic - Real-Time Interrupt-driven Concurrency](https://github.com/rtic-rs/rtic)
 
@@ -971,17 +967,15 @@ En Yew, el interfaz de usuario se va construyendo a partir de componentes. De fo
             match msg {
                 MensajeQueElComponentePuedeRecibir::NoHacerNada => {
                     // código para realizar acciones o preparar datos...
-                    true
-                }
+                 }
                 MensajeQueElComponentePuedeRecibir::HacerAlgo => {
                     // código para realizar acciones o preparar datos...
-                    true
                 }
                 MensajeQueElComponentePuedeRecibir::HacerOtroAlgo => {
                     // código para realizar acciones o preparar datos...
-                    true
                 }
             }
+            true
         }
     
         fn view(&self, ctx: &Context<Self>) -> Html {
@@ -1053,6 +1047,30 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Secure Code Working Group - making it easy to write secure code in Rust](https://github.com/rust-secure-code/wg?tab=readme-ov-file)
 
+[Ferrocene, Rust compiler toolchain for safety- and mission-critical systems](https://ferrocene.dev/en/)
+
+
+### some links to embedded related info
+
+[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
+
+[Coordination repository of the embedded devices Working Group (WG)](https://github.com/rust-embedded/wg#embedded-devices-working-group)
+
+[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
+
+[Floodplain - Youtube channel](https://www.youtube.com/@floodplainnl)
+
+[Embassy - write safe, correct and energy-efficient embedded code faster](https://embassy.dev/)
+
+[Rust on an STM32 microcontroller](https://medium.com/digitalfrontiers/rust-on-a-stm32-microcontroller-90fac16f6342)
+
+[Rust Runs on EVERYTHING, Including the Arduino](https://www.youtube.com/watch?v=ZPSqhb4KKNc)
+
+[rust runs on EVERYTHING (no operating system, just Rust)](https://www.youtube.com/watch?v=jZT8APrzvc4)
+
+[Writing a Driver on the Raspberry Pi - Kernel Mode Programming](https://www.youtube.com/watch?v=lWzFFusYg6g&list=PLc7W4b0WHTAX4F1Byvs4Bp7c8yCDSiKa9)
+
+[Writing a SD Card driver in Rust - Jonathan Pallant | EuroRust 2024](https://www.youtube.com/watch?v=-ewuFNKIAVI)
 
 ### some assorted resources
 
@@ -1084,23 +1102,15 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Dario - Youtube channel](https://www.youtube.com/@dario.lencina/featured)
 
-[Let's Build a RUST WebAssembly Frontend App With Yew](https://youtu.be/In09Lgqxp6Y)
+[Let's Build a RUST WebAssembly Frontend Video App With Yew](https://youtu.be/In09Lgqxp6Y)
 
 [mdBook, a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
-
-[The Embedded Rust Book](https://docs.rust-embedded.org/book/)
-
-[The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
-
-[Rust on an STM32 microcontroller](https://medium.com/digitalfrontiers/rust-on-a-stm32-microcontroller-90fac16f6342)
 
 [Rust on AWS (Amazon Web Services)](https://aws.amazon.com/developer/language/rust/)
 
 [Floating-point cheat sheet for Rust](https://floating-point-gui.de/languages/rust/)
 
 [UUID v7 vs. v4 + Rust Programming Examples](https://www.youtube.com/watch?v=zIebRwU0FOw&list=PL7r-PXl6ZPcCIOFaL7nVHXZvBmHNhrh_Q&index=3)
-
-[Ferrocene, mission-critical Rust](https://ferrocene.dev/en/)
 
 [RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)
 
