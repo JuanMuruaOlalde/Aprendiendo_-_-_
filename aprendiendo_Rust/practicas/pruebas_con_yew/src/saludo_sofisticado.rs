@@ -1,7 +1,7 @@
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq, Default)]
-pub struct Saludo {
+pub struct SaludoSofisticado {
     pub nombre: AttrValue,
 }
 
@@ -12,9 +12,9 @@ pub enum SaludoMessage {
     HacerOtroAlgo,
 }
 
-impl Component for Saludo {
+impl Component for SaludoSofisticado {
     type Message = SaludoMessage;
-    type Properties = Saludo;
+    type Properties = SaludoSofisticado;
 
     fn create(_ctx: &Context<Self>) -> Self {
         Self {
@@ -44,26 +44,10 @@ impl Component for Saludo {
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        // let valor_nombre = use_state(|| String::new());
-        // let recoger_entrada_nombre = Callback::from({
-        // let valor_nombre = valor_nombre.clone();
-        // move |ev: Event| {
-        //     let input = ev.target_dyn_into::<web_sys::HtmlInputElement>();
-        //     if let Some(input) = input {
-        //         valor_nombre.set(input.value());
-        //     }
-        // }
-        // });
         html! {
-            <div >
-                <label for="nombre">{"Nombre:"}</label>
-                <input type="text" name="nombre" id="nombre"
-                    value={&self.nombre}
-                />
-                <div class="enmarcado_dentro_de_una_caja">
-                    <p>{"Hola, "}{&self.nombre}{"."} </p>
-                </div>
-             </div>
+            <div class="enmarcado_dentro_de_una_caja">
+                <p>{"Hola, "}{&self.nombre}{"."} </p>
+            </div>
         }
     }
 }
