@@ -788,6 +788,10 @@ Algunos comandos útiles:
 
 [iced](https://crates.io/crates/iced)
 
+[Tauri - Create small, fast, secure, cross-platform applications](https://tauri.app/)
+
+[Tauri - documentation](https://tauri.app/start/)
+
 [GUI development with Rust and GTK 4](https://gtk-rs.org/gtk4-rs/stable/latest/book/)
 
 [Ratatui - for cooking up Terminal User Interfaces](https://ratatui.rs/)
@@ -796,34 +800,29 @@ Algunos comandos útiles:
 
 [slint - youtube tutorial](https://www.youtube.com/watch?v=7aFgeUG9TK4)
 
-[Tauri - Create small, fast, secure, cross-platform applications](https://tauri.app/)
-
-[Tauri - documentation](https://tauri.app/start/)
-
-### web
+### web - networking
 
 [Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
 
 [reqwest - a higher-level HTTP Client](https://docs.rs/reqwest/latest/reqwest/index.html)
 
-[Tokio - an asynchronous runtime - provides the building blocks needed for writing network applications](https://tokio.rs/)
-
 [tonic - a gRPC over HTTP/2 implementation](https://docs.rs/tonic/latest/tonic/)
 
-[Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
+[Tokio - an asynchronous runtime - provides the building blocks needed for writing network applications](https://tokio.rs/)
 
-[Sycamore - an UI library powered by fine-grained reactivity](https://sycamore.dev/)
-
-[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
-
-[Gloo - A modular toolkit for building fast, reliable Web applications and libraries with Rust and Wasm](https://gloo-rs.web.app/)
-
-[Actix Web - web framework for backend](https://actix.rs/)
-
-[A guide to Axum - web framework for backend](https://www.shuttle.dev/blog/2023/12/06/using-axum-rust?mode=reply)
+[tower - a library of modular and reusable components for building robust networking clients and servers](https://docs.rs/tower/latest/tower/)
 
 [Axum - github](https://github.com/tokio-rs/axum)
 
+[Leptos - a full-stack framework for building web applications](https://docs.rs/leptos/latest/leptos/)
+
+[The Leptos Book](https://book.leptos.dev/)
+
+[Yew - a modern framework for creating multi-threaded front-end web apps using WebAssembly (WASM)](https://yew.rs/)
+
+[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
+
+[Actix Web - web framework for backend](https://actix.rs/)
 
 
 ### bases de datos
@@ -872,6 +871,8 @@ Algunos comandos útiles:
 ### juegos - VR - AR
 
 [Are we game yet? - The state of virtual reality in Rust](https://arewegameyet.rs/ecosystem/vr/#:~:text=rust-webvr.%20Safe%20rust%20API%20that%20provides%20a%20way)
+
+[Bevy - a refreshingly simple data-driven game engine](https://bevyengine.org/)
 
 [OpenVR - c++ API and runtime that allows access to VR hardware from multiple vendors](https://github.com/ValveSoftware/openvr)
 
@@ -1092,29 +1093,32 @@ Se usa la [macro html!](https://yew.rs/docs/concepts/html) para generar el HTML 
 
 Para incorporar resultados y valores del código Rust al HTML, se usa una sintaxis parecida a JSXL.
 ```
-    let nombre = use_state(|| String::new());
-    let obtener_nombre =  Callback::from ({
-        let nombre = nombre.clone();
-        move |evento: InputEvent| {
-            let entrada: HtmlInputElement = evento
-                .target()
-                .unwrap_throw()
-                .dyn_into()
-                .unwrap_trown();
-            nombre.set(entrada.value());
-        }
-    });
-    
+#[function_component(Saludo)]
+fn saludo() -> Html {
+    let nombre_handle = use_state(|| String::from("mundo"));
+    let nombre = (*nombre_handle).clone();
+    let obtener_nombre = {
+        let nombre_handle = nombre_handle.clone();
+        Callback::from({
+            move |evento: InputEvent| {
+                let target: Option<EventTarget> = evento.target();
+                let entrada = target.and_then(|t| t.dyn_into::<HtmlInputElement>().ok());
+                if let Some(entrada) = entrada {
+                    nombre_handle.set(entrada.value());
+                }
+            }
+        })
+    };
     html! {
         <div >
             <label for="nombre">{"Nombre:"}</label>
-            <input {obtener_nombre} type="text" name="nombre" id="nombre" />
-            <button {on_clic_saludar}>{"Saludar"}</button>
+            <input type="text" id="nombre" oninput={obtener_nombre} value={nombre.clone()} />
             <div class="enmarcado_dentro_de_una_caja">
-                <p>{"Hola, "}{&*nombre}{"."} </p>
+                <p>{"Hola, "}{nombre}{"."} </p>
             </div>
          </div>
     }
+}
 ```
 
 
@@ -1125,7 +1129,7 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [events](https://yew.rs/docs/concepts/html/events)
 
 
-#### algunos enlaces para leer más
+#### algunos enlaces
 
 [A curated list of awesome things related to Yew](https://github.com/jetli/awesome-yew)
 
