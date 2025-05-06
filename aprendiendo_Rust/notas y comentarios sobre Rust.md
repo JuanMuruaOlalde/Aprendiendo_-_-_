@@ -1186,6 +1186,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Coordination repository of the embedded devices Working Group (WG)](https://github.com/rust-embedded/wg#embedded-devices-working-group)
 
+[Running Rust on Microcontrollers - mbedded.ninja](https://blog.mbedded.ninja/programming/languages/rust/running-rust-on-microcontrollers/)
+
 [The Rusty Bits - Youtube channel](https://www.youtube.com/@therustybits)
 
 [Floodplain - Youtube channel](https://www.youtube.com/@floodplainnl)
