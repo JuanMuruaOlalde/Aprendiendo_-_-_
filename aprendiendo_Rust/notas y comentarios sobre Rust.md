@@ -262,7 +262,7 @@ https://doc.rust-lang.org/book/ch08-02-strings.html
 https://doc.rust-lang.org/book/ch08-02-strings.html#bytes-and-scalar-values-and-grapheme-clusters-oh-my
 
 
-### Un consejo: definir tipos específicos
+### Un consejo: definir tipos específicos para (casi) todo
 
 Una vez acostumbrados al tipado fuerte del propio lenguaje. Podemos ir más allá y definir tipos específicos para nuestra aplicación, usando `struct`. 
 
@@ -605,6 +605,30 @@ Para cuando necesitamos distinguir claramente entre continuar (`Continue`) o par
 
 
 
+## Tests
+
+Se pueden escribir directamente en cada archivo del código fuente, normalmente al fondo del mismo. El bloque de tests se marca con la anotación `#[cfg(test)]` y cada función test con la anotación `#[test]`
+
+```
+pub fn add(left: u64, right: u64) -> u64 {
+    left + right
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_works() {
+        let result = add(2, 2);
+        assert_eq!(result, 4);
+    }
+}
+```
+[How to Write Tests - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch11-01-writing-tests.html)
+
+
+
 ## Lifetimes
 
 [Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
@@ -622,7 +646,9 @@ Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al
 
 [Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
 
-Podemos pensar en los "trait" de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. De tal forma que distintos `struct` que implementen (`impl`) ese "trait" puedan utilizarse como si fueran todos del mismo tipo. (Obviamente, solo si se utilizan las funciones del "trait" y no otras que pueda tener además cada `struct`.)
+Podemos pensar en los "trait" de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. 
+
+De esta forma, distintos `struct` que implementen (`impl`) un "trait" concreto pueden utilizarse como si fueran todos del mismo tipo. (Obviamente, en los casos en que se utilizan las funciones del "trait" y no otras funciones particulares que pueda tener además cada `struct`.)
 
 ## Slices
 
@@ -655,6 +681,49 @@ Rust trabaja con formas propias de un lenguaje funcional al tratar con coleccion
 [Making Code Clearer with Iterator Adapters](https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html?highlight=filter#making-code-clearer-with-iterator-adapters)
 
 [Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
+
+
+## Concurrencia
+
+[Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
+Poner a un trozo de código a correr en su propia hebra de ejecución es sencillo:
+```
+    let handle =  thread::spawn(move || {
+    
+      ../..
+    
+    });
+```
+
+La sincronización temporal entre hebras se realiza con el clásico *join*
+```
+    handle.join().unwrap();
+```
+
+El intercambio de información entre hebras se realiza transmitiendo y recibiendo a través de un canal *mpsc::channel*
+```
+use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {received}");
+}
+```
+
+Como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*.
+
+Para situaciones más complejas, existe también la posibilidad de compartir elementos entre hebras. Usando los clásicos *Mutex*:
+[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+
 
 
 ## Toolchains
@@ -882,6 +951,7 @@ Algunos comandos útiles:
 ## Notas sobre algunos aspectos concretos
 
 Aquí voy recogiendo aquello que voy estudiando o practicando...
+
 
 ### Escribir documentación
 
@@ -1140,7 +1210,9 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
-## Algo más de documentación
+
+
+## Algunos enlaces variados...
 
 Aquí voy recogiendo aquello que no veo claro dónde encajar...
 
