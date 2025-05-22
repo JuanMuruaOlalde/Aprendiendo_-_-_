@@ -30,9 +30,50 @@ As in any other language, it is very difficult to do anything serious without us
 
 #### Ownership
 
-Very important to understand it right!
+Ownership es se refiere al concepto de qué variable o parámetro es la "dueña" (owner) en cada momento de cada porción de memoria que utiliza el programa. 
+
+En Rust, ¡es vital comprenderlo bien!. 
+
+Cada porción de memoria solo puede tener una única "dueña". Por ejemplo, cuando asignamos una variable a otra o cuando pasamos una variable como parámetro a una función, la variable original ya no puede acceder a la porción de memoria a la que sí pasa a poder acceder la nueva variable/parámetro.
+
+El compilador se encarga de que sea imposible saltarse este mecanismo. Es la esencia por la que se considera Rust un lenguaje "memory safe". Cada porción de memoria se reserva cuando su primera "dueña" se crea; puede ir pasando de una a otra "dueña", pero en todo momento tiene una única "dueña" a lo largo de todo el programa; y se libera automáticamente cuando la última "dueña" conocida deja de existir.
+
+Este mecanismo es uno de los principales responsables de que Rust tenga fama de ser un lenguaje complicado de aprender. Pero una vez se domina el concepto de `Ownership` (y el de `Lifetime`), se avanza rápidamente en el aprendizaje.
+
+Un consejo: siempre, pero sobre todo en los primeros programas que escribamos, procurar leer atentamente (y de cabo a rabo) los mensajes de error que nos dé el compilador. El compilador (y el linter) de Rust son especialmente buenos en las explicaciones que dan; llegando en muchos casos hasta a proponer cómo solucionar el error que nos están reportando.
 
 [Understanding Ownership - The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+
+```
+    let s1 = String::from("hello");
+    let s2 = s1;
+
+    println!("{s1}, world!");
+```
+
+```
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/pruebas)
+error[E0382]: borrow of moved value: `s1`
+ --> src/main.rs:5:15
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{s1}, world!");
+  |               ^^^^ value borrowed here after move
+  |
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider cloning the value if the performance cost is acceptable
+  |
+3 |     let s2 = s1.clone();
+  |                ++++++++
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
+```
 
 [Ownership and Functions](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#ownership-and-functions)
 
@@ -48,6 +89,85 @@ Very important to understand it right!
 
 [RustOwl tool - Github](https://github.com/cordx56/rustowl)
 
+nota: Hay más información más adelante en este documento, en las secciones de "Ownership, Borrow-checker" y de "Lifetimes"
+
+#### struct
+
+[Using Structs to Structure Related Data - The Rust Programming Language](https://doc.rust-lang.org/book/ch05-00-structs.html)
+
+En cierta medida, los `struct` de Rust son como las clases en otros lenguajes. Pueden tener tanto propiedades (datos) como métodos (acciones).
+
+Pero no perder de vista que Rust no es un lenguaje orientado a objeto. Sino más bien un lenguaje funcional.
+
+#### trait
+
+[Traits: Defining Shared Behavior - The Rust Programming Language](https://doc.rust-lang.org/book/ch10-02-traits.html)
+
+En cierta medida, los `trait` de Rust con como los interfaces en otros lenguajes. Definen signaturas de funciones que han de implementar obligatoriamente todos aquellos `struct` que implementen el `trait`. 
+
+```
+pub trait DatosDeHuespedes {
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String>;
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String>;
+}
+```
+
+```
+pub struct HuespedesParaPruebas {
+    datos: Vec<Huesped>,
+}
+
+impl DatosDeHuespedes for HuespedesParaPruebas {
+
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
+       let huesped = self
+            .datos
+            .iter()
+            .find(|x| x.get_id_interno() == id);
+        match huesped {
+            Some(h) => Ok(h.clone()),
+            None => Err(format!(
+                "No existe huesped con id_interno {id}"
+            )),
+        }
+    }
+
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
+        let huesped = self
+            .datos
+            .iter()
+            .find(|x| x.numero_documento_id == numero_documento_id);
+        match huesped {
+            Some(h) => Ok(h.clone()),
+            None => Err(format!(
+                "No existe huesped con documento_id {numero_documento_id}"
+            )),
+        }
+    }
+    
+}
+```
+
+```
+pub struct HuespedesEnPostgreSQL {
+    ../..
+}
+
+impl DatosDeHuespedes for HuespedesEnPostgreSQL {
+
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
+        ../..
+    }
+
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
+        ../..
+    }
+    
+}
+```
+
+De esa forma, se puedan utilizar de forma intercambiable. Ayudando a cumplir con la L, la I y la D de los principios SOLID.
+ 
 
 
 ### Hands-on learning
@@ -86,29 +206,6 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 [Zero To Production in Rust - an opinionated introduction to backend development in Rust](https://www.zero2prod.com/index.html)
 
 
-#### If you like to program GUI (Graphic User Interface) based programs instead of CLI (Command Line Interface) based ones
-
-Here are some sugestions:
-
-[Are we GUI yet](https://areweguiyet.com/)
-
-[egui - an easy-to-use immediate mode GUI in pure Rust - Github repository](https://github.com/emilk/egui)
-
-[egui - Some sample code - Demo](https://www.egui.rs/#demo)
-
-[iced – A cross-platform GUI library for Rust, inspired by Elm - Github repository](https://github.com/iced-rs/iced)
-
-[Tauri - Create small, fast, secure, cross-platform applications](https://tauri.app/)
-
-[Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
-
-[Yew - A framework for creating reliable and efficient web applications](https://yew.rs/)
-
-[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
-
-[Building a Rust App With Yew! - Let's Get Rusty - Youtube](https://www.youtube.com/watch?v=KmOeFrwz8BM)
-
-
 ### some additional books and practical resources
 
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
@@ -118,6 +215,8 @@ Here are some sugestions:
 [Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
 
 [rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
+
+[The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
 
 [The rustup book](https://rust-lang.github.io/rustup/index.html)
 
@@ -607,7 +706,7 @@ Para cuando necesitamos distinguir claramente entre continuar (`Continue`) o par
 
 ## Tests
 
-Se pueden escribir directamente en cada archivo del código fuente, normalmente al fondo del mismo. El bloque de tests se marca con la anotación `#[cfg(test)]` y cada función test con la anotación `#[test]`
+Los test unitarios se pueden escribir directamente en cada archivo del código fuente, normalmente al fondo del mismo. El bloque de tests se marca con la anotación `#[cfg(test)]` y cada función test con la anotación `#[test]`
 
 ```
 pub fn add(left: u64, right: u64) -> u64 {
@@ -627,6 +726,16 @@ mod tests {
 ```
 [How to Write Tests - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch11-01-writing-tests.html)
 
+[Unit Tests](https://doc.rust-lang.org/book/ch11-03-test-organization.html#unit-tests)
+
+
+Los test de integración van en una carpeta `tests` fuera de la carpeta `src`. Desde ahí, solo pueden utilizar la parte pública del código funcional.
+
+[Integration Tests](https://doc.rust-lang.org/book/ch11-03-test-organization.html#integration-tests)
+
+Los ejemplos incluidos en la documentación también pueden actuar como tests. Es decir, se ejecutan cada vez se lanza `cargo test`. Así se comprueba que funcionan correctamente y, por tanto, siguen siendo ejemplos válidos.
+
+[Documentation Comments as Tests](https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#documentation-comments-as-tests)
 
 
 ## Lifetimes
@@ -790,6 +899,10 @@ Algunos comandos útiles:
 
 ### utilidades generales
 
+[chrono - dates and times in the proleptic Gregorian calendar](https://docs.rs/chrono/latest/chrono/)
+
+[uuid - Generate and parse universally unique identifiers (UUIDs)](https://docs.rs/uuid/latest/uuid/)
+
 [regex - Regular Expressions](https://docs.rs/regex/latest/regex/)
 
 [anyhow - a trait object based error type for easy idiomatic error handling](https://docs.rs/anyhow/latest/anyhow/)
@@ -868,6 +981,15 @@ Algunos comandos útiles:
 [slint - declarative GUI for Rust, C++, JavaScript & Python](https://slint.dev/)
 
 [slint - youtube tutorial](https://www.youtube.com/watch?v=7aFgeUG9TK4)
+
+[Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
+
+[Yew - A framework for creating reliable and efficient web applications](https://yew.rs/)
+
+[Trunk - Build, bundle & ship your Rust WASM application to the web](https://trunkrs.dev/)
+
+[Building a Rust App With Yew! - Let's Get Rusty - Youtube](https://www.youtube.com/watch?v=KmOeFrwz8BM)
+
 
 ### web - networking
 
@@ -1295,6 +1417,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Top 5 deadly Rust anti-patterns to avoid - YouTube](https://www.youtube.com/watch?v=SWwTD2neodE)
 
 [Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
+
+[Rust for Beginners](https://www.youtube.com/playlist?list=PLptbpfKzsc3AGAZKEAgozrcetsCHQj2Rq)
 
 [C++ RAII vs Rust OBRM - Part 1](https://www.youtube.com/watch?v=AnFaf-L_DfE) RAII (Resource Adquisition Is Initialization) vs OBRM (Ownership Based Resource Management) [C++ RAII vs Rust OBRM - Part 2](https://www.youtube.com/watch?v=7EcNkr6KFy0)
 
