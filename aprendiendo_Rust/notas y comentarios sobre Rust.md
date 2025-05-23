@@ -298,7 +298,9 @@ nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios
 
 ## Strong typed
 
-https://doc.rust-lang.org/book/ch03-02-data-types.html
+[Data Types](https://doc.rust-lang.org/book/ch03-02-data-types.html)
+
+[Advanced Data Types](https://doc.rust-lang.org/book/ch20-03-advanced-types.html)
 
 Rust es un lenguaje "fuertemente tipado". El compilador se encarga de revisar el uso de valores del tipo adecuado en todo momento.
 
@@ -901,9 +903,15 @@ Algunos comandos útiles:
 
 [chrono - dates and times in the proleptic Gregorian calendar](https://docs.rs/chrono/latest/chrono/)
 
+[num_format - producing string representations of numbers](https://docs.rs/num-format/latest/num_format/)
+
+[json - parse and serialize JSON with ease](https://docs.rs/json/latest/json/)
+
 [uuid - Generate and parse universally unique identifiers (UUIDs)](https://docs.rs/uuid/latest/uuid/)
 
 [regex - Regular Expressions](https://docs.rs/regex/latest/regex/)
+
+[mockall - tools to create mock versions of almost any trait or struct](https://docs.rs/mockall/latest/mockall/)
 
 [anyhow - a trait object based error type for easy idiomatic error handling](https://docs.rs/anyhow/latest/anyhow/)
 
@@ -919,15 +927,9 @@ Algunos comandos útiles:
 
 [serde - documentation](https://serde.rs/)
 
-[num_format - producing string representations of numbers](https://docs.rs/num-format/latest/num_format/)
-
-[json - parse and serialize JSON with ease](https://docs.rs/json/latest/json/)
-
 [base64 - decoding and encoding](https://docs.rs/base64/latest/base64/)
 
 [bincode - a tiny binary serialization strategy](https://docs.rs/bincode/latest/bincode/)
-
-[chrono - operations on dates and times](https://docs.rs/chrono/latest/chrono/)
 
 [plotters - drawing library designed for rendering figures, plots, and charts](https://docs.rs/plotters/latest/plotters/)
 
@@ -1073,6 +1075,20 @@ Algunos comandos útiles:
 ## Notas sobre algunos aspectos concretos
 
 Aquí voy recogiendo aquello que voy estudiando o practicando...
+
+
+### Organizar el código
+
+[Master hexagonal architecture in Rust - How To Code It](https://www.howtocodeit.com/articles/master-hexagonal-architecture-rust)
+
+[Mastering Dependency Injection in Rust: Crafting a Custom Container](https://chesedo.me/blog/manual-dependency-injection-rust/)
+
+[Using Trait Objects That Allow for Values of Different Types](https://doc.rust-lang.org/book/ch18-02-trait-objects.html)
+The advantage of using trait objects and Rust’s type system to write code similar to *code using duck typing* is that we never have to check whether a value implements a particular method at runtime or worry about getting errors if a value doesn’t implement a method but we call it anyway. Rust won’t compile our code if the values don’t implement the traits that the trait objects need.
+
+[Implementing an Object-Oriented Design Pattern: the state pattern](https://doc.rust-lang.org/book/ch18-03-oo-design-patterns.html)
+
+[Functional Language Features: Iterators and Closures](https://doc.rust-lang.org/book/ch13-00-functional-features.html)
 
 
 ### Escribir documentación
@@ -1400,17 +1416,25 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 ### some assorted resources
 
+[Rust for Rustaceans by Jon Gjengset](https://rust-for-rustaceans.com/)
+
+[Learn to code anything in Rust - How To Code It](https://www.howtocodeit.com/)
+
+[The ultimate guide to Rust newtypes](https://www.howtocodeit.com/articles/ultimate-guide-rust-newtypes)
+
+[Using unwrap() in Rust is Okay](https://burntsushi.net/unwrap/)
+
 [Why Rust?](https://rerun.io/blog/why-rust)
 
 [EuroRust event](https://www.youtube.com/@eurorust)
+
+[Rust Nederland (RustNL) - Youtube channel](https://www.youtube.com/@rustnederlandrustnl/featured)
 
 [The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
 
 [Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
 
 [Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
-
-[Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty/featured)
 
 [8 deadly mistakes beginner Rust developers make - YouTube](https://www.youtube.com/watch?v=PbR4ECFIckg)
 
@@ -1441,6 +1465,4 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [UUID v7 vs. v4 + Rust Programming Examples](https://www.youtube.com/watch?v=zIebRwU0FOw&list=PL7r-PXl6ZPcCIOFaL7nVHXZvBmHNhrh_Q&index=3)
 
 [RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)
-
-[Rust Nederland (RustNL) - Youtube channel](https://www.youtube.com/@rustnederlandrustnl/featured)
 
