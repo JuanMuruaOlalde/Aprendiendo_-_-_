@@ -757,9 +757,15 @@ Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al
 
 [Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
 
-Podemos pensar en los "trait" de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. 
+Podemos pensar en los `trait` de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. 
 
-De esta forma, distintos `struct` que implementen (`impl`) un "trait" concreto pueden utilizarse como si fueran todos del mismo tipo. (Obviamente, en los casos en que se utilizan las funciones del "trait" y no otras funciones particulares que pueda tener además cada `struct`.)
+Es decir, los `struct` que implementen (`impl`) un `trait` concreto han de tener todas esas funciones, justo con esas signaturas concretas. Cada `struct` puede implementar internamente cada función como  desee, pero respetando su signatura. Y las ha de implementar todas (si no el código no se compilará)
+
+Se podria decir que los "trait" definen tareas que se han de realizar; mientras que sus implementaciones deciden cómo se van a llevar a cabo esas tareas.
+
+[Trait objects](https://doc.rust-lang.org/reference/types/trait-object.html)
+
+A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que implemente varios `trait`. Es decir, que tenga todas las funciones requeridas por todos los `trait` que se indiquen.)
 
 ## Slices
 
@@ -1049,6 +1055,8 @@ Algunos comandos útiles:
 
 [embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
 
+[embassy - the next-generation framework for embedded applications](https://embassy.dev/)
+
 [rtic - Real-Time Interrupt-driven Concurrency](https://github.com/rtic-rs/rtic)
 
 [pnets - a framework for manipulating Petri nets](https://docs.rs/pnets/latest/pnets/)
@@ -1085,6 +1093,8 @@ Aquí voy recogiendo aquello que voy estudiando o practicando...
 
 [Using Trait Objects That Allow for Values of Different Types](https://doc.rust-lang.org/book/ch18-02-trait-objects.html)
 The advantage of using trait objects and Rust’s type system to write code similar to *code using duck typing* is that we never have to check whether a value implements a particular method at runtime or worry about getting errors if a value doesn’t implement a method but we call it anyway. Rust won’t compile our code if the values don’t implement the traits that the trait objects need.
+
+[Dependency Injection in Rust: The Pragmatic Guide](https://medium.com/@adamszpilewicz/dependency-injection-in-rust-the-pragmatic-guide-4f0ec82fb9ec)
 
 [Implementing an Object-Oriented Design Pattern: the state pattern](https://doc.rust-lang.org/book/ch18-03-oo-design-patterns.html)
 
