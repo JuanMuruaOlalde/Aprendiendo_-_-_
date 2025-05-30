@@ -8,3 +8,4 @@
 
 [aprendiendo_ConcurrenteParaleloDistribuido - propuestas_de_ejercicios / Banco](https://github.com/JuanMuruaOlalde/aprendiendo_ConcurrenteParaleloDistribuido/tree/main/propuestas_de_ejercicios/Banco/muestras%20de%20posibles%20soluciones/en%20Rust/banco)
 
+[Hotel-Rust](https://github.com/JuanMuruaOlalde/Hotel-Rust)
