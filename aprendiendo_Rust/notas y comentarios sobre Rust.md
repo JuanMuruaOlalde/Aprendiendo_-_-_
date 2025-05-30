@@ -1118,6 +1118,8 @@ Generics or dynamic Trait Objects are for flexibility
 
 [Mastering Dependency Injection in Rust: Crafting a Custom Container](https://chesedo.me/blog/manual-dependency-injection-rust/)
 
+[Dependency Injection via Traits and Generics in Rust](https://softwarepatternslexicon.com/patterns-rust/6/7/)
+
 [Using Trait Objects That Allow for Values of Different Types](https://doc.rust-lang.org/book/ch18-02-trait-objects.html)
 The advantage of using trait objects and Rust’s type system to write code similar to *code using duck typing* is that we never have to check whether a value implements a particular method at runtime or worry about getting errors if a value doesn’t implement a method but we call it anyway. Rust won’t compile our code if the values don’t implement the traits that the trait objects need.
 
@@ -1126,6 +1128,8 @@ The advantage of using trait objects and Rust’s type system to write code simi
 [Implementing an Object-Oriented Design Pattern: the state pattern](https://doc.rust-lang.org/book/ch18-03-oo-design-patterns.html)
 
 [Functional Language Features: Iterators and Closures](https://doc.rust-lang.org/book/ch13-00-functional-features.html)
+
+[Design Patterns in Rust](https://softwarepatternslexicon.com/patterns-rust/1/)
 
 
 ### Escribir documentación
@@ -1502,4 +1506,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [UUID v7 vs. v4 + Rust Programming Examples](https://www.youtube.com/watch?v=zIebRwU0FOw&list=PL7r-PXl6ZPcCIOFaL7nVHXZvBmHNhrh_Q&index=3)
 
 [RSTY stack - Build your entire tech stack in Rust](https://youtu.be/luOgEhLE2sg)
+
+[How do I create a global, mutable singleton? - StackOverflow](https://stackoverflow.com/questions/27791532/how-do-i-create-a-global-mutable-singleton)
+
+[MariaDB - Writing User-Defined Functions in Rust](https://mariadb.org/writing-user-defined-functions-in-rust/)
 
