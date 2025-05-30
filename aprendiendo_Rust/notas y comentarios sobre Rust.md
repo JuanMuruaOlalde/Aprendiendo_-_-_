@@ -208,6 +208,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 ### some additional books and practical resources
 
+[Rust Crash Course - Tutorial for Beginners](https://www.youtube.com/playlist?list=PLPoSdR46FgI412aItyJhj2bF66cudB6Qs)
+
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
 
 [The Dev Method - Youtube channel](https://www.youtube.com/@TheDevMethod)
@@ -246,6 +248,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 [The magic of Rust's type system - Youtube](https://www.youtube.com/watch?v=NDIU1GSBrVI)
 
 [Learning Rust: Memory, Ownership and Borrowing - Youtube](https://www.youtube.com/watch?v=8M0QfLUDaaA)
+
+[Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
 [Why Rust?](https://rerun.io/blog/why-rust)
 
@@ -364,6 +368,14 @@ https://doc.rust-lang.org/book/ch08-02-strings.html#bytes-and-scalar-values-and-
 
 
 ### Un consejo: definir tipos específicos para (casi) todo
+
+Lo que en Rust se conoce como 'Newtype Pattern' y similares.
+
+[New Type Idiom](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
+
+[Advanced Types](https://doc.rust-lang.org/book/ch20-03-advanced-types.html)
+
+[NewType Pattern](https://rust-unofficial.github.io/patterns/patterns/behavioural/newtype.html)
 
 Una vez acostumbrados al tipado fuerte del propio lenguaje. Podemos ir más allá y definir tipos específicos para nuestra aplicación, usando `struct`. 
 
@@ -740,6 +752,11 @@ Los ejemplos incluidos en la documentación también pueden actuar como tests. E
 [Documentation Comments as Tests](https://doc.rust-lang.org/book/ch14-02-publishing-to-crates-io.html#documentation-comments-as-tests)
 
 
+Resumiendo, en Rust existen tres tipos de tests:
+- Unitarios: dentro de cada archivo `.rs` del código fuente.
+- Integración: en carpeta `tests` colgando de la raiz del proyecto.
+- Documentación: los ejemplos de código puestos en la documentación.
+
 ## Lifetimes
 
 [Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
@@ -800,7 +817,7 @@ Rust trabaja con formas propias de un lenguaje funcional al tratar con coleccion
 [Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
 
-## Concurrencia
+## Concurrency
 
 [Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 
@@ -908,6 +925,8 @@ Algunos comandos útiles:
 ### utilidades generales
 
 [chrono - dates and times in the proleptic Gregorian calendar](https://docs.rs/chrono/latest/chrono/)
+
+[dotenv - a configuration loader that loads environment variables from a .env file](https://docs.rs/dotenv/latest/dotenv/)
 
 [num_format - producing string representations of numbers](https://docs.rs/num-format/latest/num_format/)
 
@@ -1028,13 +1047,11 @@ Algunos comandos útiles:
 
 [Diesel- a Safe, Extensible ORM and Query Builder](https://diesel.rs/)
 
-[sqlx - The async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
+[sqlx - the async SQL toolkit for Rust](https://docs.rs/sqlx/latest/sqlx/index.html)
 
-[sqlx - database drivers](https://docs.rs/sqlx/latest/sqlx/database/index.html)
+[sqlx - usage tips](https://github.com/launchbadge/sqlx#usage)
 
-[sqlx - Dataform SQLX](https://sqlx.dev/)
-
-[tokio_postgres - An asynchronous, pipelined, PostgreSQL client](https://docs.rs/tokio-postgres/latest/tokio_postgres/)
+[tokio_postgres - an asynchronous, pipelined, PostgreSQL client](https://docs.rs/tokio-postgres/latest/tokio_postgres/)
 
 
 
@@ -1080,12 +1097,22 @@ Algunos comandos útiles:
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
 
-## Notas sobre algunos aspectos concretos
+## Algunas notas sobre algunos aspectos concretos
 
 Aquí voy recogiendo aquello que voy estudiando o practicando...
 
 
 ### Organizar el código
+
+Modules (`mod`) allow to put each thing in it's own folder/file.
+
+Traits (`trait`) are for abstraction
+
+Structs (`struct`) are for composition
+
+Generics or dynamic Trait Objects are for flexibility
+- Generics (`<T>`) in compile time.
+- Dynamic (`dyn`) in runtime. 
 
 [Master hexagonal architecture in Rust - How To Code It](https://www.howtocodeit.com/articles/master-hexagonal-architecture-rust)
 
