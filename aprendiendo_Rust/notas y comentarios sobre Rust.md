@@ -1389,6 +1389,52 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
+### Asincronía
+
+Las llamadas asíncronas (llamar a una función y continuar sin esperar a su resultado) se suelen utilizar allá donde la tarea la lleve un solo hilo de ejecución y se necesite no bloquearlo. 
+
+Pero esta asincronía entre la petición y la respuesta:
+ 
+- Hace complicado el mantenimiento estricto de estado entre distintas peticiones relacionadas. (Estado: información interna concerniente a una determinada tarea o cliente).
+
+- Hace complicado garantizar el orden de respuesta a las distintas peticiones. Es decir, no se puede tener un control estricto de lo que sucede y cuándo sucede.
+
+De ahí que la asincronía se tienda a utilizar junto con arquitecturas donde cada petición pueda tener una respuesta independiente (stateless architecture).
+
+Por otro lado, comentar que una vez se hace una llamada asíncrona en algún punto del código, es obligatorio llevar a asincronía hasta el origen. Es decir, no se pueden mezclar partes síncronas y partes asíncronas en una misma operación. Por ejemplo, si al pulsar un botón en el interfaz de usuario se desencadena una acción que al final requiere realizar una llamada asíncrona a una API para solicitar datos; aunque el .await esté en la llamada a la API, toda la cadena (vista -> controlador -> modelo -> API -> modelo -> controlador -> vista) acabarán siendo funciones asíncronas.
+
+> Podria decirse que la asíncronicidad es "contagiosa". Un proceso asíncrono lleva a que otro que lo utiliza también deba ser asíncrono. Y, muchas veces, al final acaba obligando a que más y más procesos sean asíncronos. Hasta que todo el sistema acaba teniendo una arquitectura asíncrona.
+
+La gran ventaja de las arquitecturas asíncronas es que escalan muy bien (horizontalmente). Por ello, a no ser que nuestra aplicación demande ser síncrona por algo (por ejemplo, por necesidad de garantizar transacciones complejas o de garantizar un orden exacto de ejecución de largos procesos), suele merecer la pena tener una arquitectura asíncrona. Sobre todo si hay involucradas tareas que requieran de mucho trabajo a la CPU (grandes cálculos) o tareas con un fuerte componente I/O (como por ejemplo acceder a grandes archivos en el disco o acceder a servidores en la red).
+
+> La única pega es que, al igual que con sus primas la concurrencia, el paralelismo y la distribución. Con la asíncronia se complica bastante la escritura y depuración del código.
+
+¡importante!
+
+Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
+
+`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, mientras tanto, la ejecución del código principal sigue adelante). Es decir, en el fondo `await` es como si creara un 'callback' que entrega a la función para que esta pueda avisar cuando termine de tener el resultado (y, en ese momento futuro, retomar el tema que había quedado "pendiente" en ese punto). 
+
+> Probablemente hubiera sido mejor haber usado como palabra clave `defer` (deferred) o algo similar... ;-)
+
+
+[Asynchronous Programming in Rust book](https://rust-lang.github.io/async-book/)
+
+[async-std book](https://book.async.rs/)
+
+[Crate future_by_example](https://docs.rs/future-by-example/latest/future_by_example/)
+
+[Crate futures](https://docs.rs/futures/latest/futures/index.html)
+
+[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
+
+
+### sqlx - acceso a bases de datos
+
+[Why Use a Pool?](https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#why-use-a-pool)
+
+[Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
 
 
 ## Algunos enlaces variados...
