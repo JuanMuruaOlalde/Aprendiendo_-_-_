@@ -72,6 +72,44 @@ Los tres grandes peligros:
 - Las INFORMACIONES NO VÁLIDAS: algo que se ha leido y se trabaja de acuerdo a lo leido; sin darse cuenta de que poco después de la lectura otro hilo ha modificado ese algo, invalidando el trabajo que se está realizando con la información anticuada.
 
 
+
+### Asincronía
+
+Las llamadas asíncronas (llamar a una función y continuar sin esperar a su resultado) se suelen utilizar allá donde la tarea la lleve un solo hilo de ejecución y se necesite no bloquearlo. 
+
+Pero esta asincronía entre la petición y la respuesta:
+ 
+- Hace complicado el mantenimiento estricto de estado entre distintas peticiones relacionadas. (Estado: información interna concerniente a una determinada tarea o cliente).
+
+- Hace complicado garantizar el orden de respuesta a las distintas peticiones. Es decir, no se puede tener un control estricto de lo que sucede y cuándo sucede.
+
+De ahí que la asincronía se tienda a utilizar junto con arquitecturas donde cada petición pueda tener una respuesta independiente (stateless architecture).
+
+Por otro lado, comentar que una vez se hace una llamada asíncrona en algún punto del código, es obligatorio llevar a asincronía hasta el origen. Es decir, no se pueden mezclar partes síncronas y partes asíncronas en una misma operación. Por ejemplo, si al pulsar un botón en el interfaz de usuario se desencadena una acción que al final requiere realizar una llamada asíncrona a una API para solicitar datos; aunque el .await esté en la llamada a la API, toda la cadena de vuelta (API -> modelo -> controlador -> vista) acabarán siendo funciones asíncronas (requiendo que la vista tenga también capacidad de atender y cerrar la cadena asíncrona).
+
+> Podria decirse que la asíncronicidad es "contagiosa". Un proceso asíncrono lleva a que otro que lo utiliza también deba ser asíncrono. Y, muchas veces, al final acaba obligando a que más y más procesos sean asíncronos. Hasta que todo el sistema acaba teniendo una arquitectura asíncrona.
+
+La gran ventaja de las arquitecturas asíncronas es que aprovechan mejor los recursos (no desperdician ciclos de CPU) y que escalan muy bien (horizontalmente). Suele merecer la pena tener una arquitectura asíncrona (o una concurrente). Sobre todo si hay involucradas tareas que requieran esperar a mucho trabajo de la CPU (grandes cálculos) o esperar a tareas con un fuerte componente I/O (como por ejemplo acceder a servidores en la red).
+
+> La única pega es que, al igual que con sus primas la concurrencia, el paralelismo y la distribución. Con la asíncronia se complica bastante la escritura y depuración del código.
+
+> Tampoco hay que perder de vista que todas esas técnicas de delegación o de reparto de trabajos no son compatibles con ciertos tipos de tareas. Por ejemplo, todas aquellas que necesiten garantizar un orden exacto de ejecución (tareas [deterministas](https://en.wikipedia.org/wiki/Deterministic_algorithm)) o completar transacciones encadenadas involucrando diversos sistemas (tareas [ACID](https://en.wikipedia.org/wiki/ACID)).
+
+¡importante!
+
+Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
+
+`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, la procesaremos entonces). Mientras tanto, la ejecución del código principal sigue adelante. 
+
+Es decir, en el fondo `await` es crea un 'callback' que entrega a la función llamada para que esta pueda avisar cuando termine de tener el resultado. En ese momento futuro, el punto que ha inciado el "awaiting" es retrollamado ('callback') para que pueda retomar el tema que había quedado pendiente. 
+
+> `await` no es "me quedo esperando aquí", sino más bien "lo dejo para luego, avisame cuando lo tengas" ;-)
+
+
+[Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
+
+[Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
 ## Algunas consideraciones prácticas para repartir tareas con Procesos
 
 - **Proceso** : cada espacio aislado donde se está ejecutando un determinado programa independiente.
@@ -185,167 +223,53 @@ Por ejemplo, en Java tenemos:
 - [mecanismos de bloqueo base](https://docs.oracle.com/en/java/javase/22/docs/api/java.base/java/util/concurrent/locks/package-summary.html), tales como los cerrojos (locks).
 
 
-## apéndices
+## apéndice
 
-### expresiones `Lambda`
+### algunos enlaces variados
 
-Las expresiones Lambda son una forma abreviada de escribir una función.
+[Some posts about to the fallacies of distributed systems](https://particular.net/blog/topics/fallacies)
 
-En lugar de
-````
-Integer Sumar(Integer a, Integer b) {
-    return a + b;
-}
-````
-Podemos escribir
-````
-(Integer a, Integer b) -> { a + b }
-````
-O incluso, en algunas ocasiones, podriamos escribir
-````
-(a, b) -> { a + b }
-````
+[Some videos about to the fallacies of distributed systems](https://www.youtube.com/watch?v=8fRzZtJ_SLk&list=PL1DZqeVwRLnD3EjyciYAO82dT9Owiq8I5)
 
-Es muy útil sobre todo cuando vamos a pasar una función como argumento a otra función.
+[Some posts related to architecture of distributed systems](https://particular.net/blog/topics/architecture)
 
-Por ejemplo, en la documentación de Oracle (https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html) aparece que después de
-````
-public class Person {
+[Fundamentals of Asynchronous Programming in Rust: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
 
-    public enum Sex {
-        MALE, FEMALE
-    }
-
-    String name;
-    LocalDate birthday;
-    Sex gender;
-    String emailAddress;
-
-    public int getAge() {
-        // ...
-    }
-
-    public void printPerson() {
-        // ...
-    }
-}
-
- ../..
-
-interface CheckPerson {
-    boolean test(Person p);
-}
-
- ../..
-
-public static void printPersons(List<Person> roster, CheckPerson tester) {
-    for (Person p : roster) {
-        if (tester.test(p)) {
-            p.printPerson();
-        }
-    }
-}
-
- ../..
-
-````
-podemos escribir
-````
- ../..
-
-printPersons(
-    listaDeGente,
-    (Person x) -> {
-        x.getGender() == Person.Sex.MALE
-        && x.getAge() >= 18
-        && x.getAge() <= 25
-    }
-);
-````
-en lugar de
-````
-class CheckPersonEligibleForSelectiveService implements CheckPerson {
-    public boolean test(Person x) {
-        return x.gender == Person.Sex.MALE &&
-            x.getAge() >= 18 &&
-            x.getAge() <= 25;
-    }
-}
-
- ../..
- 
-printPersons(
-    listaDeGente, new CheckPersonEligibleForSelectiveService());
-````
-
-Las expresiones Lambda son muy utiles si las utilizamos junto con las modernas construcciones inspiradas en lenguajes funcionales. Por ejemplo, en las últimas versiones de Java es posible escribir cosas como esta:
-````
-listaDeGente
-    .stream()
-    .filter(
-        x -> x.getGender() == Person.Sex.MALE
-            && x.getAge() >= 18
-            && x.getAge() <= 25)
-    .map(y -> y.getEmailAddress())
-    .forEach(email -> System.out.println(email));
-````
-Primero filtramos la lista de gente, luego extraemos otra lista con las direcciones de correo de esa gente filtrada y, finalmente, escribimos dichas direcciones en la consola.
-
-### variables de tipo `Optional`
-
-Las variables de tipo `java.util.Optional<T>` pueden contener un valor o nada (estar vacias)
-
-El uso de este tipo de variables en Java es un poco artificioso... (tenemos que preocuparnos nosotros de usar .ifPresentOrElse() o métodos similares para acceder al valor)
-
-(https://docs.oracle.com/en/java/javase/20/docs/api/java.base/java/util/Optional.html)
-
-Por ejemplo, es más claro en Rust... (con variables de tipo `Option<T>` el compilador nos obliga siempre a tratar el caso de `Some<T>` o el de `None`)
-
-(https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
-
-(https://doc.rust-lang.org/book/ch06-02-match.html)
-
-(https://doc.rust-lang.org/book/ch06-02-match.html?highlight=Option#matching-with-optiont)
-
-(https://doc.rust-lang.org/book/ch06-03-if-let.html)
-
-### el patrón `Decorator`
-
-#### qué es un patrón?
-
-Un patrón de programación es la descripción detallada de un elemento software que resuelve un problema de aparición frecuente en la construcción de programas. 
-
-Cuando uno se encuentra repetidamente con un tipo de tarea concreta. Conviene anotar y documentar la solución implementada; para evitar tener que reinventarla la próxima vez que surja.
-
-Si esa anotación es compartida y refinada por muchas personas a lo largo del tiempo... Llega a convertirse en un patrón que recoge la mejor manera de solucionar esa tarea concreta.
-
-Hay variados libros sobre el tema, pero el primero que se popularizó fue el de "la banda de los cuatro" (GoF, Gang of Four) (Erich Gamma, Richard Helm, Ralph Johnson y John Vlissides).
-
-Según ellos, un patrón se compone de:
-
-- Un nombre, algo fácil de recordar y de citar cuando deseamos referirnos al patrón.
-
-- Una descripción del problema y del contexto en que suele surgir.
-
-- Una descripción de la solución.
-
-- Una descripción de las consecuencias derivadas de aplicar la solución en diferentes contextos.
-
-#### el patrón `Decorator` (también llamado `Wrapper`)
-
-Se trata de colocar un objeto, con una cierta interface (unos métodos a los que llamar), para utilizar otro u otros objetos que quedan "camuflados" tras ese objeto 'Decorator'.
-
-Hay varias variantes especializadas del patrón 'Decorator':
-
-- 'Adapter': cuando su misión es compatibilizar interfaces que a priori no son compatibles con el uso que se le quiere dar.
-
-- 'Façade': cuando su misión es simplificar interfaces, ocultando partes que no se van a usar.
-
-- 'Proxy': cuando su misión es facilitar el uso de interfaces complejos, simplificando parte del trabajo necesario para usarlos.
-
-- 'Decorator': cuando su misión es extender un interface con más métodos de los que tiene, o cuando su misión es agrupar varios interfaces creando para ellos un solo interface común.
+[Fearless Concurrency in Rust](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 
 
-[Refactoring guru - Design Patterns - Decorator](https://refactoring.guru/design-patterns/decorator)
+### un ejemplo sobre el que pensar...
 
-[Decorator sample in Java](https://refactoring.guru/design-patterns/decorator/java/example#lang-features)
+Por ejemplo, una transferencia de dinero entre dos cuentas bancarias.
+
+Realizada garantizando ACID y tratando los saldos de ambas cuentas como recursos exclusivos:
+- Se bloquean los saldos de A y de B
+- Se lee el saldo de A y, si hay saldo suficiente, se le resta la cantidad a transferir.
+- Se suma a B la cantidad a transferir.
+- Si todas las operaciones han sido correctas, se liberan los dos bloqueos. 
+
+Si alguna operación ha tenido problemas, se dejan los dos saldos tal como estaban antes de intentar la transferencia, se avisa al usuario y se liberan los bloqueos.
+
+Realizada como tarea cooperativa entre procesos que manipulan saldos:
+- Se anota en una cola la operación de transferir una cantidad de A a B
+- Cuando un proceso que manipula saldos recupera esa operación de transferencia de la cola. Lee/comprueba/resta la cantidad del saldo de A y anota en la cola una nueva operación de ingresar en B esa cantidad. Si A no tiene saldo suficiente (si falla la lectura/comprobación/resta), devuelve a la cola la operación de transferencia.
+- Cuando un proceso que manipula saldos recupera la operación de ingreso de la cola. Realiza el ingreso en B.
+
+nota: 
+
+En la primera de las formas, pensar en cómo puede afectar la sobrecarga de trabajo bloqueo-transaccional en un sistema que ha de procesar transferencias de millones de clientes por segundo. (Un millón de transferencias por segundo implica que cada una se ha de completar en menos de 1 microsegundo.)
+
+Pensar también en los posibles estorbos entre procesos paralelos. (Por ejemplo, uno intentando transferir de A a B, bloquea a otro intentando transferir de A o de B a C) 
+
+nota: 
+
+En la segunda de las formas, pensar en qué sucede cuando un cliente quiere saber su saldo en un momento dado. (El sistema ha de consultar el saldo, más todas las operaciones pendientes en la cola para esa cuenta. Realmente se tendria que comunicar el saldo en tres partes: lo que hay consolidado, lo que está pendiente de sacar y lo que está pendiente de ingresar.) 
+Pensar también cómo se decidirá si permitir o no al cliente realizar una cierta operación en función de esas tres partes (¿Cuánto de la diferencia positiva entre pendiente de ingresar y pendiente de sacar se le permite utilizar?)
+
+Pensar también en las implicaciones en un sistema que ha de procesar transferencias de millones de clientes por segundo. (Anotar en una cola es rápido, múltiples procesos independientes pueden ir anotando rápidamente sin estorbarse unos a otros) (Leer de una cola es rápido, se pueden disponer múltiples procesos independientes para ir recuperando de la cola y realizando las operaciones.) (Pero realizar consultas/chequeos/consolidación de saldos en cada cuenta es costoso y solo puede realizarse de cuando en cuando; ¿cuántas operaciones sin procesar aún pueden llegar a anotarse para una misma cuenta ?)
+
+conclusión: 
+
+Todo en esta vida es un compromiso. Lo que mejora unos aspectos, suele fastidiar otros. De ahí la importancia de escoger la arquitectura y los algoritmos más adecuados para según que aspectos deseemos priorizar.....
+
+Por ejemplo. En un sistema con "pocas" transferencias (o con enormes recursos ultrarápidos de procesamiento) la manera más rentable de proceder es la primera. En un sistema con transferencias "a escala Internet" (y con buenos recursos financieros para compensar posibles problemas derivados de la falta de integridad ACID) la manera más rentable de proceder es la segunda.
