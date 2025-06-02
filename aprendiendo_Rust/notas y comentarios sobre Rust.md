@@ -1422,15 +1422,20 @@ Es decir, en el fondo `await` es crea un 'callback' que entrega a la función ll
 > `await` no es "me quedo esperando aquí", sino más bien "lo dejo para luego, avisame cuando lo tengas" ;-)
 
 
-[Asynchronous Programming in Rust book](https://rust-lang.github.io/async-book/)
+[Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
 
-[async-std book](https://book.async.rs/)
+[Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
+[Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/)
+
+[Async programming in Rust with async-std](https://book.async.rs/)
+
+[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
 
 [Crate future_by_example](https://docs.rs/future-by-example/latest/future_by_example/)
 
 [Crate futures](https://docs.rs/futures/latest/futures/index.html)
 
-[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
 
 
 ### sqlx - acceso a bases de datos
