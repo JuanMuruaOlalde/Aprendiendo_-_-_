@@ -191,6 +191,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [GitHub - rust-lang-rustlings- 🦀 ](https://github.com/rust-lang/rustlings)Small exercises to get you used to reading and writing Rust code!
 
+[Rust for Rustaceans by Jon Gjengset](https://rust-for-rustaceans.com/)
+
 [A half-hour to learn Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust)
 
 [Getting started with Rust. A brief Introduction to the language - YouTube](https://www.youtube.com/watch?v=4q3Z5RBX7hQ)
@@ -202,8 +204,6 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 [google-comprehensive-rust-](https://github.com/google/comprehensive-rust) This is the Rust course used by the Android team at Google. The course covers all aspects of Rust, from basic syntax to generics and error handling. It also includes deep dives on Android, Chromium, bare-metal, and concurrency. [Syllabus](https://google.github.io/comprehensive-rust/)
 
 [Practical Rust Web Development](https://dev.to/werner/practical-rust-web-development-api-rest-29g1)
-
-[Zero To Production in Rust - an opinionated introduction to backend development in Rust](https://www.zero2prod.com/index.html)
 
 
 ### some additional books and practical resources
@@ -294,6 +294,10 @@ Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por pri
 Hablando en terminologia C: solo puede existir un único puntero de escritura a cada trozo de memoria reservado.
 
 Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Cosa que puede resultar algo frustrante al principio. Pero, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura del código más clara y lógica de la que habíamos pensado en un primer momento.
+
+[Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
+
+[Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
 
 nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional. Pasando valores y devolviendo resultados, en lugar de modificar variables.
 
@@ -783,6 +787,8 @@ Se podria decir que los "trait" definen tareas que se han de realizar; mientras 
 [Trait objects](https://doc.rust-lang.org/reference/types/trait-object.html)
 
 A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que implemente varios `trait`. Es decir, que tenga todas las funciones requeridas por todos los `trait` que se indiquen.)
+
+[Traits as Parameters](https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters)
 
 ## Slices
 
@@ -1411,6 +1417,8 @@ La gran ventaja de las arquitecturas asíncronas es que aprovechan mejor los rec
 
 > Tampoco hay que perder de vista que todas esas técnicas de delegación o de reparto de trabajos no son compatibles con ciertos tipos de tareas. Por ejemplo, todas aquellas que necesiten garantizar un orden exacto de ejecución (tareas [deterministas](https://en.wikipedia.org/wiki/Deterministic_algorithm)) o completar transacciones encadenadas involucrando diversos sistemas (tareas [ACID](https://en.wikipedia.org/wiki/ACID)).
 
+nota: más información en [Concurrente, Paralelo, Distribuido](https://github.com/JuanMuruaOlalde/Aprendiendo_-_-_/blob/main/aprendiendo_ConcurrenteParaleloDistribuido/Concurrente%20-%20Paralelo%20-%20Distribuido.md)
+
 ¡importante!
 
 Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
@@ -1428,14 +1436,38 @@ Es decir, en el fondo `await` es crea un 'callback' que entrega a la función ll
 
 [Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/)
 
-[Async programming in Rust with async-std](https://book.async.rs/)
-
-[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
-
 [Crate future_by_example](https://docs.rs/future-by-example/latest/future_by_example/)
 
 [Crate futures](https://docs.rs/futures/latest/futures/index.html)
 
+
+#### `main` function and `test` functions
+
+The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async.
+
+The reason main can’t be marked async is that async code needs a runtime: a Rust crate that manages the details of executing asynchronous code. A program’s main function can initialize a runtime, but it’s not a runtime itself. (We’ll see more about why this is the case in a bit.) Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures.
+
+Most languages that support async bundle a runtime, but Rust does not. Instead, there are many different async runtimes available, each of which makes different tradeoffs suitable to the use case it targets. For example, a high-throughput web server with many CPU cores and a large amount of RAM has very different needs than a microcontroller with a single core, a small amount of RAM, and no heap allocation ability. The crates that provide those runtimes also often supply async versions of common functionality such as file or network I/O.
+
+[Async programming in Rust with async-std](https://book.async.rs/)
+
+[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
+
+Each await point—that is, every place where the code uses the await keyword—represents a place where control is handed back to the runtime. To make that work, Rust needs to keep track of the state involved in the async block so that the runtime can kick off some other work and then come back when it’s ready to try advancing the first one again. This is an invisible state machine, as if you’d written an enum like this to save the current state at each await point:
+
+````
+enum PageTitleFuture<'a> {
+    Initial { url: &'a str },
+    GetAwaitPoint { url: &'a str },
+    TextAwaitPoint { response: trpl::Response },
+}
+````
+
+Writing the code to transition between each state by hand would be tedious and error-prone, however, especially when you need to add more functionality and more states to the code later. Fortunately, the Rust compiler creates and manages the state machine data structures for async code automatically. The normal borrowing and ownership rules around data structures all still apply, and happily, the compiler also handles checking those for us and provides useful error messages.
+
+Ultimately, something has to execute this state machine, and that something is a runtime. (This is why you may come across references to executors when looking into runtimes: an executor is the part of a runtime responsible for executing the async code.)
+
+Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! 
 
 
 ### sqlx - acceso a bases de datos
@@ -1443,6 +1475,10 @@ Es decir, en el fondo `await` es crea un 'callback' que entrega a la función ll
 [Why Use a Pool?](https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#why-use-a-pool)
 
 [Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
+[Attribute Macro sqlx::test](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
+[Database Tests for the Lazy - Matt Trighetti](https://mattrighetti.com/2025/02/17/rust-testing-sqlx-lazy-people)
 
 
 
@@ -1518,19 +1554,13 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [The ultimate guide to Rust newtypes](https://www.howtocodeit.com/articles/ultimate-guide-rust-newtypes)
 
+[Zero To Production In Rust - an opinionated introduction to backend development in Rust - Luca Palmieri](https://www.zero2prod.com/index.html)
+
+[Matt Trighetti's Blog](https://mattrighetti.com/)
+
 [Using unwrap() in Rust is Okay](https://burntsushi.net/unwrap/)
 
 [Why Rust?](https://rerun.io/blog/why-rust)
-
-[EuroRust event](https://www.youtube.com/@eurorust)
-
-[Rust Nederland (RustNL) - Youtube channel](https://www.youtube.com/@rustnederlandrustnl/featured)
-
-[The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
-
-[Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
-
-[Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
 
 [8 deadly mistakes beginner Rust developers make - YouTube](https://www.youtube.com/watch?v=PbR4ECFIckg)
 
@@ -1540,13 +1570,13 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust for Beginners](https://www.youtube.com/playlist?list=PLptbpfKzsc3AGAZKEAgozrcetsCHQj2Rq)
 
-[C++ RAII vs Rust OBRM - Part 1](https://www.youtube.com/watch?v=AnFaf-L_DfE) RAII (Resource Adquisition Is Initialization) vs OBRM (Ownership Based Resource Management) [C++ RAII vs Rust OBRM - Part 2](https://www.youtube.com/watch?v=7EcNkr6KFy0)
-
 [Visualizing memory layout of Rust's data types](https://www.youtube.com/watch?v=7_o-YRxf_cc)
 
 [How to Split Strings in Rust](https://rustjobs.dev/blog/how-to-split-strings-in-rust/)
 
 [String Concatenation in Rust](https://rustjobs.dev/blog/string-concatenation-in-rust/)
+
+[C++ RAII vs Rust OBRM - Part 1](https://www.youtube.com/watch?v=AnFaf-L_DfE) RAII (Resource Adquisition Is Initialization) vs OBRM (Ownership Based Resource Management) [C++ RAII vs Rust OBRM - Part 2](https://www.youtube.com/watch?v=7EcNkr6KFy0)
 
 [GUI programming with Rust](https://medium.com/digitalfrontiers/gui-programming-with-rust-c71fe4051b1a)
 
@@ -1565,4 +1595,19 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [How do I create a global, mutable singleton? - StackOverflow](https://stackoverflow.com/questions/27791532/how-do-i-create-a-global-mutable-singleton)
 
 [MariaDB - Writing User-Defined Functions in Rust](https://mariadb.org/writing-user-defined-functions-in-rust/)
+
+[Advanced Rust testing course](https://rust-exercises.com/advanced-testing/00_intro/00_welcome.html)
+
+[EuroRust event](https://www.youtube.com/@eurorust)
+
+[Rust Nederland (RustNL) - Youtube channel](https://www.youtube.com/@rustnederlandrustnl/featured)
+
+[The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
+
+[Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
+
+[Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
+
+
+
 
