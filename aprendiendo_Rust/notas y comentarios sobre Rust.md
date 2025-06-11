@@ -304,6 +304,10 @@ nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programac
 nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes. Con flujos de datos entre partes claros y bien definidos.
 
 
+### algo de documentación
+
+[Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
+
 ## Strong typed
 
 [Data Types](https://doc.rust-lang.org/book/ch03-02-data-types.html)
@@ -1472,13 +1476,106 @@ Now you can see why the compiler stopped us from making main itself an async fun
 
 ### sqlx - acceso a bases de datos
 
+
+[SQLx](https://github.com/launchbadge/sqlx?tab=readme-ov-file#sqlx)
+
+[Crate sqlx](https://docs.rs/sqlx/latest/sqlx/)
+
+[SQLx CLI - Command Line Interface](https://github.com/launchbadge/sqlx/tree/main/sqlx-cli)
+
+La cadena de conexión se puede suministrar desde una variable de entorno o desde una entrada en el archivo `.env`. Usando el crate [dotenvy](https://crates.io/crates/dotenvy)
+
+[sqlx-cli - Create/drop the database at DATABASE_URL](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#usage)
+
+La conexión se realiza a través de un pool que se ha de abrirse al arrancar la aplicación y  cerrarse al terminar esta. Por ejemplo:
+````
+use dotenvy::dotenv;
+use sqlx::mysql::MySqlPoolOptions;
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() {
+    println!();
+
+    println!("Estableciendo conexión con la base de datos...");
+    dotenvy::dotenv().ok();
+    let conexion_con_la_bd = MySqlPoolOptions::new()
+        .max_connections(1)
+        .connect(
+            &std::env::var("DATABASE_URL")
+                .expect("No se han encontrado las llaves de entrada a la base de datos."),
+        )
+        .await
+        .expect("No se ha podido establecer conexión con la base de datos.");
+    println!("Conexión establecida.");
+    
+    
+    // Aquí va el resto de la aplicación...
+    
+    
+    conexion_con_la_bd.close().await;
+}
+````
+
 [Why Use a Pool?](https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#why-use-a-pool)
 
-[Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+[Learn Rust SQLX on Postgres - David Choi](https://www.youtube.com/watch?v=v9fnBhzH5u8)
 
+[SQLx is my favorite PostgreSQL driver to use with Rust - Dreams of Code](https://www.youtube.com/watch?v=TCERYbgvbq0)
+
+
+Para tests de integración, anotando las funciones con `#[sqlx::test]`, SQLx se encarga de crear una nueva base de datos temporal y de proveer su conexión a la función de test. Al terminar de ejecutarse la función, la base de datos temporal se borra.
+````
+use sqlx::{MySql, Pool};
+
+#[sqlx::test]
+async fn esto_es_un_test_de_integracion_para_comprobar_algo(
+    conexion: Pool<MySql>,
+) {
+
+    // Podemos inyectar &conexion allá donde lo necesitemos para trabajar con la base de datos...
+    
+}
+
+````
 [Attribute Macro sqlx::test](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
 
 [Database Tests for the Lazy - Matt Trighetti](https://mattrighetti.com/2025/02/17/rust-testing-sqlx-lazy-people)
+
+[Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
+¿Y cómo sabe las tablas que debe crear?. Pues usando las migraciones: archivos `.sql` guardados en una carpeta `migrations`.
+
+[sqlx-cli - Create and run migrations](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#create-and-run-migrations)
+
+[Learn Rust SQLx on Postgres - Migrations](https://youtu.be/v9fnBhzH5u8?t=215)
+
+
+Las consultas y manipulación de datos se realizan a través de la [macro query](https://docs.rs/sqlx/latest/sqlx/macro.query.html) o de la [macro query_as](https://docs.rs/sqlx/latest/sqlx/macro.query_as.html). Por ejemplo:
+
+````
+    let resultado = sqlx::query("SELECT * FROM habitaciones WHERE nombre = ?")
+        .bind(nombre)
+        .fetch_optional(self.conexion_con_la_bd)
+        .await;
+    match resultado {
+        Ok(datos) => match datos {
+            Some(registro) => {
+                let habitacion = Habitacion::from_persistencia(
+                    registro.id,
+                    registro.nombre,
+                    registro.tipo_habitacion,
+                    registro.tipo_baño,
+                );
+                match habitacion {
+                    Ok(h) => Ok(h),
+                    Err(e) => Err(format!("Problemas al convertir datos: {e}")),
+                }
+            }
+            None => Err(format!("No se ha encontrado la habitacion {nombre}")),
+        },
+        Err(e) => Err(format!("Problemas al consultar la base de datos: {e}")),
+    }
+````
 
 
 
@@ -1608,6 +1705,6 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
 
-
+[Encapsulation in Rust - David Choi](https://www.youtube.com/watch?v=3Oj_McqC_ys)
 
 
