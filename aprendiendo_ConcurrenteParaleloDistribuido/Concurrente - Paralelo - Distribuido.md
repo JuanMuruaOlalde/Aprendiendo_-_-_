@@ -2,17 +2,18 @@
 
 - **Secuencial**  : diferentes tareas realizándose una a continuación de otra; una tarea no comienza hasta que haya terminado la anterior.
 
-- **Concurrente** : diferentes tareas realizándose en momentos temporales que se pueden solapar.
+- **Concurrente** : diferentes tareas realizándose de forma solapada o intercalada, coordinándose (o siendo coordinadas) para compartir recursos.
 
-- **Paralelo** : diferentes tareas realizándose simultáneamente.
+- **Paralelo** : diferentes tareas realizándose simultáneamente, de forma independiente una de otra, cada una con sus propios recursos.
 
-- **Distribuido** : diferentes tareas realizándose en distintas máquinas (o en distintos programas).
+- **Distribuido** : diferentes tareas realizándose en distintas máquinas, comunicadas entre sí.
 
 Realizando tareas de forma secuencial, la relación entre tareas es clara y es fácil seguir el flujo de ejecución.
 
-Realizando tareas de forma concurrente, paralela o distribuida, nunca hay ninguna garantia acerca del orden en que vayan a ejecutarse; es necesario tener siempre en cuenta todas las posibilidades de interacción entre tareas. 
+Realizando tareas de forma concurrente, paralela o distribuida, no hay ninguna garantia acerca del orden en que vayan a ejecutarse. Siempre es necesario tener en cuenta todas las posibilidades de interacción entre tareas.
 
-Cuanto menos relación tengan las distintas tareas entre sí, más fácil será seguir el flujo de ejecución . Y viceversa, más complicaciones habrá cuanto más dependencias tengan unas tareas con otras. Por tanto, el objetivo principal es organizar los trabajo de forma que cada tarea sea lo más independiente posible.
+Por tanto, se hace especialmente importante organizar los trabajos de forma que cada tarea sea lo más independiente posible de las demás. Minimizando y acotando claramente los puntos de interacción entre ellas.
+
 
 ## Algunas consideraciones teóricas
 
