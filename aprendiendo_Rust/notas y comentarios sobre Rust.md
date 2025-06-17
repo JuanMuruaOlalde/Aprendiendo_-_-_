@@ -280,7 +280,7 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 En Rust, todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
 
-Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una propietaria por cada trozo de memoria.)
+Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una única propietaria por cada trozo de memoria.)
 
 También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (&). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
 
@@ -289,19 +289,29 @@ nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma
 
 ### Move semantics
 
-Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna a otra o se pasa como parámetro a una función, pierde el derecho de usar el trozo de memoria al que hacia referencia. La propiedad pasa a esa otra variable o a ese parámetro.
+Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes. Cuando una variable se asigna a otra o se pasa como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro. La variable original pierde el derecho de usar el trozo de memoria al que hacia referencia. 
 
-Hablando en terminologia C: solo puede existir un único puntero de escritura a cada trozo de memoria reservado.
+Es decir: solo puede existir un único puntero a cada trozo de memoria reservado.
 
-Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Cosa que puede resultar algo frustrante al principio. Pero, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura del código más clara y lógica de la que habíamos pensado en un primer momento.
+Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. 
+
+Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
 
 [Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
 
 [Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
 
-nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional. Pasando valores y devolviendo resultados, en lugar de modificar variables.
+nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional y su énfasis en trabajar con funciones puras. Funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver; funciones sin "efectos colaterales" en nada externo a ellas.
 
-nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes. Con flujos de datos entre partes claros y bien definidos.
+nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
+
+> aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria. Hay algoritmos que lo suelen requerir, sobre todo en programación concurrente. Pero al igual que con el clonado de datos, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y resulta tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
+
+[Clone and Copy for Duplicating Values](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html#clone-and-copy-for-duplicating-values)
+
+[`Rc<T>`, the Reference Counted Smart Pointer](https://doc.rust-lang.org/book/ch15-04-rc.html)
+
+[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
 
 
 ### algo de documentación
@@ -827,48 +837,6 @@ Rust trabaja con formas propias de un lenguaje funcional al tratar con coleccion
 [Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
 
-## Concurrency
-
-[Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
-
-Poner a un trozo de código a correr en su propia hebra de ejecución es sencillo:
-```
-    let handle =  thread::spawn(move || {
-    
-      ../..
-    
-    });
-```
-
-La sincronización temporal entre hebras se realiza con el clásico *join*
-```
-    handle.join().unwrap();
-```
-
-El intercambio de información entre hebras se realiza transmitiendo y recibiendo a través de un canal *mpsc::channel*
-```
-use std::sync::mpsc;
-use std::thread;
-
-fn main() {
-    let (tx, rx) = mpsc::channel();
-
-    thread::spawn(move || {
-        let val = String::from("hi");
-        tx.send(val).unwrap();
-    });
-
-    let received = rx.recv().unwrap();
-    println!("Got: {received}");
-}
-```
-
-Como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*.
-
-Para situaciones más complejas, existe también la posibilidad de compartir elementos entre hebras. Usando los clásicos *Mutex*:
-[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
-
-
 
 ## Toolchains
 
@@ -1102,12 +1070,14 @@ Algunos comandos útiles:
 
 [Bevy - a refreshingly simple data-driven game engine](https://bevyengine.org/)
 
+[JC - Rust Bevy Tutorial](https://www.youtube.com/watch?v=j7qHwb7geIM&list=PL7r-PXl6ZPcCB_9zZFU0krBoGK3y5f5Vt)
+
 [OpenVR - c++ API and runtime that allows access to VR hardware from multiple vendors](https://github.com/ValveSoftware/openvr)
 
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
 
-## Algunas notas sobre algunos aspectos concretos
+## Algunas notas prácticas sobre algunos aspectos concretos
 
 Aquí voy recogiendo aquello que voy estudiando o practicando...
 
@@ -1179,6 +1149,228 @@ Cuatro tipos de documentación técnica:
 
 [The Good Docs Project](https://www.thegooddocsproject.dev/)
 
+
+
+### Concurrencia
+
+[Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
+Poner a un trozo de código a correr en su propia hebra de ejecución es sencillo:
+```
+    let handle =  thread::spawn(move || {
+    
+      ../..
+    
+    });
+```
+
+La sincronización temporal entre hebras se realiza con el clásico *join*
+```
+    handle.join().unwrap();
+```
+
+El intercambio de información entre hebras se realiza transmitiendo y recibiendo a través de un canal *mpsc::channel*
+```
+use std::sync::mpsc;
+use std::thread;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {received}");
+}
+```
+
+Como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*.
+
+Para situaciones más complejas, existe también la posibilidad de compartir elementos entre hebras. Usando los clásicos *Mutex*:
+[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+
+
+
+### Asincronía
+
+Las llamadas asíncronas (llamar a una función y continuar sin esperar a su resultado) se suelen utilizar allá donde la tarea la lleve un solo hilo de ejecución y se necesite no bloquearlo. 
+
+Pero esta asincronía entre la petición y la respuesta:
+ 
+- Hace complicado el mantenimiento estricto de estado entre distintas peticiones relacionadas. (Estado: información interna concerniente a una determinada tarea o cliente).
+
+- Hace complicado garantizar el orden de respuesta a las distintas peticiones. Es decir, no se puede tener un control estricto de lo que sucede y cuándo sucede.
+
+De ahí que la asincronía se tienda a utilizar junto con arquitecturas donde cada petición pueda tener una respuesta independiente (stateless architecture).
+
+Por otro lado, comentar que una vez se hace una llamada asíncrona en algún punto del código, es obligatorio llevar a asincronía hasta el origen. Es decir, no se pueden mezclar partes síncronas y partes asíncronas en una misma operación. Por ejemplo, si al pulsar un botón en el interfaz de usuario se desencadena una acción que al final requiere realizar una llamada asíncrona a una API para solicitar datos; aunque el .await esté en la llamada a la API, toda la cadena de vuelta (API -> modelo -> controlador -> vista) acabarán siendo funciones asíncronas (requiendo que la vista tenga también capacidad de atender y cerrar la cadena asíncrona).
+
+> Podria decirse que la asíncronicidad es "contagiosa". Un proceso asíncrono lleva a que otro que lo utiliza también deba ser asíncrono. Y, muchas veces, al final acaba obligando a que más y más procesos sean asíncronos. Hasta que todo el sistema acaba teniendo una arquitectura asíncrona.
+
+La gran ventaja de las arquitecturas asíncronas es que aprovechan mejor los recursos (no desperdician ciclos de CPU) y que escalan muy bien (horizontalmente). Suele merecer la pena tener una arquitectura asíncrona (o una concurrente). Sobre todo si hay involucradas tareas que requieran esperar a mucho trabajo de la CPU (grandes cálculos) o esperar a tareas con un fuerte componente I/O (como por ejemplo acceder a servidores en la red).
+
+> La única pega es que, al igual que con sus primas la concurrencia, el paralelismo y la distribución. Con la asíncronia se complica bastante la escritura y depuración del código.
+
+> Tampoco hay que perder de vista que todas esas técnicas de delegación o de reparto de trabajos no son compatibles con ciertos tipos de tareas. Por ejemplo, todas aquellas que necesiten garantizar un orden exacto de ejecución (tareas [deterministas](https://en.wikipedia.org/wiki/Deterministic_algorithm)) o completar transacciones encadenadas involucrando diversos sistemas (tareas [ACID](https://en.wikipedia.org/wiki/ACID)).
+
+nota: más información en [Concurrente, Paralelo, Distribuido](https://github.com/JuanMuruaOlalde/Aprendiendo_-_-_/blob/main/aprendiendo_ConcurrenteParaleloDistribuido/Concurrente%20-%20Paralelo%20-%20Distribuido.md)
+
+¡importante!
+
+Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
+
+`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, la procesaremos entonces). Mientras tanto, la ejecución del código principal sigue adelante. 
+
+Es decir, en el fondo `await` es crea un 'callback' que entrega a la función llamada para que esta pueda avisar cuando termine de tener el resultado. En ese momento futuro, el punto que ha inciado el "awaiting" es retrollamado ('callback') para que pueda retomar el tema que había quedado pendiente. 
+
+> `await` no es "me quedo esperando aquí", sino más bien "lo dejo para luego, avisame cuando lo tengas" ;-)
+
+
+[Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
+
+[Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
+
+[Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/)
+
+[Crate future_by_example](https://docs.rs/future-by-example/latest/future_by_example/)
+
+[Crate futures](https://docs.rs/futures/latest/futures/index.html)
+
+
+#### `main` function and `test` functions
+
+The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async.
+
+The reason main can’t be marked async is that async code needs a runtime: a Rust crate that manages the details of executing asynchronous code. A program’s main function can initialize a runtime, but it’s not a runtime itself. (We’ll see more about why this is the case in a bit.) Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures.
+
+Most languages that support async bundle a runtime, but Rust does not. Instead, there are many different async runtimes available, each of which makes different tradeoffs suitable to the use case it targets. For example, a high-throughput web server with many CPU cores and a large amount of RAM has very different needs than a microcontroller with a single core, a small amount of RAM, and no heap allocation ability. The crates that provide those runtimes also often supply async versions of common functionality such as file or network I/O.
+
+[Async programming in Rust with async-std](https://book.async.rs/)
+
+[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
+
+Each await point—that is, every place where the code uses the await keyword—represents a place where control is handed back to the runtime. To make that work, Rust needs to keep track of the state involved in the async block so that the runtime can kick off some other work and then come back when it’s ready to try advancing the first one again. This is an invisible state machine, as if you’d written an enum like this to save the current state at each await point:
+
+````
+enum PageTitleFuture<'a> {
+    Initial { url: &'a str },
+    GetAwaitPoint { url: &'a str },
+    TextAwaitPoint { response: trpl::Response },
+}
+````
+
+Writing the code to transition between each state by hand would be tedious and error-prone, however, especially when you need to add more functionality and more states to the code later. Fortunately, the Rust compiler creates and manages the state machine data structures for async code automatically. The normal borrowing and ownership rules around data structures all still apply, and happily, the compiler also handles checking those for us and provides useful error messages.
+
+Ultimately, something has to execute this state machine, and that something is a runtime. (This is why you may come across references to executors when looking into runtimes: an executor is the part of a runtime responsible for executing the async code.)
+
+Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! 
+
+
+### sqlx - acceso a bases de datos
+
+
+[SQLx](https://github.com/launchbadge/sqlx?tab=readme-ov-file#sqlx)
+
+[Crate sqlx](https://docs.rs/sqlx/latest/sqlx/)
+
+[SQLx CLI - Command Line Interface](https://github.com/launchbadge/sqlx/tree/main/sqlx-cli)
+
+La cadena de conexión se puede suministrar desde una variable de entorno o desde una entrada en el archivo `.env`. Usando el crate [dotenvy](https://crates.io/crates/dotenvy)
+
+[sqlx-cli - Create/drop the database at DATABASE_URL](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#usage)
+
+La conexión se realiza a través de un pool que se ha de abrirse al arrancar la aplicación y  cerrarse al terminar esta. Por ejemplo:
+````
+use dotenvy::dotenv;
+use sqlx::mysql::MySqlPoolOptions;
+
+#[tokio::main(flavor = "current_thread")]
+async fn main() {
+    println!();
+
+    println!("Estableciendo conexión con la base de datos...");
+    dotenvy::dotenv().ok();
+    let conexion_con_la_bd = MySqlPoolOptions::new()
+        .max_connections(1)
+        .connect(
+            &std::env::var("DATABASE_URL")
+                .expect("No se han encontrado las llaves de entrada a la base de datos."),
+        )
+        .await
+        .expect("No se ha podido establecer conexión con la base de datos.");
+    println!("Conexión establecida.");
+    
+    
+    // Aquí va el resto de la aplicación...
+    
+    
+    conexion_con_la_bd.close().await;
+}
+````
+
+[Why Use a Pool?](https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#why-use-a-pool)
+
+[Learn Rust SQLX on Postgres - David Choi](https://www.youtube.com/watch?v=v9fnBhzH5u8)
+
+[SQLx is my favorite PostgreSQL driver to use with Rust - Dreams of Code](https://www.youtube.com/watch?v=TCERYbgvbq0)
+
+
+Para tests de integración, anotando las funciones con `#[sqlx::test]`, SQLx se encarga de crear una nueva base de datos temporal y de proveer su conexión a la función de test. Al terminar de ejecutarse la función, la base de datos temporal se borra.
+````
+use sqlx::{MySql, Pool};
+
+#[sqlx::test]
+async fn esto_es_un_test_de_integracion_para_comprobar_algo(
+    conexion: Pool<MySql>,
+) {
+
+    // Podemos inyectar &conexion allá donde lo necesitemos para trabajar con la base de datos...
+    
+}
+
+````
+[Attribute Macro sqlx::test](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
+[Database Tests for the Lazy - Matt Trighetti](https://mattrighetti.com/2025/02/17/rust-testing-sqlx-lazy-people)
+
+[Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
+
+¿Y cómo sabe las tablas que debe crear?. Pues usando las migraciones: archivos `.sql` guardados en una carpeta `migrations`.
+
+[sqlx-cli - Create and run migrations](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#create-and-run-migrations)
+
+[Learn Rust SQLx on Postgres - Migrations](https://youtu.be/v9fnBhzH5u8?t=215)
+
+
+Las consultas y manipulación de datos se realizan a través de la [macro query](https://docs.rs/sqlx/latest/sqlx/macro.query.html) o de la [macro query_as](https://docs.rs/sqlx/latest/sqlx/macro.query_as.html). Por ejemplo:
+
+````
+    let resultado = sqlx::query("SELECT * FROM habitaciones WHERE nombre = ?")
+        .bind(nombre)
+        .fetch_optional(self.conexion_con_la_bd)
+        .await;
+    match resultado {
+        Ok(datos) => match datos {
+            Some(registro) => {
+                let habitacion = Habitacion::from_persistencia(
+                    registro.id,
+                    registro.nombre,
+                    registro.tipo_habitacion,
+                    registro.tipo_baño,
+                );
+                match habitacion {
+                    Ok(h) => Ok(h),
+                    Err(e) => Err(format!("Problemas al convertir datos: {e}")),
+                }
+            }
+            None => Err(format!("No se ha encontrado la habitacion {nombre}")),
+        },
+        Err(e) => Err(format!("Problemas al consultar la base de datos: {e}")),
+    }
+````
 
 ### egui - interfaz de usuario
 
@@ -1399,192 +1591,13 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
-### Asincronía
-
-Las llamadas asíncronas (llamar a una función y continuar sin esperar a su resultado) se suelen utilizar allá donde la tarea la lleve un solo hilo de ejecución y se necesite no bloquearlo. 
-
-Pero esta asincronía entre la petición y la respuesta:
- 
-- Hace complicado el mantenimiento estricto de estado entre distintas peticiones relacionadas. (Estado: información interna concerniente a una determinada tarea o cliente).
-
-- Hace complicado garantizar el orden de respuesta a las distintas peticiones. Es decir, no se puede tener un control estricto de lo que sucede y cuándo sucede.
-
-De ahí que la asincronía se tienda a utilizar junto con arquitecturas donde cada petición pueda tener una respuesta independiente (stateless architecture).
-
-Por otro lado, comentar que una vez se hace una llamada asíncrona en algún punto del código, es obligatorio llevar a asincronía hasta el origen. Es decir, no se pueden mezclar partes síncronas y partes asíncronas en una misma operación. Por ejemplo, si al pulsar un botón en el interfaz de usuario se desencadena una acción que al final requiere realizar una llamada asíncrona a una API para solicitar datos; aunque el .await esté en la llamada a la API, toda la cadena de vuelta (API -> modelo -> controlador -> vista) acabarán siendo funciones asíncronas (requiendo que la vista tenga también capacidad de atender y cerrar la cadena asíncrona).
-
-> Podria decirse que la asíncronicidad es "contagiosa". Un proceso asíncrono lleva a que otro que lo utiliza también deba ser asíncrono. Y, muchas veces, al final acaba obligando a que más y más procesos sean asíncronos. Hasta que todo el sistema acaba teniendo una arquitectura asíncrona.
-
-La gran ventaja de las arquitecturas asíncronas es que aprovechan mejor los recursos (no desperdician ciclos de CPU) y que escalan muy bien (horizontalmente). Suele merecer la pena tener una arquitectura asíncrona (o una concurrente). Sobre todo si hay involucradas tareas que requieran esperar a mucho trabajo de la CPU (grandes cálculos) o esperar a tareas con un fuerte componente I/O (como por ejemplo acceder a servidores en la red).
-
-> La única pega es que, al igual que con sus primas la concurrencia, el paralelismo y la distribución. Con la asíncronia se complica bastante la escritura y depuración del código.
-
-> Tampoco hay que perder de vista que todas esas técnicas de delegación o de reparto de trabajos no son compatibles con ciertos tipos de tareas. Por ejemplo, todas aquellas que necesiten garantizar un orden exacto de ejecución (tareas [deterministas](https://en.wikipedia.org/wiki/Deterministic_algorithm)) o completar transacciones encadenadas involucrando diversos sistemas (tareas [ACID](https://en.wikipedia.org/wiki/ACID)).
-
-nota: más información en [Concurrente, Paralelo, Distribuido](https://github.com/JuanMuruaOlalde/Aprendiendo_-_-_/blob/main/aprendiendo_ConcurrenteParaleloDistribuido/Concurrente%20-%20Paralelo%20-%20Distribuido.md)
-
-¡importante!
-
-Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
-
-`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, la procesaremos entonces). Mientras tanto, la ejecución del código principal sigue adelante. 
-
-Es decir, en el fondo `await` es crea un 'callback' que entrega a la función llamada para que esta pueda avisar cuando termine de tener el resultado. En ese momento futuro, el punto que ha inciado el "awaiting" es retrollamado ('callback') para que pueda retomar el tema que había quedado pendiente. 
-
-> `await` no es "me quedo esperando aquí", sino más bien "lo dejo para luego, avisame cuando lo tengas" ;-)
-
-
-[Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
-
-[Fearless Concurrency](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
-
-[Asynchronous Programming in Rust](https://rust-lang.github.io/async-book/)
-
-[Crate future_by_example](https://docs.rs/future-by-example/latest/future_by_example/)
-
-[Crate futures](https://docs.rs/futures/latest/futures/index.html)
-
-
-#### `main` function and `test` functions
-
-The only place we can use the await keyword is in async functions or blocks, and Rust won’t let us mark the special main function as async.
-
-The reason main can’t be marked async is that async code needs a runtime: a Rust crate that manages the details of executing asynchronous code. A program’s main function can initialize a runtime, but it’s not a runtime itself. (We’ll see more about why this is the case in a bit.) Every Rust program that executes async code has at least one place where it sets up a runtime and executes the futures.
-
-Most languages that support async bundle a runtime, but Rust does not. Instead, there are many different async runtimes available, each of which makes different tradeoffs suitable to the use case it targets. For example, a high-throughput web server with many CPU cores and a large amount of RAM has very different needs than a microcontroller with a single core, a small amount of RAM, and no heap allocation ability. The crates that provide those runtimes also often supply async versions of common functionality such as file or network I/O.
-
-[Async programming in Rust with async-std](https://book.async.rs/)
-
-[Tokio - an asyncronous Rust runtime](https://tokio.rs/)
-
-Each await point—that is, every place where the code uses the await keyword—represents a place where control is handed back to the runtime. To make that work, Rust needs to keep track of the state involved in the async block so that the runtime can kick off some other work and then come back when it’s ready to try advancing the first one again. This is an invisible state machine, as if you’d written an enum like this to save the current state at each await point:
-
-````
-enum PageTitleFuture<'a> {
-    Initial { url: &'a str },
-    GetAwaitPoint { url: &'a str },
-    TextAwaitPoint { response: trpl::Response },
-}
-````
-
-Writing the code to transition between each state by hand would be tedious and error-prone, however, especially when you need to add more functionality and more states to the code later. Fortunately, the Rust compiler creates and manages the state machine data structures for async code automatically. The normal borrowing and ownership rules around data structures all still apply, and happily, the compiler also handles checking those for us and provides useful error messages.
-
-Ultimately, something has to execute this state machine, and that something is a runtime. (This is why you may come across references to executors when looking into runtimes: an executor is the part of a runtime responsible for executing the async code.)
-
-Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program! 
-
-
-### sqlx - acceso a bases de datos
-
-
-[SQLx](https://github.com/launchbadge/sqlx?tab=readme-ov-file#sqlx)
-
-[Crate sqlx](https://docs.rs/sqlx/latest/sqlx/)
-
-[SQLx CLI - Command Line Interface](https://github.com/launchbadge/sqlx/tree/main/sqlx-cli)
-
-La cadena de conexión se puede suministrar desde una variable de entorno o desde una entrada en el archivo `.env`. Usando el crate [dotenvy](https://crates.io/crates/dotenvy)
-
-[sqlx-cli - Create/drop the database at DATABASE_URL](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#usage)
-
-La conexión se realiza a través de un pool que se ha de abrirse al arrancar la aplicación y  cerrarse al terminar esta. Por ejemplo:
-````
-use dotenvy::dotenv;
-use sqlx::mysql::MySqlPoolOptions;
-
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
-    println!();
-
-    println!("Estableciendo conexión con la base de datos...");
-    dotenvy::dotenv().ok();
-    let conexion_con_la_bd = MySqlPoolOptions::new()
-        .max_connections(1)
-        .connect(
-            &std::env::var("DATABASE_URL")
-                .expect("No se han encontrado las llaves de entrada a la base de datos."),
-        )
-        .await
-        .expect("No se ha podido establecer conexión con la base de datos.");
-    println!("Conexión establecida.");
-    
-    
-    // Aquí va el resto de la aplicación...
-    
-    
-    conexion_con_la_bd.close().await;
-}
-````
-
-[Why Use a Pool?](https://docs.rs/sqlx/latest/sqlx/struct.Pool.html#why-use-a-pool)
-
-[Learn Rust SQLX on Postgres - David Choi](https://www.youtube.com/watch?v=v9fnBhzH5u8)
-
-[SQLx is my favorite PostgreSQL driver to use with Rust - Dreams of Code](https://www.youtube.com/watch?v=TCERYbgvbq0)
-
-
-Para tests de integración, anotando las funciones con `#[sqlx::test]`, SQLx se encarga de crear una nueva base de datos temporal y de proveer su conexión a la función de test. Al terminar de ejecutarse la función, la base de datos temporal se borra.
-````
-use sqlx::{MySql, Pool};
-
-#[sqlx::test]
-async fn esto_es_un_test_de_integracion_para_comprobar_algo(
-    conexion: Pool<MySql>,
-) {
-
-    // Podemos inyectar &conexion allá donde lo necesitemos para trabajar con la base de datos...
-    
-}
-
-````
-[Attribute Macro sqlx::test](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
-
-[Database Tests for the Lazy - Matt Trighetti](https://mattrighetti.com/2025/02/17/rust-testing-sqlx-lazy-people)
-
-[Mark an async fn as a test with SQLx support.](https://docs.rs/sqlx/latest/sqlx/attr.test.html)
-
-¿Y cómo sabe las tablas que debe crear?. Pues usando las migraciones: archivos `.sql` guardados en una carpeta `migrations`.
-
-[sqlx-cli - Create and run migrations](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#create-and-run-migrations)
-
-[Learn Rust SQLx on Postgres - Migrations](https://youtu.be/v9fnBhzH5u8?t=215)
-
-
-Las consultas y manipulación de datos se realizan a través de la [macro query](https://docs.rs/sqlx/latest/sqlx/macro.query.html) o de la [macro query_as](https://docs.rs/sqlx/latest/sqlx/macro.query_as.html). Por ejemplo:
-
-````
-    let resultado = sqlx::query("SELECT * FROM habitaciones WHERE nombre = ?")
-        .bind(nombre)
-        .fetch_optional(self.conexion_con_la_bd)
-        .await;
-    match resultado {
-        Ok(datos) => match datos {
-            Some(registro) => {
-                let habitacion = Habitacion::from_persistencia(
-                    registro.id,
-                    registro.nombre,
-                    registro.tipo_habitacion,
-                    registro.tipo_baño,
-                );
-                match habitacion {
-                    Ok(h) => Ok(h),
-                    Err(e) => Err(format!("Problemas al convertir datos: {e}")),
-                }
-            }
-            None => Err(format!("No se ha encontrado la habitacion {nombre}")),
-        },
-        Err(e) => Err(format!("Problemas al consultar la base de datos: {e}")),
-    }
-````
-
-
 
 ## Algunos enlaces variados...
 
 Aquí voy recogiendo aquello que no veo claro dónde encajar...
 
 
-### (quasi)forbiden, arcane practice
+### (quasi)forbiden, arcane practice: The Rustonomicon
 
 [-----Rust Koans-----](https://users.rust-lang.org/t/rust-koans/2408)
 An article in The Rust Programming Language Forum
@@ -1667,6 +1680,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust for Beginners](https://www.youtube.com/playlist?list=PLptbpfKzsc3AGAZKEAgozrcetsCHQj2Rq)
 
+[JC - Rust - Everything Rust Programming - Tutorials, Courses, Tips, Examples,...](https://www.youtube.com/playlist?list=PL7r-PXl6ZPcCIOFaL7nVHXZvBmHNhrh_Q)
+
 [Visualizing memory layout of Rust's data types](https://www.youtube.com/watch?v=7_o-YRxf_cc)
 
 [How to Split Strings in Rust](https://rustjobs.dev/blog/how-to-split-strings-in-rust/)
@@ -1707,4 +1722,4 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Encapsulation in Rust - David Choi](https://www.youtube.com/watch?v=3Oj_McqC_ys)
 
-
+[JC -  Rust Programming - Top Techniques and Tutorials](https://www.youtube.com/playlist?list=PL7r-PXl6ZPcCTiOerk-Nd9uw56KVXKtNV)
