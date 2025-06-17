@@ -293,30 +293,35 @@ Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por pri
 
 Es decir: solo puede existir un único puntero a cada trozo de memoria reservado.
 
-Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. 
+Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
 
-Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
 
-[Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
-
-[Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
-
-nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional y su énfasis en trabajar con funciones puras. Funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver; funciones sin "efectos colaterales" en nada externo a ellas.
+nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional y su énfasis en trabajar hasta donde sea posible con funciones puras; funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver; funciones sin "efectos colaterales" sobre nada externo a ellas.
 
 nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
 
-> aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria. Hay algoritmos que lo suelen requerir, sobre todo en programación concurrente. Pero al igual que con el clonado de datos, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y resulta tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
-
-[Clone and Copy for Duplicating Values](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html#clone-and-copy-for-duplicating-values)
-
-[`Rc<T>`, the Reference Counted Smart Pointer](https://doc.rust-lang.org/book/ch15-04-rc.html)
-
-[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+aviso: Aunque Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir, sobre todo en programación concurrente). Son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
 
 
 ### algo de documentación
 
 [Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
+
+[Clone and Copy for Duplicating Values](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html#clone-and-copy-for-duplicating-values)
+
+[begginer mistakes, Clone() everywhere](https://youtu.be/SWwTD2neodE?t=270)
+
+[Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
+
+[Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
+
+[`Rc<T>`, the Reference Counted Smart Pointer](https://doc.rust-lang.org/book/ch15-04-rc.html)
+
+[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+
+[deadly mistakes beginner Rust developers make](https://youtu.be/PbR4ECFIckg?t=545)
+
+
 
 ## Strong typed
 
