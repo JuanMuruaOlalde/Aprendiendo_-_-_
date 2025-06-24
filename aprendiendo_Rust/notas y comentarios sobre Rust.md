@@ -1221,11 +1221,11 @@ Allá donde se llame a una función así, es necesario marcar el punto de llamad
 
 Contrariamente a lo que pudiera deducirse, `await` no significa que la ejecución se queda en ese punto del código esperando al resultado. 
 
-`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, la procesaremos entonces). Mientras tanto, la ejecución del código principal sigue adelante. 
+`await` significa que se asume que la función a la que se ha llamado devolverá el resultado "cuando pueda" (y, la procesaremos entonces). Mientras tanto,sigue adelante la ejecución del código principal (fuera de la función `async` donde está el `await`). 
 
-Es decir, en el fondo `await` es como si creara un 'callback' que entrega a la función llamada para que esta pueda avisar cuando termine de tener el resultado. En ese momento futuro, el punto que ha inciado el "awaiting" es retrollamado ('callback') para que pueda retomar el tema que había quedado pendiente. 
+Es decir, en el fondo `await` es como si creara un 'callback' que entrega a la función llamada para que esta pueda avisar cuando termine de tener el resultado. En ese momento futuro, el punto que ha iniciado el "awaiting" es retrollamado ('callback') para que pueda retomar el tema que había quedado pendiente. 
 
-> `await` no es "me quedo esperando aquí", sino más bien "lo dejo para luego, avisame cuando lo tengas" ;-)
+> `await` no es "me quedo esperando aquí", sino más bien "como esto va a tardar, lo dejo para luego, mientras tanto sigue con lo tuyo y avisame cuando esté" ;-)
 
 
 [Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
