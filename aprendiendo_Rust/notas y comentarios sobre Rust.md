@@ -919,8 +919,6 @@ Algunos comandos útiles:
 
 [regex - Regular Expressions](https://docs.rs/regex/latest/regex/)
 
-[mockall - tools to create mock versions of almost any trait or struct](https://docs.rs/mockall/latest/mockall/)
-
 [anyhow - a trait object based error type for easy idiomatic error handling](https://docs.rs/anyhow/latest/anyhow/)
 
 [thiserror - a convenient derive macro for the standard library’s std::error::Error trait](https://docs.rs/thiserror/latest/thiserror/)
@@ -938,6 +936,8 @@ Algunos comandos útiles:
 [base64 - decoding and encoding](https://docs.rs/base64/latest/base64/)
 
 [bincode - a tiny binary serialization strategy](https://docs.rs/bincode/latest/bincode/)
+
+[mockall - tools to create mock versions of almost any trait or struct](https://docs.rs/mockall/latest/mockall/)
 
 [plotters - drawing library designed for rendering figures, plots, and charts](https://docs.rs/plotters/latest/plotters/)
 
@@ -1053,9 +1053,27 @@ Algunos comandos útiles:
 
 ### embedded - industrial - red - control - tiempo real
 
+[Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
+
 [embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
 
+[embedded-svc - traits for embedded features such as wifi, networking, httpd, logging](https://docs.rs/crate/embedded-svc/latest)
+
+[embedded_io - Input/Output traits for embedded systems]
+
+[stm32_hal2 - provides high-level access to STM32 peripherals](https://docs.rs/stm32-hal2/latest/stm32_hal2/)
+
 [embassy - the next-generation framework for embedded applications](https://embassy.dev/)
+
+[embassy_stm32 - provides a safe, idiomatic hardware abstraction layer for STM32 families](https://docs.rs/embassy-stm32/latest/embassy_stm32/)
+
+[The Rust on ESP Book](https://docs.esp-rs.org/book/)
+
+[Embedded Rust on Espressif](https://docs.esp-rs.org/std-training/)
+
+[Embedded Rust (no_std) on Espressif](https://docs.esp-rs.org/no_std-training/)
+
+[heapless - data structures that don’t require dynamic memory allocation](https://docs.rs/heapless/latest/heapless/)
 
 [rtic - Real-Time Interrupt-driven Concurrency](https://github.com/rtic-rs/rtic)
 
@@ -1654,7 +1672,7 @@ An article in The Rust Programming Language Forum
 
 [-----The Rustonomicon-----](https://doc.rust-lang.org/nightly/nomicon/#the-rustonomicon) The Rustonomicon digs into all the awful details that you need to understand when writing Unsafe Rust programs. Should you wish a long and happy career of writing Rust programs, you should turn back now and forget you ever saw this book. 
 
-
+[The embedonomicon](https://docs.rust-embedded.org/embedonomicon/)The embedonomicon walks you through the process of creating a #![no_std] application from scratch
 
 ### some links to security related info
 
