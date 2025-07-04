@@ -1046,6 +1046,8 @@ Algunos comandos útiles:
 
 [integración Bevy-egui](https://github.com/vladbat00/bevy_egui)
 
+[Learn OpenGL in Rust](https://rust-tutorials.github.io/learn-opengl/basics/index.html)
+
 [three-d - a OpenGL/WebGL/OpenGL ES renderer and drawer](https://github.com/asny/three-d)
 
 [gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
