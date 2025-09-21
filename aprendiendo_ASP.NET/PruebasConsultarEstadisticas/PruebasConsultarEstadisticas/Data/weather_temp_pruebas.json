@@ -1,0 +1,98 @@
+[
+    {
+        "Station":  "BQ23",
+        "Date": "2025-04-08",
+        "Remarks": [
+            "comment 1",
+            "comment 2"
+        ],
+        "Measurements": {
+            "MinTemp": 8,
+            "MaxTemp": 24.3,
+            "Rainfall": 0,
+            "Evaporation": 3.4,
+            "Sunshine": "6.3",
+            "WindGustDir": "NW",
+            "WindGustSpeed": "30",
+            "WindDir9am": "SW",
+            "WindDir3pm": "NW",
+            "WindSpeed9am": "6",
+            "WindSpeed3pm": "20",
+            "Humidity9am": "68",
+            "Humidity3pm": "29",
+            "Pressure9am": 1019.7,
+            "Pressure3pm": 1015,
+            "Cloud9am": "7",
+            "Cloud3pm": "7",
+            "Temp9am": 14.4,
+            "Temp3pm": 23.6,
+            "RainToday": "No",
+            "RISK_MM": 3.6,
+            "RainTomorrow": "Yes"
+        }
+    },
+    {
+        "Station": "BQ23",
+        "Date": "2025-04-08",
+        "Remarks": [
+            "comment 1",
+            "comment 2"
+        ],
+        "Measurements": {
+            "MinTemp": 14,
+            "MaxTemp": 26.9,
+            "Rainfall": 3.6,
+            "Evaporation": 4.4,
+            "Sunshine": "9.7",
+            "WindGustDir": "ENE",
+            "WindGustSpeed": "39",
+            "WindDir9am": "E",
+            "WindDir3pm": "W",
+            "WindSpeed9am": "4",
+            "WindSpeed3pm": "17",
+            "Humidity9am": "80",
+            "Humidity3pm": "36",
+            "Pressure9am": 1012.4,
+            "Pressure3pm": 1008.4,
+            "Cloud9am": "5",
+            "Cloud3pm": "3",
+            "Temp9am": 17.5,
+            "Temp3pm": 25.7,
+            "RainToday": "Yes",
+            "RISK_MM": 3.6,
+            "RainTomorrow": "Yes"
+        }
+    },
+    {
+        "Station": "BQ23",
+        "Date": "2025-04-08",
+        "Remarks": [
+            "comment 1",
+            "comment 2"
+        ],
+        "Measurements": {
+            "MinTemp": 13.7,
+            "MaxTemp": 23.4,
+            "Rainfall": 3.6,
+            "Evaporation": 5.8,
+            "Sunshine": "3.3",
+            "WindGustDir": "NW",
+            "WindGustSpeed": "85",
+            "WindDir9am": "N",
+            "WindDir3pm": "NNE",
+            "WindSpeed9am": "6",
+            "WindSpeed3pm": "6",
+            "Humidity9am": "82",
+            "Humidity3pm": "69",
+            "Pressure9am": 1009.5,
+            "Pressure3pm": 1007.2,
+            "Cloud9am": "8",
+            "Cloud3pm": "7",
+            "Temp9am": 15.4,
+            "Temp3pm": 20.2,
+            "RainToday": "Yes",
+            "RISK_MM": 39.8,
+            "RainTomorrow": "Yes"
+        }
+    }
+]

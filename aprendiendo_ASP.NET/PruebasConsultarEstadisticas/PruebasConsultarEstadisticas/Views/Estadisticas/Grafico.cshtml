@@ -1,0 +1,32 @@
+﻿@model Dictionary<String, Double>
+
+@{
+    ViewData["Title"] = "Pruebas - gráficos";
+}
+
+<h3>Datos estadisticos</h3>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="lienzo_para_dibujar" style="width:100%; max-width:700px"></canvas>
+
+<script>
+    @{var claves = System.Text.Json.JsonSerializer.Serialize(Model.Keys);}
+    var etiquetas = @Html.Raw(claves);
+    @{var datos = System.Text.Json.JsonSerializer.Serialize(Model.Values);}
+    var valores = @Html.Raw(datos);
+
+    const lienzo_para_dibujar = document.getElementById('lienzo_para_dibujar');
+    new Chart(lienzo_para_dibujar, {
+        type: 'bar',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'pruebas realizadas',
+                data: valores,
+                backgroundColor: 'orange'
+            }]
+        }
+    });
+
+</script>

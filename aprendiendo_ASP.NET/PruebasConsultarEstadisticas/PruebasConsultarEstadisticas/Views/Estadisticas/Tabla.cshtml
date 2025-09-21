@@ -1,0 +1,33 @@
+﻿@model Dictionary<String, Double>
+
+@{
+    ViewData["Title"] = "Pruebas - tablas";
+}
+
+<h3>Datos estadisticos</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Mes
+            </th>
+            <th>
+                Valor
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Key
+                </td>
+                <td>
+                    @item.Value.ToString()
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

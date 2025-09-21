@@ -1,0 +1,58 @@
+﻿@model PruebasConsultarEstadisticas.Models.TitanicPassenger
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="p-4 container">
+    <h3>Detalles de la persona</h3>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Nombre:
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Name
+        </dd>
+        <dt class="col-sm-2">
+            Edad:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Age
+        </dd>
+        <dt class="col-sm-2">
+            Sobrevivió?
+        </dt>
+        <dd class = "col-sm-10">
+            @(Model.Survived == "0" ? "No" : "Si")
+        </dd>
+        <dt class="col-sm-2">
+            Habia embarcado?
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Embarked
+        </dd>
+        <dt class="col-sm-2">
+            Clase en que viajaba:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Pclass
+        </dd>
+        <dt class="col-sm-2">
+            Cabina asignada:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Cabin
+        </dd>
+        <dt class="col-sm-2">
+            Ref. ticket:
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Ticket
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Volver a la lista</a>
+</div>

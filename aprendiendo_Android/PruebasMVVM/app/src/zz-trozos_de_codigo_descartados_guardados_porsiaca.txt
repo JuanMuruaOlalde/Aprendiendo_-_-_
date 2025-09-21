@@ -1,0 +1,100 @@
+=============================================================================
+=============================================================================
+
+
+=============================================================================
+
+    private Target target = new Target<BitmapDrawable>() {
+        @Override
+        public void onResourceReady(BitmapDrawable bitmap, Transition<? super BitmapDrawable> transition) {
+            imagenAMostrar.setValue(bitmap);
+        }
+
+        @Override
+        public void onStart() {
+
+        }
+
+        @Override
+        public void onStop() {
+
+        }
+
+        @Override
+        public void onDestroy() {
+
+        }
+
+        @Override
+        public void onLoadStarted(@Nullable Drawable placeholder) {
+
+        }
+
+        @Override
+        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+
+        }
+
+        @Override
+        public void onLoadCleared(@Nullable Drawable placeholder) {
+
+        }
+
+        @Override
+        public void getSize(SizeReadyCallback cb) {
+            cb.onSizeReady(SIZE_ORIGINAL, SIZE_ORIGINAL);
+        }
+
+        @Override
+        public void removeCallback(SizeReadyCallback cb) {}
+
+        @Override
+        public void setRequest(@Nullable Request request) {
+
+        }
+
+        @Nullable
+        @Override
+        public Request getRequest() {
+            return null;
+        }
+    };
+
+
+    String urlImagen = "https://bs.plantnet.org/image/o/ec747c60998106a34327a0737d664ba231bcc054";
+    Glide.with(context)
+        .load(urlImagen)
+        .into(target);
+
+
+=============================================================================
+
+    //Esto da error cuando hace el .connect()
+    private BitmapDrawable descargarImagen(URL url) {
+        try {
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.connect();
+            int responseCode = conn.getResponseCode();
+            if(responseCode == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = conn.getInputStream();
+                BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                Bitmap bmp = BitmapFactory.decodeStream(bufferedInputStream);
+                bufferedInputStream.close();
+                conn.disconnect();
+
+                BitmapDrawable drw = new BitmapDrawable(this.context.getResources(), bmp);
+                drw.setBounds(0, 0, bmp.getWidth(), bmp.getHeight());
+                return drw;
+            } else {
+                conn.disconnect();
+                throw new RuntimeException("No se ha podido descargar la imagen.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+=============================================================================
+=============================================================================

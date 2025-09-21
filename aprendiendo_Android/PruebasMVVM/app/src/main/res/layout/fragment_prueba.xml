@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable name="viewModel" type="com.example.pruebasmvvm.PruebaViewModel"/>
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tarjeta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:padding="15dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:context=".PruebaFragment">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:id="@+id/txtTexto"
+                android:text="@{viewModel.textoAMostrar}" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Poner un nuevo texto"
+                android:onClick="@{()-> viewModel.ponerUnNuevoTexto()}" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imgFoto"
+                android:contentDescription="foto de pruebas"
+                app:srcCompat="@mipmap/ic_launcher" />
+
+            </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

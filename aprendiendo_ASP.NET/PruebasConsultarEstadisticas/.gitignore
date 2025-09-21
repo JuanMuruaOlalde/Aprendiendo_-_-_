@@ -1,0 +1,17 @@
+#Excluir cache
+.vs/
+#Excluir todo aquello que se regenera automaticamente al compilar
+*.suo
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+[Oo]bj
+#Excluir archivos temporales
+[Tt]emp
+*.log
+#Excluir informes de test y de profiling
+[Tt]estResults
+*.psess
+*.vsp*
+#Excluir las copias de seguridad de KDiff3
+*.orig
