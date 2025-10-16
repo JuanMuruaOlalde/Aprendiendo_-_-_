@@ -1057,17 +1057,11 @@ Algunos comandos útiles:
 
 [Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
 
+[The Embeded Rust Boook](https://docs.rust-embedded.org/book/)
+
 [embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
 
-[embedded-svc - traits for embedded features such as wifi, networking, httpd, logging](https://docs.rs/crate/embedded-svc/latest)
-
-[embedded_io - Input/Output traits for embedded systems]
-
-[stm32_hal2 - provides high-level access to STM32 peripherals](https://docs.rs/stm32-hal2/latest/stm32_hal2/)
-
 [embassy - the next-generation framework for embedded applications](https://embassy.dev/)
-
-[embassy_stm32 - provides a safe, idiomatic hardware abstraction layer for STM32 families](https://docs.rs/embassy-stm32/latest/embassy_stm32/)
 
 [The Rust on ESP Book](https://docs.esp-rs.org/book/)
 
@@ -1660,6 +1654,20 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
+
+### Embedded con microprocesadores STM32
+
+#### Programación directa, usando un HAL
+
+HAL, Hardware Abstraction Layer
+
+[stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs/stm32-rs)
+
+#### Programación indirecta, usando un framework
+
+Por ejemplo, el framework asíncrono [Embassy](https://embassy.dev/)
+
+[Embassy STM32 HAL](https://embassy.dev/book/#_embassy_stm32_hal)
 
 
 ## Apéndice: algunos enlaces que he ido encontrando...
