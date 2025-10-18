@@ -1055,19 +1055,29 @@ Algunos comandos útiles:
 
 ### embedded - industrial - red - control - tiempo real
 
-[Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
-
 [The Embeded Rust Boook](https://docs.rust-embedded.org/book/)
+
+[Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
 
 [embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
 
+[probe-rs , a debugging toolset and library for debugging embedded ARM and RISC-V targets on a separate host](https://github.com/probe-rs/probe-rs)
+
+[cargo-flash, just like ‘cargo run’, but will download your binary to the target and run](https://probe.rs/docs/tools/cargo-flash/)
+
+[cargo-embed, the big brother of cargo-flash , it can also open an RTT terminal as well as a GDB server](https://probe.rs/docs/tools/cargo-embed/)
+
 [embassy - the next-generation framework for embedded applications](https://embassy.dev/)
 
-[The Rust on ESP Book](https://docs.esp-rs.org/book/)
+[The Rust on ESP Book - Expressif](https://docs.esp-rs.org/book/)
 
-[Embedded Rust on Espressif](https://docs.esp-rs.org/std-training/)
+[Embedded Rust on Espressif microcontrollers](https://docs.esp-rs.org/std-training/)
 
 [Embedded Rust (no_std) on Espressif](https://docs.esp-rs.org/no_std-training/)
+
+[atsamd-rs , working with Microchip (nee Atmel) microcontrollers](https://github.com/atsamd-rs/atsamd)
+
+[stm32-rs ,  support projects for STM32 microcontrollers](https://github.com/stm32-rs)
 
 [heapless - data structures that don’t require dynamic memory allocation](https://docs.rs/heapless/latest/heapless/)
 
@@ -1655,19 +1665,51 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
-### Embedded con microprocesadores STM32
+### Embedded con microcontroladores STM32
 
-#### Programación directa, usando un HAL
-
-HAL, Hardware Abstraction Layer
+[STMicroelectronics STM32 32-bit Arm Cortex MCUs](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
 
 [stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs/stm32-rs)
 
+[Nucleo-64 development board with STM32F446RE MCU](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
+
+#### Programación directa, usando un HAL
+
+Por ejemplo, este HAL (Hardware Abstraction Layer) para los microcontrollers de la serie STM32F4: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
+
+[Embedded Rust for STM32 - Aleksey Ivanov](https://www.youtube.com/playlist?list=PLfBZ539IiUQzb6ZNAlBn_B4XxcS1oNenC)
+
+[Embedded Rust course - JaJakub](https://www.youtube.com/playlist?list=PLL2SCPK5xSRWBPj-nKOVYIhxRw7C4kYeI)
+
+[Custom STM32 Dev Board with Rust! - Ian Carey](https://youtu.be/VBXmCU-VQOw)
+
+
 #### Programación indirecta, usando un framework
 
-Por ejemplo, el framework asíncrono [Embassy](https://embassy.dev/)
+Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
+
+[Intro to Embassy: embedded development with async Rust - The Rusty Bits](https://youtu.be/pDd5mXBF4tY)
+
+[Async Rust in Embedded Systems with Embassy - Dario Nieuwenhuis](https://youtu.be/H7NtzyP9q8E)
 
 [Embassy STM32 HAL](https://embassy.dev/book/#_embassy_stm32_hal)
+
+[60 lines of Rust - STM32 GPIOs and Interrupts - piers rocks](https://youtu.be/F6tI-qjXv_s)
+
+[How to Embedded STM32 Rust - tRichCS](https://youtu.be/S6C--TmcWP0)
+
+
+### Embedded con microcontroladores ATSAMD
+
+[Microchip SAM D Arm® Cortex®-M-Based Microcontrollers (MCUs)](https://www.microchip.com/en-us/products/microcontrollers/32-bit-mcus/pic32-sam/sam-d#Products)
+
+[Adafruit Trinket M0 development board](https://learn.adafruit.com/adafruit-trinket-m0-circuitpython-arduino)
+
+#### Programación directa, usando un HAL
+
+[a type-safe API for working with the Adafruit Trinket M0 board](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0)
+
+Firmware can be loaded in to the microcontroller using a variety of methods, broadly speaking these can be separated in to two categories: using the SWD debug interface, or over USB via a bootloader. [Loading code onto the device](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device)
 
 
 ## Apéndice: algunos enlaces que he ido encontrando...
