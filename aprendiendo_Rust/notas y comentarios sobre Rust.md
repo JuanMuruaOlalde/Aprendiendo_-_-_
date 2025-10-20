@@ -1063,6 +1063,8 @@ Algunos comandos útiles:
 
 [probe-rs , a debugging toolset and library for debugging embedded ARM and RISC-V targets on a separate host](https://github.com/probe-rs/probe-rs)
 
+[probe-rs](https://probe.rs/)
+
 [cargo-flash, just like ‘cargo run’, but will download your binary to the target and run](https://probe.rs/docs/tools/cargo-flash/)
 
 [cargo-embed, the big brother of cargo-flash , it can also open an RTT terminal as well as a GDB server](https://probe.rs/docs/tools/cargo-embed/)
@@ -1665,7 +1667,7 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
-### Embedded con microcontroladores STM32
+### Embedded, con un microcontrolador STM32
 
 [STMicroelectronics STM32 32-bit Arm Cortex MCUs](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
 
@@ -1673,9 +1675,146 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 
 [Nucleo-64 development board with STM32F446RE MCU](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
 
+Como las placas Nucleo traen integrado un programador ST-Link, podemos usar la herramienta [probe-rs](https://probe.rs/docs/overview/about-probe-rs/) para trabajar con ellas.
+
 #### Programación directa, usando un HAL
 
-Por ejemplo, este HAL (Hardware Abstraction Layer) para los microcontrollers de la serie STM32F4: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
+Por ejemplo, podemos usar este HAL (Hardware Abstraction Layer) para los microcontrollers de la serie STM32F4: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
+
+Empleando uno de los [ejemplos de prueba](https://github.com/stm32-rs/stm32f4xx-hal/tree/master/examples) que trae...
+
+Cargo.toml
+```
+[package]
+name = "primeras_pruebas"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+defmt = "0.3"
+defmt-rtt = "0.4"
+embedded-hal = "1.0"
+nb = "1"
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+panic-halt = "1.0"
+
+[dependencies.stm32f4xx-hal]
+version = "0.23.0"
+features = ["stm32f446"]
+```
+
+.cargo/config.toml
+```
+[target.thumbv7em-none-eabihf]
+runner = 'probe-rs run --chip STM32F446'
+rustflags = [
+  # `flip-link` moves stack at the end of flash
+  #"-C", "linker=flip-link",
+  "-C", "link-arg=-Tlink.x",
+  "-C", "link-arg=-Tdefmt.x",
+  # This is needed if your flash or ram addresses are not aligned to 0x10000 in memory.x
+  # See https://github.com/rust-embedded/cortex-m-quickstart/pull/95
+  #"-C", "link-arg=--nmagic",
+]
+
+[build]
+target = "thumbv7em-none-eabihf"
+
+[env]
+DEFMT_LOG = "info"
+```
+
+memory.x
+```
+MEMORY
+{
+  /* NOTE K = KiBi = 1024 bytes */
+  FLASH : ORIGIN = 0x08000000, LENGTH = 512K 
+  RAM : ORIGIN = 0x20000000, LENGTH = 128K
+}
+
+/* This is where the call stack will be allocated. */
+/* The stack is of the full descending type. */
+/* NOTE Do NOT modify `_stack_start` unless you know what you are doing */
+_stack_start = ORIGIN(RAM) + LENGTH(RAM);
+```
+
+defmt.x
+```
+SECTIONS
+{
+  .defmt (INFO) : {
+    . = ALIGN(4);
+    __defmt_start = .;
+    *(.defmt.*);
+    . = ALIGN(4);
+    __defmt_end = .;
+  } > FLASH
+}
+
+/* Export symbols to be used by defmt */
+PROVIDE(__defmt_start = __defmt_start);
+PROVIDE(__defmt_end = __defmt_end);
+```
+
+main.rs
+```
+//! Demonstrate the use of a blocking `Delay` using the SYST (sysclock) timer.
+
+#![deny(unsafe_code)]
+#![allow(clippy::empty_loop)]
+#![no_main]
+#![no_std]
+
+// Halt on panic
+use panic_halt as _; // panic handler
+
+use cortex_m_rt::entry;
+use stm32f4xx_hal::{self as hal, rcc::Config};
+
+use crate::hal::{pac, prelude::*};
+
+#[entry]
+fn main() -> ! {
+    if let (Some(dp), Some(cp)) = (
+        pac::Peripherals::take(),
+        cortex_m::peripheral::Peripherals::take(),
+    ) {
+        // Set up the system clock. We want to run at 48MHz for this one.
+        let mut rcc = dp.RCC.freeze(Config::hsi().sysclk(48.MHz()));
+
+        // Set up the LED. On the Nucleo-446RE it's connected to pin PA5.
+        let gpioa = dp.GPIOA.split(&mut rcc);
+        let mut led = gpioa.pa5.into_push_pull_output();
+
+        // Create a delay abstraction based on SysTick
+        let mut delay = cp.SYST.delay(&rcc.clocks);
+
+        loop {
+            // On for 1s, off for 1s.
+            led.toggle();
+            delay.delay_ms(1000);
+        }
+    }
+
+    loop {}
+}
+```
+
+Para compilar y cargar el programa en la placa y ejecutarlo:
+```
+cargo flash --chip STM32F446RE
+
+   Compiling primeras_pruebas v0.1.0 (/home/juan/01-PROYECTOS/NucleoF446RE/primeras_pruebas)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.36s
+    Flashing /home/juan/01-PROYECTOS/NucleoF446RE/primeras_pruebas/target/thumbv7em-none-eabihf/debug/primeras_pruebas
+      Erasing ✔ 100% [####################]  48.00 KiB @  42.02 KiB/s (took 1s)
+  Programming ✔ 100% [####################]  38.00 KiB @  30.02 KiB/s (took 1s)                                                   Finished in 2.41s
+```
+
+
+##### algunos enlaces interesantes
 
 [Embedded Rust for STM32 - Aleksey Ivanov](https://www.youtube.com/playlist?list=PLfBZ539IiUQzb6ZNAlBn_B4XxcS1oNenC)
 
@@ -1688,6 +1827,9 @@ Por ejemplo, este HAL (Hardware Abstraction Layer) para los microcontrollers de 
 
 Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 
+
+##### algunos enlaces interesantes
+
 [Intro to Embassy: embedded development with async Rust - The Rusty Bits](https://youtu.be/pDd5mXBF4tY)
 
 [Async Rust in Embedded Systems with Embassy - Dario Nieuwenhuis](https://youtu.be/H7NtzyP9q8E)
@@ -1699,13 +1841,21 @@ Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 [How to Embedded STM32 Rust - tRichCS](https://youtu.be/S6C--TmcWP0)
 
 
-### Embedded con microcontroladores ATSAMD
+### Embedded, con un microcontrolador ATSAMD
 
 [Microchip SAM D Arm® Cortex®-M-Based Microcontrollers (MCUs)](https://www.microchip.com/en-us/products/microcontrollers/32-bit-mcus/pic32-sam/sam-d#Products)
 
 [Adafruit Trinket M0 development board](https://learn.adafruit.com/adafruit-trinket-m0-circuitpython-arduino)
 
+Como la placa Trinket M0 incorpora un cargador HF2, podemos usar la herramienta [hf2-rs](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device#hf2-rs) para trabajar con ella. (nota: Para activar el modo hf2 en la placa es necesario pulsar dos veces el botón de reset, esperar a que el led rojo quede fijo y que el led RGB quede verde.)
+
 #### Programación directa, usando un HAL
+
+Por ejemplo, podemos usar este HAL (Hardware Abstraction Layer) para los microcontroladores de la serie ATSAMD: [atsamd-rs](https://github.com/atsamd-rs/atsamd)
+
+Y, más concretamente, podemos usar el BSP (Board Support Package) específico para la placa [Trinket M0](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0/), que incluye el HAL específico para el microcontrolador `atsamd21e` y la configuración específica para esa placa concreta.
+
+##### algunos enlaces interesantes
 
 [a type-safe API for working with the Adafruit Trinket M0 board](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0)
 
