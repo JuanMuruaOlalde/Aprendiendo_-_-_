@@ -1671,7 +1671,7 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 
 [STMicroelectronics STM32 32-bit Arm Cortex MCUs](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
 
-[stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs/stm32-rs)
+[stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs)
 
 [Nucleo-64 development board with STM32F446RE MCU](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
 
