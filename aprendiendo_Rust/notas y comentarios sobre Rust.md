@@ -236,6 +236,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Rust 🦀 and WebAssembly 🕸](https://rustwasm.github.io/docs/book/introduction.html)
 
+[The Embedded Rustacean](https://www.theembeddedrustacean.com/)
+
 
 ### Some additional material to read/view
 
@@ -927,6 +929,8 @@ Algunos comandos útiles:
 
 [tracing - a framework for instrumenting Rust programs](https://github.com/tokio-rs/tracing)
 
+[defmt - a highly efficient logging framework that targets resource-constrained devices, like microcontrollers](https://docs.rs/defmt/latest/defmt/)
+
 [serde - a framework for serializing and deserializing Rust data structures efficiently and generically](https://docs.rs/serde/latest/serde/)
 
 [serde - introduction](https://crates.io/crates/serde)
@@ -1080,6 +1084,8 @@ Algunos comandos útiles:
 [atsamd-rs , working with Microchip (nee Atmel) microcontrollers](https://github.com/atsamd-rs/atsamd)
 
 [stm32-rs ,  support projects for STM32 microcontrollers](https://github.com/stm32-rs)
+
+[defmt - a highly efficient logging framework that targets resource-constrained devices, like microcontrollers](https://docs.rs/defmt/latest/defmt/)
 
 [heapless - data structures that don’t require dynamic memory allocation](https://docs.rs/heapless/latest/heapless/)
 
@@ -1669,19 +1675,24 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 
 ### Embedded, con un microcontrolador STM32
 
-[STMicroelectronics STM32 32-bit Arm Cortex MCUs](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
+[STMicroelectronics STM32 32-bit Arm Cortex MCUs family](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
+
+[STM32F446RE microcontroller](https://www.st.com/en/microcontrollers-microprocessors/stm32f446re.html)
+
+[ST-Nucleo-64 development board with STM32F446RE MCU](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
+
+[ST-Nucleo-F446RE board reference](https://os.mbed.com/platforms/ST-Nucleo-F446RE/)
+
+nota: Como las placas ST-Nucleo traen integrado un programador ST-Link, podemos usar la herramienta [probe-rs](https://probe.rs/docs/overview/about-probe-rs/) para trabajar con ellas.
 
 [stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs)
 
-[Nucleo-64 development board with STM32F446RE MCU](https://www.st.com/en/evaluation-tools/nucleo-f446re.html)
-
-Como las placas Nucleo traen integrado un programador ST-Link, podemos usar la herramienta [probe-rs](https://probe.rs/docs/overview/about-probe-rs/) para trabajar con ellas.
 
 #### Programación directa, usando un HAL
 
-Por ejemplo, podemos usar este HAL (Hardware Abstraction Layer) para los microcontrollers de la serie STM32F4: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
+Existen varios crates que implementan un HAL(Hardware Abstraction Layer) para los microcontrollers de la familia STM32F4. Por ejemplo, este: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
 
-Empleando uno de los [ejemplos de prueba](https://github.com/stm32-rs/stm32f4xx-hal/tree/master/examples) que trae...
+Trae varios [ejemplos de prueba](https://github.com/stm32-rs/stm32f4xx-hal/tree/master/examples). Basandonos en uno de ellos, este podria ser el código para un "Hello world"...
 
 Cargo.toml
 ```
@@ -1816,6 +1827,22 @@ cargo flash --chip STM32F446RE
 
 ##### algunos enlaces interesantes
 
+[STM32F4 Embedded Rust at the HAL: GPIO Button Controlled Blinking - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-gpio-button-controlled-blinking-20a3)
+
+[STM32F4 Embedded Rust at the HAL: Button Controlled Blinking by Timer Polling - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-button-controlled-blinking-by-timer-polling-3bno)
+
+[STM32F4 Embedded Rust at the HAL: PWM Buzzer - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-pwm-buzzer-3f1b)
+
+[STM32F4 Embedded Rust at the HAL: Timer Ultrasonic Distance Measurement - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-timer-ultrasonic-distance-measurement-3bmo)
+
+[STM32F4 Embedded Rust at the HAL: Analog Temperature Sensing using the ADC - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-analog-temperature-sensing-using-the-adc-47f1)
+
+[STM32F4 Embedded Rust at the HAL: Analog Temperature Sensing using the ADC - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-analog-temperature-sensing-using-the-adc-47f1)
+
+[STM32F4 Embedded Rust at the HAL: I2C Temperature & Pressure Sensing with BMP180 - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-i2c-temperature-pressure-sensing-with-bmp180-578l)
+
+[STM32F4 Embedded Rust at the HAL: DMA Controllers - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-dma-controllers-daf)
+
 [Embedded Rust for STM32 - Aleksey Ivanov](https://www.youtube.com/playlist?list=PLfBZ539IiUQzb6ZNAlBn_B4XxcS1oNenC)
 
 [Embedded Rust course - JaJakub](https://www.youtube.com/playlist?list=PLL2SCPK5xSRWBPj-nKOVYIhxRw7C4kYeI)
@@ -1847,20 +1874,15 @@ Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 
 [Adafruit Trinket M0 development board](https://learn.adafruit.com/adafruit-trinket-m0-circuitpython-arduino)
 
-Como la placa Trinket M0 incorpora un cargador HF2, podemos usar la herramienta [hf2-rs](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device#hf2-rs) para trabajar con ella. (nota: Para activar el modo hf2 en la placa es necesario pulsar dos veces el botón de reset, esperar a que el led rojo quede fijo y que el led RGB quede verde.)
+Como la placa Trinket M0 incorpora un cargador HF2 (HID Flashing Format), podemos usar la herramienta [hf2-rs](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device#hf2-rs) para trabajar con ella. Tal y como se describe en la página [Loading code onto the device](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device). (nota: Para activar el modo hf2 en la placa es necesario pulsar dos veces el botón de reset, esperar a que el led rojo quede fijo y que el led RGB quede verde.)
 
 #### Programación directa, usando un HAL
 
-Por ejemplo, podemos usar este HAL (Hardware Abstraction Layer) para los microcontroladores de la serie ATSAMD: [atsamd-rs](https://github.com/atsamd-rs/atsamd)
+Existen varios crates que implementan un HAL(Hardware Abstraction Layer) para los microcontrollers de la familia ATSAMD. Por ejemplo, este: [atsamd-rs](https://github.com/atsamd-rs/atsamd)
 
-Y, más concretamente, podemos usar el BSP (Board Support Package) específico para la placa [Trinket M0](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0/), que incluye el HAL específico para el microcontrolador `atsamd21e` y la configuración específica para esa placa concreta.
+Y, más concretamente, podemos usar el BSP (Board Support Package) específico para la placa [Trinket M0](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0/). Este BSP incluye la configuración específica para esa placa concreta, incluyendo el HAL específico para el microcontrolador `atsamd21e` que tiene.
 
-##### algunos enlaces interesantes
-
-[a type-safe API for working with the Adafruit Trinket M0 board](https://github.com/atsamd-rs/atsamd/tree/master/boards/trinket_m0)
-
-Firmware can be loaded in to the microcontroller using a variety of methods, broadly speaking these can be separated in to two categories: using the SWD debug interface, or over USB via a bootloader. [Loading code onto the device](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device)
-
+Otro HAL interesante: [avr-hal](https://github.com/Rahix/avr-hal/tree/main), con bastantes [ejemplos de uso de diversos periféricos](https://github.com/Rahix/avr-hal/tree/main/examples/arduino-uno/src/bin)
 
 ## Apéndice: algunos enlaces que he ido encontrando...
 
