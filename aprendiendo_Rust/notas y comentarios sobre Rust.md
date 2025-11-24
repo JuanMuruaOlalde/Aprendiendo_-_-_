@@ -1792,19 +1792,21 @@ use crate::hal::{pac, prelude::*};
 
 #[entry]
 fn main() -> ! {
+    // dp (Device Peripherals)
+    // cp (Core Peripherals)
     if let (Some(dp), Some(cp)) = (
         pac::Peripherals::take(),
         cortex_m::peripheral::Peripherals::take(),
     ) {
+        // RCC (Reset and Clock Control)
         // Set up the system clock. We want to run at 48MHz for this one.
         let mut rcc = dp.RCC.freeze(Config::hsi().sysclk(48.MHz()));
+        // Create a delay abstraction based on SysTick
+        let mut delay = cp.SYST.delay(&rcc.clocks);
 
         // Set up the LED. On the Nucleo-446RE it's connected to pin PA5.
         let gpioa = dp.GPIOA.split(&mut rcc);
         let mut led = gpioa.pa5.into_push_pull_output();
-
-        // Create a delay abstraction based on SysTick
-        let mut delay = cp.SYST.delay(&rcc.clocks);
 
         loop {
             // On for 1s, off for 1s.
