@@ -1687,6 +1687,10 @@ nota: Como las placas ST-Nucleo traen integrado un programador ST-Link, podemos 
 
 [stm32-rs , Community Rust support projects for STM32 microcontrollers](https://github.com/stm32-rs)
 
+Dentro del proyecto stm32-rs:
+- Hay soporte para familias específicas de microprocesadores, en forma de HALs (Hardware Abstraction Layer); como, por ejemplo, para las familias [STM32L0](https://github.com/stm32-rs/stm32l0xx-hal), [STM32WL](https://github.com/stm32-rs/stm32wlxx-hal), etc. 
+- Hay también soporte para algunas placas de desarrollo concretas, en forma de BSPs (Board Support Package); como, por ejemplo, para las placas [NUCLEO-F042K6](https://github.com/stm32-rs/nucleo-f042k6), [STM32F429 Discovery kit](https://github.com/stm32-rs/stm32f429i-disc), etc.
+
 
 #### Programación directa, usando un HAL
 
