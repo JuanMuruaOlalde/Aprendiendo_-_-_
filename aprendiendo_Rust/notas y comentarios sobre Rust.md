@@ -1061,6 +1061,8 @@ Algunos comandos útiles:
 
 [The Embeded Rust Boook](https://docs.rust-embedded.org/book/)
 
+[Discovery Book](https://docs.rust-embedded.org/discovery/)
+
 [Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
 
 [embedded_hal - a Hardware Abstraction Layer (HAL) for embedded systems](https://docs.rs/embedded-hal/latest/embedded_hal/)
