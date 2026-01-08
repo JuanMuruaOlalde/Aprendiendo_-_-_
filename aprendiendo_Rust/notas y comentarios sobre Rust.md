@@ -1059,9 +1059,7 @@ Algunos comandos útiles:
 
 ### embedded - industrial - red - control - tiempo real
 
-[The Embeded Rust Boook](https://docs.rust-embedded.org/book/)
-
-[Discovery Book](https://docs.rust-embedded.org/discovery/)
+[Rust on Embedded devices](https://rust-lang.org/what/embedded/)
 
 [Embedded devices Working Group](https://github.com/rust-embedded/wg?tab=readme-ov-file#embedded-devices-working-group)
 
