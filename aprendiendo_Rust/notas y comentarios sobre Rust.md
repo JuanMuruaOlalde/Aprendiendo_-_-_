@@ -1192,12 +1192,6 @@ Cuatro tipos de documentación técnica:
 
 [Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 
-> Nota importante: como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*. Es importante tener en cuenta dos "trait"s:
->  - *Send*: cuando cedemos algo que es "propiedad" de una hebra a otra hebra.
->  - *Sync*: cuando compartimos algo entre dos o más hebras. (teniendo en cuenta que, como siempre, una de ellas será la "propietaria" y las demás solo "prestatarias")
-
-
-
 Poner a un trozo de código a correr en su propia hebra de ejecución es sencillo:
 ```
     let handle =  thread::spawn(move || {
@@ -1229,9 +1223,16 @@ fn main() {
     println!("Got: {received}");
 }
 ```
+[Transfer Data Between Threads with Message Passing](https://doc.rust-lang.org/book/ch16-02-message-passing.html)
 
-Para situaciones más complejas, existe también la posibilidad de compartir directamente elementos de información entre hebras. Usando los clásicos *Mutex*:
-[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+Para situaciones más complejas, existe también la posibilidad de compartir directamente elementos de información entre hebras. Usando los clásicos *Mutex*: [Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html) o algún elemento *Atomic*: [Atomic Reference Counting with Arc<T>](https://doc.rust-lang.org/book/ch16-03-shared-state.html?highlight=atomic#atomic-reference-counting-with-arct)
+
+
+>nota importante: Como siempre en Rust, al compartir algún elemento es necesario prestar atención a las reglas de *Onwership* y *Borrowing*. En este sentido es importante tener en cuenta dos "trait"s:
+>  - **Send**: cuando cedemos algo que es "propiedad" de una hebra a otra hebra.
+>  - **Sync**: cuando compartimos algo entre dos o más hebras. (teniendo en cuenta que, como siempre, una de ellas será la "propietaria" y las demás solo "prestatarias")
+
+>[Extensible Concurrency with Send and Sync](https://doc.rust-lang.org/book/ch16-04-extensible-concurrency-sync-and-send.html)
 
 
 
