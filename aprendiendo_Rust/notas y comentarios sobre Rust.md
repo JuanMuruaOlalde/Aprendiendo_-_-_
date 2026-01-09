@@ -1192,6 +1192,12 @@ Cuatro tipos de documentación técnica:
 
 [Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 
+> Nota importante: como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*. Es importante tener en cuenta dos "trait"s:
+>  - *Send*: cuando cedemos algo que es "propiedad" de una hebra a otra hebra.
+>  - *Sync*: cuando compartimos algo entre dos o más hebras. (teniendo en cuenta que, como siempre, una de ellas será la "propietaria" y las demás solo "prestatarias")
+
+
+
 Poner a un trozo de código a correr en su propia hebra de ejecución es sencillo:
 ```
     let handle =  thread::spawn(move || {
@@ -1206,7 +1212,7 @@ La sincronización temporal entre hebras se realiza con el clásico *join*
     handle.join().unwrap();
 ```
 
-El intercambio de información entre hebras se realiza transmitiendo y recibiendo a través de un canal *mpsc::channel*
+El intercambio de información entre hebras se realiza transmitiendo y recibiendo dicha información a través de un canal *mpsc::channel*
 ```
 use std::sync::mpsc;
 use std::thread;
@@ -1224,9 +1230,7 @@ fn main() {
 }
 ```
 
-Como siempre en Rust, es necesario prestar atención a las reglas de *Onwership* y *Borrowing*.
-
-Para situaciones más complejas, existe también la posibilidad de compartir elementos entre hebras. Usando los clásicos *Mutex*:
+Para situaciones más complejas, existe también la posibilidad de compartir directamente elementos de información entre hebras. Usando los clásicos *Mutex*:
 [Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
 
 
