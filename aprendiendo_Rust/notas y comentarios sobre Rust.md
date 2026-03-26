@@ -1113,6 +1113,20 @@ Algunos comandos útiles:
 
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
+### ML (Machine Learning)
+
+disclaimer: these links are been extracted from [Deploying AI Everywhere with Rust - Stephan Eckes](https://www.youtube.com/watch?v=6-bA_80XcII) talk.
+
+[ort , a Rust interface for performing hardware-accelerated inference & training on machine learning models in the Open Neural Network Exchange (ONNX) format](https://github.com/pykeio/ort)
+
+[Burn , a tensor library and a deep learning framework](https://github.com/tracel-ai/burn)
+
+[Candle , a minimalist ML framework for Rust](https://github.com/huggingface/candle)
+
+[tract , a Neural Network inference toolkit](https://github.com/sonos/tract)
+
+[MicroFlow , a robust and efficient TinyML inference engine designed for deploying machine learning models on embedded systems](https://github.com/matteocarnelos/microflow-rs)
+
 
 ## Algunas notas prácticas sobre algunos aspectos concretos
 
@@ -2081,6 +2095,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [JC -  Rust Programming - Top Techniques and Tutorials](https://www.youtube.com/playlist?list=PL7r-PXl6ZPcCTiOerk-Nd9uw56KVXKtNV)
 
 
+
+
 ### conferencias, canales, blogs,...
 
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
@@ -2088,6 +2104,10 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [EuroRust conference](https://eurorust.eu/)
 
 [Rust - Youtube channel](https://www.youtube.com/@RustVideos/featured)
+
+[RustNL conferences - Youtube channel](https://www.youtube.com/@rustnederlandrustnl)
+
+[RustUK conferences - Youtube channel](https://www.youtube.com/@rustnationuk)
 
 [Thorsten Hans blog](https://www.thorsten-hans.com/tags/rust/)
 
