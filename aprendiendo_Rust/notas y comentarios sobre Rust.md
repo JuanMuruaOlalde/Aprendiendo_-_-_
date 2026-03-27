@@ -1,9 +1,42 @@
 # Rust
 
+# Introducción
 
-## Documentación por la que comenzar a aprender
+Rust tiene fama de ser difícil de aprender. Y, realmente, puede llegar a desesperarnos cuando comenzamos a utilizarlo; sobre todo si venimos desde un lenguaje más permisivo.
 
-### Basic concepts
+La principal diferencia de Rust respecto a otros lenguajes es que implementa muchos controles en tiempo de compilación. Impidiendo obtener siguiera un programa ejecutable si no se superan todos esos controles.
+
+En otros lenguajes no solemos prestar excesiva atención a aspectos tales como:
+
+- Los distintos tipos de datos. (Por ejemplo: no es lo mismo un número entero que número real; no son lo mismo los valores true|false que los números 1|0; no es lo mismo una cantidad monetaria que una medida de longitud; etc.)
+
+- Quién (qué variable) maneja cada porción de la memoria. Quién arbitra los accesos a cada porción desde distintas partes concurrentes. Cuánto tiempo ha de mantenerse activa cada porción (hasta que todas las variables que la usen ya no la necesiten). Quién se encarga de liberar cada porción cuando ya no es necesaria (la última variable que la utilice).
+
+- Qué problemas se pueden presentar al realizar cada operación. (Por ejemplo: una lectura de disco puede no encontrar el archivo; un acceso a red puede toparse con una línea caida; una persona puede teclear un valor no válido; etc.)
+
+En esos otros lenguajes, aunque no prestemos la debida atención a esos aspectos,  el código fuente que escribimos suele compilar y se puede ejecutar. Pero luego nos topamos con errores y problemas en tiempo de ejecución. Errores tan "habituales" como, por ejemplo: "buffer overflow", "null reference", "incorrect format", "xxxxxx exception",... 
+
+Sin embargo, en Rust existen mecanismos para dar suficiente información al compilador. Permitiéndole revisar automáticamente muchos de esos aspectos. De tal forma que, si escribimos código fuente que pueda desembocar en ciertos tipos de problemas... ese código... ¡ni siquiera compila! (y, por tanto, no se puede ejecutar; evitando así muchos tipos de errores en tiempo de ejecución.)
+
+Queramos o no, en Rust hay que tener en cuenta esos aspectos desde la primera línea de código que escribamos.
+
+Al principio, eso nos obliga a leer con atención los mensajes del compilador. Pensando/buscando/razonando/aprendiendo lo que nos quiere decir. (Dicho sea de paso, los mensajes del compilador Rust son muy claros y detallados; además, muchos casos suelen incluir una sugerencia de solución al final del mensaje.)
+
+Para resolver esos "escollos" al compilar. También es posible que nos veamos obligados a adoptar en el código formas y flujos diferentes de aquellos a los que veníamos acostumbrados.
+
+Pero, a nada que perseveremos en trabajar "complaciendo al compilador", pronto comenzaremos a valorar todos esos mecanismos que al principio tanto nos desesperaban. 
+
+Hasta es posible que comencemos a echarlos de menos si volvemos a  trabajar con otros lenguajes. En plan irónico, este video lo expresa bastante bien: [Rust Ruined My Career (I Can't Go Back)](https://www.youtube.com/watch?v=B2gmKy3pHkw)
+
+
+
+nota: Como casi todo en informática, la mayor parte de la información sobre Rust está en inglés. Honrosas excepciones son comunidades como, por ejemplo, [Rust Lang en español](https://rustlang-es.org/) 
+
+
+
+# Documentación por la que comenzar a aprender
+
+## Basic books
 
 Two books are key:
 
@@ -27,8 +60,112 @@ As in any other language, it is very difficult to do anything serious without us
 
 - [Rust std library](https://doc.rust-lang.org/std/)
 
+## Hands-on learning
 
-#### Ownership
+If you want to start practicing without installing anything, you can try Rust online with (https://play.rust-lang.org/). 
+
+If you want to start serious, install `rustup` (https://doc.rust-lang.org/book/ch01-01-installation.html) and use `cargo` (https://doc.rust-lang.org/cargo/getting-started/first-steps.html). If you are using [Visual Studio Code](https://code.visualstudio.com/download) as IDE, you can use it with the [Rust.analyzer extension](https://rust-analyzer.github.io)
+
+Some resources and tutorials:
+
+[Working the Rust Lang Book](https://www.youtube.com/playlist?list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8) - Let's Get Rusty - YouTube
+
+[Rust by Practice](https://practice.course.rs/)
+
+[Rust By Example](https://doc.rust-lang.org/rust-by-example/index.html)
+
+[Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
+
+[GitHub - mre-idiomatic-rust - 🦀 ](https://github.com/mre/idiomatic-rust)
+A peer-reviewed collection of articles-talks-repos which teach concise, idiomatic Rust.
+
+[GitHub - rust-lang-rustlings- 🦀 ](https://github.com/rust-lang/rustlings)Small exercises to get you used to reading and writing Rust code!
+
+[Rust for Rustaceans by Jon Gjengset](https://rust-for-rustaceans.com/)
+
+[A half-hour to learn Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust)
+
+[Getting started with Rust. A brief Introduction to the language - YouTube](https://www.youtube.com/watch?v=4q3Z5RBX7hQ)
+
+[Learn Rust Programming - Complete Course 🦀 - freeCodeCamp - YouTube](https://www.youtube.com/watch?v=BpPEoZW5IiY)
+
+[100 Exercises To Learn Rust](https://rust-exercises.com/100-exercises/)
+
+[google-comprehensive-rust-](https://github.com/google/comprehensive-rust) This is the Rust course used by the Android team at Google. The course covers all aspects of Rust, from basic syntax to generics and error handling. It also includes deep dives on Android, Chromium, bare-metal, and concurrency. [Syllabus](https://google.github.io/comprehensive-rust/)
+
+[Practical Rust Web Development](https://dev.to/werner/practical-rust-web-development-api-rest-29g1)
+
+
+## Some additional books and practical resources
+
+[Rust Crash Course - Tutorial for Beginners](https://www.youtube.com/playlist?list=PLPoSdR46FgI412aItyJhj2bF66cudB6Qs)
+
+[Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
+
+[The Dev Method - Youtube channel](https://www.youtube.com/@TheDevMethod)
+
+[Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
+
+[rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
+
+[The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
+
+[The rustup book](https://rust-lang.github.io/rustup/index.html)
+
+[The rustc book](https://doc.rust-lang.org/nightly/rustc/what-is-rustc.html)
+
+[Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
+
+[Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
+
+[Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
+
+[Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
+
+[Rust: Managing a Growing Project](https://www.youtube.com/watch?v=JIvi-g5K8gk)
+
+[Rust 🦀 and WebAssembly 🕸](https://rustwasm.github.io/docs/book/introduction.html)
+
+[The Embedded Rustacean](https://www.theembeddedrustacean.com/)
+
+
+## Some additional material to read/view
+
+[Rust Is Easy - just read the compiler error messages  ;-) - YouTube](https://www.youtube.com/watch?v=CJtvnepMVAU)
+
+[Getting familiar with Rust's syntax - YouTube](https://www.youtube.com/watch?v=AuzoABH7fRA)
+
+[Simple error handling in Rust - YouTube](https://www.youtube.com/watch?v=g6WUHcyjsfc)
+
+[The magic of Rust's type system - Youtube](https://www.youtube.com/watch?v=NDIU1GSBrVI)
+
+[Learning Rust: Memory, Ownership and Borrowing - Youtube](https://www.youtube.com/watch?v=8M0QfLUDaaA)
+
+[Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
+
+[Why Rust?](https://rerun.io/blog/why-rust)
+
+[Rust stole C++'s best features - YouTube](https://www.youtube.com/watch?v=sjsnuirLyKM)
+
+[pretzelhammer-rust-blog - Github](https://github.com/pretzelhammer/rust-blog/blob/master/posts/tour-of-rusts-standard-library-traits.md)
+
+[5 traits your Rust types must implement](https://www.youtube.com/watch?v=Nzclc6MswaI)
+
+[The genius of Rust constructors - Youtube](https://www.youtube.com/watch?v=6mVkva3_z9M)
+
+[The size of your variables matters - Youtube](https://www.youtube.com/watch?v=hwyRnHA54lI)
+
+[8 deadly mistakes beginner Rust developers make - YouTube](https://www.youtube.com/watch?v=PbR4ECFIckg)
+
+[Top 5 deadly Rust anti-patterns to avoid - YouTube](https://www.youtube.com/watch?v=SWwTD2neodE)
+
+[Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
+
+
+
+# Conceptos básicos sin los cuales no se puede programar en Rust
+
+## Ownership
 
 Ownership es se refiere al concepto de qué variable o parámetro es la "dueña" (owner) en cada momento de cada porción de memoria que utiliza el programa. 
 
@@ -91,7 +228,7 @@ error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
 
 nota: Hay más información más adelante en este documento, en las secciones de "Ownership, Borrow-checker" y de "Lifetimes"
 
-#### struct
+## structs
 
 [Using Structs to Structure Related Data - The Rust Programming Language](https://doc.rust-lang.org/book/ch05-00-structs.html)
 
@@ -99,7 +236,44 @@ En cierta medida, los `struct` de Rust son como las clases en otros lenguajes. P
 
 Pero no perder de vista que Rust no es un lenguaje orientado a objeto. Sino más bien un lenguaje funcional.
 
-#### trait
+En Rust la principal función de los `struct` es definir nuevos tipos de dato.
+
+Así es que no conviene llevar demasiado lejos la aparente similitud entre `struct` en Rust y "clase" en lenguajes orientados a objeto.
+
+## enums
+ 
+[Enums and Pattern Matching](https://doc.rust-lang.org/book/ch06-00-enums.html)
+
+Los `enum` permiten acotar y definir todos los posibles valores permitidos en un cierto tipo de dato.
+
+La biblioteca base estandard incorpora algunos `enum` importantes. De los que destacan dos: `Option` y `Result`.
+
+### Option enum, para gestionar la ausencia de valor en una variable
+
+[The Option enum](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum)
+
+Toda aquella variable o parámetro que pueda carecer de valor en un momento dado, conviene que sea del tipo 'Option'. Así puede expresar con claridad sus dos posibles variantes:
+- Some(T), si tiene un valor (de tipo T)
+- None, si no tiene valor.
+
+En cualquier parte del código donde se use una variable de tipo 'Option', el compilador obliga a tratar ambas posibilidades.
+
+### Result enum, para gestionar la posibilidad de error en una función
+
+[Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
+
+Toda función que pueda tener problemas predecibles, conviene que devuelva un resultado de tipo `Result` (valga la redundancia ;-)
+
+Sus dos variantes dejan queda claramente indicado si:
+
+- Ok( ), todo ha ido bien.
+
+- Err( ), se ha producido un error.
+
+En cualquier parte del código donde se llame a la función que devuelva un tipo `Result`, el compilador obliga a tratar ambas posibilidades.
+
+
+## traits
 
 [Traits: Defining Shared Behavior - The Rust Programming Language](https://doc.rust-lang.org/book/ch10-02-traits.html)
 
@@ -170,109 +344,8 @@ De esa forma, se puedan utilizar de forma intercambiable. Ayudando a cumplir con
  
 
 
-### Hands-on learning
 
-If you want to start practicing without installing anything, you can try Rust online with (https://play.rust-lang.org/). 
-
-If you want to start serious, install `rustup` (https://doc.rust-lang.org/book/ch01-01-installation.html) and use `cargo` (https://doc.rust-lang.org/cargo/getting-started/first-steps.html). If you are using [Visual Studio Code](https://code.visualstudio.com/download) as IDE, you can use it with the [Rust.analyzer extension](https://rust-analyzer.github.io)
-
-Some resources and tutorials:
-
-[Working the Rust Lang Book](https://www.youtube.com/playlist?list=PLai5B987bZ9CoVR-QEIN9foz4QCJ0H2Y8) - Let's Get Rusty - YouTube
-
-[Rust by Practice](https://practice.course.rs/)
-
-[Rust By Example](https://doc.rust-lang.org/rust-by-example/index.html)
-
-[Rust Cookbook](https://rust-lang-nursery.github.io/rust-cookbook/intro.html)
-
-[GitHub - mre-idiomatic-rust - 🦀 ](https://github.com/mre/idiomatic-rust)
-A peer-reviewed collection of articles-talks-repos which teach concise, idiomatic Rust.
-
-[GitHub - rust-lang-rustlings- 🦀 ](https://github.com/rust-lang/rustlings)Small exercises to get you used to reading and writing Rust code!
-
-[Rust for Rustaceans by Jon Gjengset](https://rust-for-rustaceans.com/)
-
-[A half-hour to learn Rust](https://fasterthanli.me/articles/a-half-hour-to-learn-rust)
-
-[Getting started with Rust. A brief Introduction to the language - YouTube](https://www.youtube.com/watch?v=4q3Z5RBX7hQ)
-
-[Learn Rust Programming - Complete Course 🦀 - freeCodeCamp - YouTube](https://www.youtube.com/watch?v=BpPEoZW5IiY)
-
-[100 Exercises To Learn Rust](https://rust-exercises.com/100-exercises/)
-
-[google-comprehensive-rust-](https://github.com/google/comprehensive-rust) This is the Rust course used by the Android team at Google. The course covers all aspects of Rust, from basic syntax to generics and error handling. It also includes deep dives on Android, Chromium, bare-metal, and concurrency. [Syllabus](https://google.github.io/comprehensive-rust/)
-
-[Practical Rust Web Development](https://dev.to/werner/practical-rust-web-development-api-rest-29g1)
-
-
-### some additional books and practical resources
-
-[Rust Crash Course - Tutorial for Beginners](https://www.youtube.com/playlist?list=PLPoSdR46FgI412aItyJhj2bF66cudB6Qs)
-
-[Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
-
-[The Dev Method - Youtube channel](https://www.youtube.com/@TheDevMethod)
-
-[Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
-
-[rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
-
-[The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
-
-[The rustup book](https://rust-lang.github.io/rustup/index.html)
-
-[The rustc book](https://doc.rust-lang.org/nightly/rustc/what-is-rustc.html)
-
-[Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
-
-[Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
-
-[Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
-
-[Cargo Workspaces](https://doc.rust-lang.org/book/ch14-03-cargo-workspaces.html)
-
-[Rust: Managing a Growing Project](https://www.youtube.com/watch?v=JIvi-g5K8gk)
-
-[Rust 🦀 and WebAssembly 🕸](https://rustwasm.github.io/docs/book/introduction.html)
-
-[The Embedded Rustacean](https://www.theembeddedrustacean.com/)
-
-
-### Some additional material to read/view
-
-[Rust Is Easy - just read the compiler error messages  ;-) - YouTube](https://www.youtube.com/watch?v=CJtvnepMVAU)
-
-[Getting familiar with Rust's syntax - YouTube](https://www.youtube.com/watch?v=AuzoABH7fRA)
-
-[Simple error handling in Rust - YouTube](https://www.youtube.com/watch?v=g6WUHcyjsfc)
-
-[The magic of Rust's type system - Youtube](https://www.youtube.com/watch?v=NDIU1GSBrVI)
-
-[Learning Rust: Memory, Ownership and Borrowing - Youtube](https://www.youtube.com/watch?v=8M0QfLUDaaA)
-
-[Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
-
-[Why Rust?](https://rerun.io/blog/why-rust)
-
-[Rust stole C++'s best features - YouTube](https://www.youtube.com/watch?v=sjsnuirLyKM)
-
-[pretzelhammer-rust-blog - Github](https://github.com/pretzelhammer/rust-blog/blob/master/posts/tour-of-rusts-standard-library-traits.md)
-
-[5 traits your Rust types must implement](https://www.youtube.com/watch?v=Nzclc6MswaI)
-
-[The genius of Rust constructors - Youtube](https://www.youtube.com/watch?v=6mVkva3_z9M)
-
-[The size of your variables matters - Youtube](https://www.youtube.com/watch?v=hwyRnHA54lI)
-
-[8 deadly mistakes beginner Rust developers make - YouTube](https://www.youtube.com/watch?v=PbR4ECFIckg)
-
-[Top 5 deadly Rust anti-patterns to avoid - YouTube](https://www.youtube.com/watch?v=SWwTD2neodE)
-
-[Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
-
-
-## Ownership , Borrow-checker
+# Ownership , Borrow-checker
 
 [Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
 
@@ -289,7 +362,7 @@ También se puede prestar -borrow- la propiedad, incluso a varias variables, hac
 nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
 
 
-### Move semantics
+## Move semantics
 
 Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes. Cuando una variable se asigna a otra o se pasa como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro. La variable original pierde el derecho de usar el trozo de memoria al que hacia referencia. 
 
@@ -305,7 +378,7 @@ nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios
 aviso: Aunque Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir, sobre todo en programación concurrente). Son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
 
 
-### algo de documentación
+## algo de documentación
 
 [Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
 
@@ -325,7 +398,7 @@ aviso: Aunque Rust tiene mecanismos para compartir la propiedad de un trozo de m
 
 
 
-## Strong typed
+# Strong typed
 
 [Data Types](https://doc.rust-lang.org/book/ch03-02-data-types.html)
 
@@ -392,7 +465,7 @@ https://doc.rust-lang.org/book/ch08-02-strings.html
 https://doc.rust-lang.org/book/ch08-02-strings.html#bytes-and-scalar-values-and-grapheme-clusters-oh-my
 
 
-### Un consejo: definir tipos específicos para (casi) todo
+## Un consejo: definir tipos específicos para (casi) todo
 
 Lo que en Rust se conoce como 'Newtype Pattern' y similares.
 
@@ -605,7 +678,7 @@ Mucha mierda, querido Benzirpi el griunquy!.
 ```
 
 
-### Structs
+## Structs
 
 Como se ha comentado anteriormente, los `struct` permiten definir tipos específicos. Pero también pueden ir más allá e implementar métodos específicos para tratar con esos tipos específicos. Esta implementación de métodos se hace utilizando la palabra reservada `impl`.
 
@@ -708,17 +781,17 @@ impl Edificio {
 ```
 
 
-### Enums
+## Enums
 
 [Enums and Pattern Matching](https://doc.rust-lang.org/book/ch06-00-enums.html)
 
-### Option
+## Option
 
 Para cuando necesitamos distinguir claramente si una variable tiene un valor (`Some`) o no lo tiene (`None`).
 
 [The Option Enum and Its Advantages Over Null Values](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
 
-### Result
+## Result
 
 Para cuando necesitamos distinguir claramente si una función devuelve un resultado (`Ok`) o un error (`Error`).
 
@@ -730,20 +803,20 @@ Para cuando necesitamos distinguir claramente si una función devuelve un result
 
 [You’re Doing Exceptions Wrong - Matt Burke - NDC London 2025](https://www.youtube.com/watch?v=oWvX-hdIAQo) Conclusión extraida de esta conferencia: `Result` es con lo que Rust evita las "Vexing Exceptions" y trata los casos de "Exogenous Exceptions" en los que podemos hacer algo para mitigar la excepción; `panic` es con lo que Rust trata las "Fatal Exceptions", las "Boneheaded Exceptions" (en su primera fase, antes de corregir el bug que la causaba) y los casos de "Exogenous Exceptions" en los que no podemos hacer nada.
 
-### ControlFlow
+## ControlFlow
 
 Para cuando necesitamos distinguir claramente entre continuar (`Continue`) o parar (`Break`).
 
 [The ControlFlow Enum](https://doc.rust-lang.org/stable/std/ops/enum.ControlFlow.html)
 
 
-### Pattern matching
+## Pattern matching
 
 [Patterns and Matching](https://doc.rust-lang.org/book/ch19-00-patterns.html?highlight=Patterns#patterns-and-matching)
 
 
 
-## Tests
+# Tests
 
 Los test unitarios se pueden escribir directamente en cada archivo del código fuente, normalmente al fondo del mismo. El bloque de tests se marca con la anotación `#[cfg(test)]` y cada función test con la anotación `#[test]`
 
@@ -782,7 +855,7 @@ Resumiendo, en Rust existen tres tipos de tests:
 - Integración: en carpeta `tests` colgando de la raiz del proyecto.
 - Documentación: los ejemplos de código puestos en la documentación.
 
-## Lifetimes
+# Lifetimes
 
 [Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
 
@@ -795,7 +868,7 @@ Normalmente, una variable solo está viva en el alcance (scope) donde se defina:
 Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
 
 
-## Traits
+# Traits
 
 [Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
 
@@ -811,13 +884,13 @@ A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que i
 
 [Traits as Parameters](https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters)
 
-## Slices
+# Slices
 
 [The Slice Type](https://doc.rust-lang.org/book/ch04-03-slices.html)
 
 Son trozos de una colección. Muy útiles cuando se necesita trabajar con una parte de la misma en lugar de con la colección completa.
 
-## Iterators, Functional Iterators
+# Iterators, Functional Iterators
 
 https://doc.rust-lang.org/std/iter/trait.Iterator.html
 
@@ -845,7 +918,7 @@ Rust trabaja con formas propias de un lenguaje funcional al tratar con coleccion
 
 
 
-## Toolchains
+# Toolchains
 
 Un toolchain es una versión específica de las herramientas de Rust (components), para máquinas con una arquitectura específica (targets).
 
@@ -867,7 +940,7 @@ Algunos comandos útiles:
 - `rustup default`, para fijar el toolchain a usar por defecto.
 
 
-## Interoperabilidad de Rust con otros lenguajes
+# Interoperabilidad de Rust con otros lenguajes
 
 [The bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
 
@@ -883,7 +956,7 @@ Algunos comandos útiles:
 
 
 
-## Lista de algunas bibliotecas-crates-
+# Lista de algunas bibliotecas-crates-
 
 [crates.io - The Rust community’s crate registry](https://crates.io/)
 
@@ -891,7 +964,7 @@ Algunos comandos útiles:
 
 [Top 10 Rust crates you must know](https://www.youtube.com/watch?v=FPRH66r-zUQ)
 
-### standard library
+## standard library
 
 [std::collections](https://doc.rust-lang.org/std/collections/)
 
@@ -907,7 +980,7 @@ Algunos comandos útiles:
 
 
 
-### utilidades generales
+## utilidades generales
 
 [chrono - dates and times in the proleptic Gregorian calendar](https://docs.rs/chrono/latest/chrono/)
 
@@ -958,7 +1031,7 @@ Algunos comandos útiles:
 [windows-rs - let you call any Windows API](https://github.com/microsoft/windows-rs)
 
 
-### i18n y l10n
+## i18n y l10n
 
 [Are we i18n Yet? - The state of internazionalization in Rust](https://www.arewewebyet.org/topics/i18n/)
 
@@ -970,7 +1043,7 @@ Algunos comandos útiles:
 
 [gettext - safe bindings for gettext](https://crates.io/crates/gettext-rs)
 
-### GUI
+## GUI
 
 [Are we GUI Yet? - The state of building user interfaces in Rust](https://areweguiyet.com/)
 
@@ -1005,7 +1078,7 @@ Algunos comandos útiles:
 [Building a Rust App With Yew! - Let's Get Rusty - Youtube](https://www.youtube.com/watch?v=KmOeFrwz8BM)
 
 
-### web - networking
+## web - networking
 
 [Are we web yet? - The state of building web applications in Rust](https://www.arewewebyet.org/)
 
@@ -1030,7 +1103,7 @@ Algunos comandos útiles:
 [Actix Web - web framework for backend](https://actix.rs/)
 
 
-### bases de datos
+## bases de datos
 
 [Diesel- a Safe, Extensible ORM and Query Builder](https://diesel.rs/)
 
@@ -1042,7 +1115,7 @@ Algunos comandos útiles:
 
 
 
-### gráficos
+## gráficos
 
 [Beby - a refreshingly simple data-driven game engine](https://github.com/bevyengine/bevy)
 
@@ -1057,7 +1130,7 @@ Algunos comandos útiles:
 [gpu - a safe and portable graphics library based on the WebGPU API](https://wgpu.rs/)
 
 
-### embedded - industrial - red - control - tiempo real
+## embedded - industrial - red - control - tiempo real
 
 [Rust on Embedded devices](https://rust-lang.org/what/embedded/)
 
@@ -1101,7 +1174,7 @@ Algunos comandos útiles:
 
 [pnet - a cross-platform API for low level networking](https://docs.rs/pnet/latest/pnet/)
 
-### juegos - VR - AR
+## juegos - VR - AR
 
 [Are we game yet? - The state of virtual reality in Rust](https://arewegameyet.rs/ecosystem/vr/#:~:text=rust-webvr.%20Safe%20rust%20API%20that%20provides%20a%20way)
 
@@ -1113,7 +1186,7 @@ Algunos comandos útiles:
 
 [rust-penvr - high-level bindings for OpenVR](https://github.com/rust-openvr/rust-openvr)
 
-### ML (Machine Learning)
+## ML (Machine Learning)
 
 disclaimer: these links are been extracted from [Deploying AI Everywhere with Rust - Stephan Eckes](https://www.youtube.com/watch?v=6-bA_80XcII) talk.
 
@@ -1128,12 +1201,12 @@ disclaimer: these links are been extracted from [Deploying AI Everywhere with Ru
 [MicroFlow , a robust and efficient TinyML inference engine designed for deploying machine learning models on embedded systems](https://github.com/matteocarnelos/microflow-rs)
 
 
-## Algunas notas prácticas sobre algunos aspectos concretos
+# Algunas notas prácticas sobre algunos aspectos concretos
 
 Aquí voy recogiendo aquello que voy estudiando o practicando...
 
 
-### Organizar el código
+## Organizar el código
 
 Modules (`mod`) allow to put each thing in it's own folder/file.
 
@@ -1163,7 +1236,7 @@ The advantage of using trait objects and Rust’s type system to write code simi
 [Design Patterns in Rust](https://softwarepatternslexicon.com/patterns-rust/1/)
 
 
-### Escribir documentación
+## Escribir documentación
 
 [The rustdoc book](https://doc.rust-lang.org/stable/rustdoc/)
 
@@ -1202,7 +1275,7 @@ Cuatro tipos de documentación técnica:
 
 
 
-### Concurrencia
+## Concurrencia
 
 [Fearless Concurrency - The Rust Programming Language Book](https://doc.rust-lang.org/book/ch16-00-concurrency.html)
 
@@ -1250,7 +1323,7 @@ Para situaciones más complejas, existe también la posibilidad de compartir dir
 
 
 
-### Asincronía
+## Asincronía
 
 [Fundamentals of Asynchronous Programming: Async, Await, Futures, and Streams](https://doc.rust-lang.org/book/ch17-00-async-await.html)
 
@@ -1291,7 +1364,7 @@ Es decir, en el fondo `await` es como si creara un 'callback' que entrega a la f
 
 
 
-#### Ventajas y pegas
+### Ventajas y pegas
 
 La gran ventaja de las arquitecturas asíncronas es que aprovechan mejor los recursos (no desperdician ciclos de CPU) y que escalan muy bien (horizontalmente). Suele merecer la pena tener una arquitectura asíncrona (o una concurrente). Sobre todo si hay involucradas tareas que requieran esperar a mucho trabajo de la CPU (grandes cálculos) o esperar a tareas con un fuerte componente I/O (como por ejemplo acceder a servidores en la red).
 
@@ -1311,14 +1384,14 @@ Pero esta asincronía entre la petición y la respuesta:
 
 De ahí que la asincronía se tienda a utilizar junto con arquitecturas donde cada petición/llamada pueda tener una respuesta/procesado independiente (stateless architecture).
 
-#### La asíncronia es "contagiosa"
+### La asíncronia es "contagiosa"
 
 Por otro lado, comentar que una vez se hace una llamada asíncrona en algún punto del código, es obligatorio llevar a asincronía hasta el origen. Es decir, no se pueden mezclar partes síncronas y partes asíncronas en una misma operación. Por ejemplo, si al pulsar un botón en el interfaz de usuario se desencadena una acción que al final requiere realizar una llamada asíncrona a una API para solicitar datos; aunque el .await esté en la llamada a la API, toda la cadena de vuelta (API -> modelo -> controlador -> vista) acabarán siendo funciones asíncronas (requiendo que la vista tenga también capacidad de atender y cerrar la cadena asíncrona).
 
 > Podria decirse que la asíncronicidad es "contagiosa". Un proceso asíncrono lleva a que otro que lo utiliza también deba ser asíncrono. Y, muchas veces, al final acaba obligando a que más y más procesos sean asíncronos. Hasta que todo el sistema acaba teniendo una arquitectura asíncrona.
 
 
-#### `main` function and `test` functions
+### `main` function and `test` functions
 
 En Rust no pueden ser asíncronas ni la función `main`, ni las funciones `test`. A no ser que se utilice algún framework que lo permita, como, por ejemplo:
 
@@ -1371,7 +1444,7 @@ Ultimately, something has to execute this state machine, and that something is a
 Now you can see why the compiler stopped us from making main itself an async function back in Listing 17-3. If main were an async function, something else would need to manage the state machine for whatever future main returned, but main is the starting point for the program!"
 
 
-### sqlx - acceso a bases de datos
+## sqlx - acceso a bases de datos
 
 [SQLx](https://github.com/launchbadge/sqlx?tab=readme-ov-file#sqlx)
 
@@ -1473,7 +1546,7 @@ Las consultas y manipulación de datos se realizan a través de la [macro query]
     }
 ````
 
-### egui - interfaz de usuario
+## egui - interfaz de usuario
 
 [egui - documentation](https://docs.rs/egui/latest/egui/)
 
@@ -1492,7 +1565,7 @@ Las consultas y manipulación de datos se realizan a través de la [macro query]
 [egui file dialog](https://lib.rs/crates/egui-file-dialog)
 
 
-### Yew - interfaz de usuario
+## Yew - interfaz de usuario
 
 [Yew](https://yew.rs/)
 
@@ -1681,7 +1754,7 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [events](https://yew.rs/docs/concepts/html/events)
 
 
-#### algunos enlaces
+### algunos enlaces
 
 [A curated list of awesome things related to Yew](https://github.com/jetli/awesome-yew)
 
@@ -1692,7 +1765,7 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
 
 
-### Embedded, con un microcontrolador STM32
+## Embedded, con un microcontrolador STM32
 
 [STMicroelectronics STM32 32-bit Arm Cortex MCUs family](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html)
 
@@ -1711,7 +1784,7 @@ Dentro del proyecto stm32-rs:
 - Hay también soporte para algunas placas de desarrollo concretas, en forma de BSPs (Board Support Package); como, por ejemplo, para las placas [NUCLEO-F042K6](https://github.com/stm32-rs/nucleo-f042k6), [STM32F429 Discovery kit](https://github.com/stm32-rs/stm32f429i-disc), etc.
 
 
-#### Programación directa, usando un HAL
+### Programación directa, usando un HAL
 
 Existen varios crates que implementan un HAL(Hardware Abstraction Layer) para los microcontrollers de la familia STM32F4. Por ejemplo, este: [stm32f4xx-hal](https://github.com/stm32-rs/stm32f4xx-hal)
 
@@ -1850,7 +1923,7 @@ cargo flash --chip STM32F446RE
 ```
 
 
-##### algunos enlaces interesantes
+#### algunos enlaces interesantes
 
 [STM32F4 Embedded Rust at the HAL: GPIO Button Controlled Blinking - Omar Hiari](https://dev.to/theembeddedrustacean/stm32f4-embedded-rust-at-the-hal-gpio-button-controlled-blinking-20a3)
 
@@ -1875,12 +1948,12 @@ cargo flash --chip STM32F446RE
 [Custom STM32 Dev Board with Rust! - Ian Carey](https://youtu.be/VBXmCU-VQOw)
 
 
-#### Programación indirecta, usando un framework
+### Programación indirecta, usando un framework
 
 Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 
 
-##### algunos enlaces interesantes
+#### algunos enlaces interesantes
 
 [Intro to Embassy: embedded development with async Rust - The Rusty Bits](https://youtu.be/pDd5mXBF4tY)
 
@@ -1893,7 +1966,7 @@ Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 [How to Embedded STM32 Rust - tRichCS](https://youtu.be/S6C--TmcWP0)
 
 
-### Embedded, con un microcontrolador ATSAMD
+## Embedded, con un microcontrolador ATSAMD
 
 [Microchip SAM D Arm® Cortex®-M-Based Microcontrollers (MCUs)](https://www.microchip.com/en-us/products/microcontrollers/32-bit-mcus/pic32-sam/sam-d#Products)
 
@@ -1901,7 +1974,7 @@ Por ejemplo, este framework asíncrono: [Embassy](https://embassy.dev/)
 
 Como la placa Trinket M0 incorpora un cargador HF2 (HID Flashing Format), podemos usar la herramienta [hf2-rs](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device#hf2-rs) para trabajar con ella. Tal y como se describe en la página [Loading code onto the device](https://github.com/atsamd-rs/atsamd/wiki/Loading-code-onto-the-device). (nota: Para activar el modo hf2 en la placa es necesario pulsar dos veces el botón de reset, esperar a que el led rojo quede fijo y que el led RGB quede verde.)
 
-#### Programación directa, usando un HAL
+### Programación directa, usando un HAL
 
 Existen varios crates que implementan un HAL(Hardware Abstraction Layer) para los microcontrollers de la familia ATSAMD. Por ejemplo, este: [atsamd-rs](https://github.com/atsamd-rs/atsamd)
 
@@ -1909,12 +1982,12 @@ Y, más concretamente, podemos usar el BSP (Board Support Package) específico p
 
 Otro HAL interesante: [avr-hal](https://github.com/Rahix/avr-hal/tree/main), con bastantes [ejemplos de uso de diversos periféricos](https://github.com/Rahix/avr-hal/tree/main/examples/arduino-uno/src/bin)
 
-## Apéndice: algunos enlaces que he ido encontrando...
+# Apéndice: documentación adicional ; algunos enlaces que he ido encontrando...
 
 Aquí voy recogiendo aquello que no veo claro dónde encajar...
 
 
-### (quasi)forbiden, arcane practice: The Rustonomicon
+## (quasi)forbiden, arcane practice: The Rustonomicon
 
 [-----Rust Koans-----](https://users.rust-lang.org/t/rust-koans/2408)
 An article in The Rust Programming Language Forum
@@ -1923,7 +1996,7 @@ An article in The Rust Programming Language Forum
 
 [The embedonomicon](https://docs.rust-embedded.org/embedonomicon/)The embedonomicon walks you through the process of creating a #![no_std] application from scratch
 
-### some links to security related info
+## some links to security related info
 
 [It’s Not As Simple As “Use A Memory Safe Language"](https://youtu.be/iQ-eTaW6-cM)
 
@@ -1949,7 +2022,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Ferrocene, Rust compiler toolchain for safety- and mission-critical systems](https://ferrocene.dev/en/)
 
 
-### some links to embedded related info
+## some links to embedded related info
 
 [The Embedded Rust Book](https://docs.rust-embedded.org/book/)
 
@@ -1974,7 +2047,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Writing a SD Card driver in Rust - Jonathan Pallant | EuroRust 2024](https://www.youtube.com/watch?v=-ewuFNKIAVI)
 
 
-### libros:
+## libros:
 
 [Top 5 Rust books you MUST READ! - Let's Get Rusty](https://www.youtube.com/watch?v=uQYoSZTcUKI)
 
@@ -1987,7 +2060,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Rust for Rustaceans by Jon Gjengset](https://nostarch.com/rust-rustaceans)
 
 
-### cursos y tutoriales
+## cursos y tutoriales
 
 [The Rust Developer Bootcamp - Let's Get Rusty](https://checkout.letsgetrusty.com/checkout-cart)
 
@@ -2014,7 +2087,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Rust Adventure, with Chris Biscardi](https://www.rustadventure.dev/)
 
 
-### videos y lecturas varias
+## videos y lecturas varias
 
 [10 Reasons Not To Use Rust (The Whole Truth) - fasterthanlime](https://www.youtube.com/watch?v=ul9vyWuT8SU)
 
@@ -2097,7 +2170,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 
 
-### conferencias, canales, blogs,...
+## conferencias, canales, blogs,...
 
 [Let's Get Rusty - Youtube channel](https://www.youtube.com/@letsgetrusty)
 
@@ -2114,7 +2187,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [pretzelhammer's Rust blog 🦀](https://github.com/pretzelhammer/rust-blog/blob/master/readme.md)
 
 
-#### Let's Get Rusty
+### Let's Get Rusty
 
 [Rust is easy... (we make it hard)](https://www.youtube.com/watch?v=06CVZKbNvgE)
 
@@ -2150,7 +2223,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust stole C++'s best features](https://www.youtube.com/watch?v=sjsnuirLyKM)
 
-#### The Dev Method
+### The Dev Method
 
 [Rust: Structs](https://www.youtube.com/watch?v=MDT9vNjtGsY)
 
@@ -2166,7 +2239,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust: Generics, Traits, Lifetimes](https://www.youtube.com/watch?v=JLfEiJhpTbE)
 
-#### Mainmatter - Rust exercises
+### Mainmatter - Rust exercises
 
 [Rust Exercises](https://rust-exercises.com/)
 
@@ -2178,7 +2251,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust-Python interoperability](https://rust-exercises.com/rust-python-interop/)
 
-#### 300 seconds of Rust
+### 300 seconds of Rust
 
 [4. Strings and string slices (&str)](https://www.youtube.com/watch?v=uo7Z4N5QAsM)
 
@@ -2188,7 +2261,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [11. Option](https://www.youtube.com/watch?v=OrL0DEChwpQ)
 
-#### creativcoder
+### creativcoder
 
 [Getting started with Rust programming language 🦀 2020: 1. Setup with rustup](https://www.youtube.com/watch?v=2hY7Uib2UDM)
 
@@ -2199,14 +2272,14 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Getting started with Rust programming language 🦀 2021: 4. Building a CLI app in Rust](https://www.youtube.com/watch?v=4km2UijVC3M&list=PLfyJcJbPAedRqjVaOd-P8wp_Wy9RIN7Oq)
 
 
-#### Francesco Ciulla
+### Francesco Ciulla
 
 [Getting familiar with Rust's syntax](https://www.youtube.com/watch?v=AuzoABH7fRA)
 
 [Rust Installation, Hello World, Hello Cargo - Full Crash Rust Tutorial for Beginners](https://www.youtube.com/watch?v=R33h77nrMqc&list=PLPoSdR46FgI412aItyJhj2bF66cudB6Qs)
 
 
-#### Jon Gjengset
+### Jon Gjengset
 
 [Rust for Rustaceans - book](https://rust-for-rustaceans.com/)
 
@@ -2215,7 +2288,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Solving distributed systems challenges in Rust](https://www.youtube.com/watch?v=gboGyccRVXI)
 
 
-#### MrJakob
+### MrJakob
 
 [Quick Bytes - Installing Rust](https://www.youtube.com/watch?v=Xc_dDtJzpk4&list=PLy68GuC77sUQBwgU_f_RVHKzGvX-IpG9B)
 
@@ -2224,13 +2297,13 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Image Manipulation - Unicode & ANSI Alchemy: Turn Text into Images in Your Console](https://www.youtube.com/watch?v=MMJ1KRzWZwI&list=PLy68GuC77sUT7xppVqjE4dh3IopqrIdmv)
 
 
-#### Thomas - nyxtom
+### Thomas - nyxtom
 
 [Rust Programming Exercises: Markdown Blog with Tide](https://www.youtube.com/watch?v=BcR6TnkKubQ&list=PLb1VOxJqFzDdS-xV9OkKKPfXvtQ8y1Wzk)
 
 [Getting Started with Rust](https://www.youtube.com/watch?v=ZzRAdD38cRI&list=PLb1VOxJqFzDcAP5RwrGR3R8WFxGdQnJ8z)
 
-#### Oliver Jumpertz
+### Oliver Jumpertz
 
 [Rust's Option In 180 Seconds](https://www.youtube.com/watch?v=988N79pAj3M)
 
@@ -2238,7 +2311,7 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 
 
-#### Rust Youtube channel
+### Rust Youtube channel
 
 (https://www.youtube.com/@RustVideos)
 
