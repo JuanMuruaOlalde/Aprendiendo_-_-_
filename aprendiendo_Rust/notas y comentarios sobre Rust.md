@@ -95,6 +95,9 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Practical Rust Web Development](https://dev.to/werner/practical-rust-web-development-api-rest-29g1)
 
+[Teach-rs, Trifect Tech Foundation](https://trifectatech.org/initiatives/education/)
+
+
 
 ## Some additional books and practical resources
 
@@ -1996,6 +1999,8 @@ An article in The Rust Programming Language Forum
 
 [The embedonomicon](https://docs.rust-embedded.org/embedonomicon/)The embedonomicon walks you through the process of creating a #![no_std] application from scratch
 
+[UCG - Rust's Unsafe Code Guidelines](https://github.com/rust-lang/unsafe-code-guidelines)
+
 ## some links to security related info
 
 [It’s Not As Simple As “Use A Memory Safe Language"](https://youtu.be/iQ-eTaW6-cM)
@@ -2086,6 +2091,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust Adventure, with Chris Biscardi](https://www.rustadventure.dev/)
 
+[Rust Training Programs, ferrous systems](https://ferrous-systems.com/training/)
+
 
 ## videos y lecturas varias
 
@@ -2102,6 +2109,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Rust's Most Important Containers 📦 10 Useful Patterns - Code to the Moon](https://www.youtube.com/watch?v=f82wn-1DPas)
 
 [Rust for Rustaceans by Jon Gjengset](https://rust-for-rustaceans.com/)
+
+[Jon Gjengset Youtube channel](https://www.youtube.com/@jonhoo/featured)
 
 [Learn to code anything in Rust - How To Code It](https://www.howtocodeit.com/)
 
