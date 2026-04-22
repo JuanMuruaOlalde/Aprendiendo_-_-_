@@ -54,11 +54,13 @@ It is very paintful to try any work without mastering these three main concepts:
 
 As in any other language, it is very difficult to do anything serious without using libraries:
 
-- [Rust Crate List - Blessed.rs - an unofficial guide to the Rust ecosystem](https://blessed.rs/crates)
-
-- [Rust Crate List - Docs.rs - the official guide to the Rust ecosystem](https://docs.rs/)
-
 - [Rust std library](https://doc.rust-lang.org/std/)
+
+- [crates.io - The Rust community’s crate registry](https://crates.io/)
+
+- [Blessed.rs - an unofficial guide to the Rust ecosystem - hand-curated recommended crate guide](https://blessed.rs/crates)
+
+
 
 ## Hands-on learning
 
@@ -961,9 +963,15 @@ Algunos comandos útiles:
 
 # Lista de algunas bibliotecas-crates-
 
+[Rust std library](https://doc.rust-lang.org/std/)
+
+[Docs.rs - the official guide to the Rust ecosystem](https://docs.rs/)
+
 [crates.io - The Rust community’s crate registry](https://crates.io/)
 
-[lib.rs - The unofficial catalog of programs written in Rust](https://lib.rs/about)
+[Blessed.rs - an unofficial guide to the Rust ecosystem - hand-curated recommended crate guide](https://blessed.rs/crates)
+
+[lib.rs - an unofficial catalog of programs written in Rust](https://lib.rs/about)
 
 [Top 10 Rust crates you must know](https://www.youtube.com/watch?v=FPRH66r-zUQ)
 
@@ -1116,6 +1124,14 @@ Algunos comandos útiles:
 
 [tokio_postgres - an asynchronous, pipelined, PostgreSQL client](https://docs.rs/tokio-postgres/latest/tokio_postgres/)
 
+
+## XML
+
+[quick_xml - a high performance XML reader/writer](https://crates.io/crates/quick-xml)
+
+[xml-rs, a XML library for the Rust programming language](https://crates.io/crates/xml-rs)
+
+[serde-xml-rs - a xml-rs based serializer and deserializer for Serde](https://crates.io/crates/serde-xml-rs)
 
 
 ## gráficos
