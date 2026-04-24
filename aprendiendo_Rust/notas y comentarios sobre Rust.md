@@ -1129,7 +1129,9 @@ Algunos comandos útiles:
 
 [quick_xml - a high performance XML reader/writer](https://crates.io/crates/quick-xml)
 
-[xml-rs, a XML library for the Rust programming language](https://crates.io/crates/xml-rs)
+[xml-rs, la versión que sigue avanzando](https://crates.io/crates/xml)
+
+[xml-rs, la versión que es compatible con serde](https://crates.io/crates/xml-rs)
 
 [serde-xml-rs - a xml-rs based serializer and deserializer for Serde](https://crates.io/crates/serde-xml-rs)
 
