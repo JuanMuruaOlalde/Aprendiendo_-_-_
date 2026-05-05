@@ -121,6 +121,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Rust Editions](https://doc.rust-lang.org/nightly/edition-guide/editions/index.html)
 
+[Effective Rust](https://www.effective-rust.com/)
+
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
 [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
@@ -888,6 +890,12 @@ Se podria decir que los "trait" definen tareas que se han de realizar; mientras 
 A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que implemente varios `trait`. Es decir, que tenga todas las funciones requeridas por todos los `trait` que se indiquen.)
 
 [Traits as Parameters](https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters)
+
+Para terminar, comentar que existen una serie de `trait`s estándares para asegurar que ciertas funcionalidades se implementen siempre de la misma manera. Por ejemplo,
+- el `trait` [Display](https://doc.rust-lang.org/std/fmt/trait.Display.html) para generar descripciones textuales.
+- el `trait` [Ord](https://doc.rust-lang.org/std/cmp/trait.Ord.html) para definir la forma en que se han de comparar/ordenar elementos.
+- el `trait` [From](https://doc.rust-lang.org/std/convert/trait.From.html) para  implementar conversiones entre tipos diversos.
+- etc.
 
 # Slices
 
@@ -1784,6 +1792,25 @@ Para interacciones más directas con el DOM de HTML o con código Javascript, se
 [Rust Fullstack Web Application: Wasm, Yew, Rocket, Postgres and Docker - Francesco Ciulla](https://www.youtube.com/watch?v=FYVbt6YFMsM&list=PLPoSdR46FgI5QaLuj6muwN2T8WHUfV3AF)
 
 [Mesmerizing Pixel Rain Effect with Rust and Yew on the HTML Canvas](https://www.youtube.com/watch?v=NTcvWDQ1mMI)
+
+
+## Embedded, ideas generales
+
+[The Rusty Bits - Blinking an LED: Embedded Rust ecosystem explored](https://www.youtube.com/watch?v=A9wvA_S6m7Y)
+
+Bare Metal: Interactuando directamente con el hardware, trabajando a nivel de registros y memoria. Utilizando los manuales de referencia del fabricante y mucho código `unsafe` en Rust.
+
+
+PAC (Peripheral Access Crate): Interactuando con abstracciones de bajo nivel. Básicamente usando nombres mnemotécnicos predefinidos para registros y posiciones de memoria.
+
+- Algunos fabricantes suelen publicar la información concreta de cada modelo de sus microcontroladores y microprocesadores en un formato legible por máquinas; como, por ejemplo, [Open-CMSIS-SVD](https://open-cmsis-pack.github.io/svd-spec/main/index.html)
+- El crate [svd2rust](https://crates.io/crates/svd2rust) permite generar un PAC para un modelo concreto de microcontrolador o microprocesador a partir de dicha información.
+
+
+HAL (Hardware Abstraction Layer): Interactuando con abstracciones de alto nivel. Estas abstracciones suelen ser luego implementadas para diferentes modelos de microcontrolador o microprocesador usando sus respectivos PACs. Lo cual permite portar nuestros programas a diversas plataformas con relativa facilidad.
+
+
+BSP (Board Support Package): Un nivel de abstracción más allá del HAL, abstrayendo toda una placa concreta de un fabricante concreto, con todos los periféricos que esta disponga.
 
 
 ## Embedded, con un microcontrolador STM32
