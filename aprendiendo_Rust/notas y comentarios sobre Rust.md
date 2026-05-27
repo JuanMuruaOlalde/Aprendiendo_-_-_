@@ -123,6 +123,10 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Effective Rust](https://www.effective-rust.com/)
 
+[The Rust Performance Book](https://nnethercote.github.io/perf-book/introduction.html)
+
+[RustFAQ - How to Profile Rust Code With perf Profiler](https://www.rustfaq.org/en/how-to-profile-rust-code-with-perf/)
+
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
 [Rust API Guidelines](https://rust-lang.github.io/api-guidelines/about.html)
@@ -971,17 +975,20 @@ Algunos comandos útiles:
 
 # Lista de algunas bibliotecas-crates-
 
-[Rust std library](https://doc.rust-lang.org/std/)
+La biblioteca estandard que viene incluida en el compilador: [Rust std library](https://doc.rust-lang.org/std/)
+
+El repositorio de crates oficial: [Crates.io](https://crates.io/)
+
+Otras listas de crates:
 
 [Docs.rs - the official guide to the Rust ecosystem](https://docs.rs/)
-
-[crates.io - The Rust community’s crate registry](https://crates.io/)
 
 [Blessed.rs - an unofficial guide to the Rust ecosystem - hand-curated recommended crate guide](https://blessed.rs/crates)
 
 [lib.rs - an unofficial catalog of programs written in Rust](https://lib.rs/about)
 
 [Top 10 Rust crates you must know](https://www.youtube.com/watch?v=FPRH66r-zUQ)
+
 
 ## standard library
 
@@ -1228,6 +1235,7 @@ disclaimer: these links are been extracted from [Deploying AI Everywhere with Ru
 [tract , a Neural Network inference toolkit](https://github.com/sonos/tract)
 
 [MicroFlow , a robust and efficient TinyML inference engine designed for deploying machine learning models on embedded systems](https://github.com/matteocarnelos/microflow-rs)
+
 
 
 # Algunas notas prácticas sobre algunos aspectos concretos
@@ -2033,6 +2041,23 @@ Otro HAL interesante: [avr-hal](https://github.com/Rahix/avr-hal/tree/main), con
 # Apéndice: documentación adicional ; algunos enlaces que he ido encontrando...
 
 Aquí voy recogiendo aquello que no veo claro dónde encajar...
+
+
+## interoperabilidad con otros lenguajes
+
+La interoperabilidad con C y C++ tiene un gran interés:
+
+- [Rust Project Goals - Evaluate approaches for seamless interop between C++ and Rust](https://rust-lang.github.io/rust-project-goals/2025h1/seamless-rust-cpp.html)
+
+- [The Embedded Rust Book - A little C with your Rust](https://docs.rust-embedded.org/book/interoperability/c-with-rust.html)
+
+- [Rust Foundation - Rust-C++ Interoperability Initiative](https://rustfoundation.org/interop-initiative/)
+
+- [FFI - Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
+
+Con otros lenguajes es un tema de conveniencia:
+
+[PyO3 - Rust bindings for Python](https://github.com/PyO3/pyo3)
 
 
 ## (quasi)forbiden, arcane practice: The Rustonomicon
