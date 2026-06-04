@@ -1018,6 +1018,8 @@ Otras listas de crates:
 
 [uuid - Generate and parse universally unique identifiers (UUIDs)](https://docs.rs/uuid/latest/uuid/)
 
+[The Rust Rand Book - generate random numbers](https://rust-random.github.io/book/guide-rngs.html)
+
 [regex - Regular Expressions](https://docs.rs/regex/latest/regex/)
 
 [anyhow - a trait object based error type for easy idiomatic error handling](https://docs.rs/anyhow/latest/anyhow/)
