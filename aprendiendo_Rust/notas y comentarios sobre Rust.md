@@ -32,9 +32,17 @@ Hasta es posible que comencemos a echarlos de menos si volvemos a  trabajar con 
 
 nota: Como casi todo en informática, la mayor parte de la información sobre Rust está en inglés. Honrosas excepciones son comunidades como, por ejemplo, [Rust Lang en español](https://rustlang-es.org/) 
 
+Merece también destacar que Rust tiene una muy buena documentación. 
+
+En parte, gracias a que las herramientas para escribirla están incorporadas en el propio lenguaje:
+- [mdBook - a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
+- [rustdoc - an integrated way to document code](https://doc.rust-lang.org/stable/rustdoc/)
+
+Y, en gran medida, gracias al gran esfuerzo de la comunidad Rust para escribir manuales de calidad.
 
 
-# Documentación por la que comenzar a aprender
+
+# Comenzar a aprender Rust
 
 ## Basic books
 
@@ -174,21 +182,27 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 
 
-# Conceptos básicos sin los cuales no se puede programar en Rust
+# Ownership , Borrow-checker
 
-## Ownership
+[Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
 
-Ownership es se refiere al concepto de qué variable o parámetro es la "dueña" (owner) en cada momento de cada porción de memoria que utiliza el programa. 
+[Ownership - examples](https://doc.rust-lang.org/rust-by-example/scope/move.html)
 
-En Rust, ¡es vital comprenderlo bien!. 
+[Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
 
-Cada porción de memoria solo puede tener una única "dueña". Por ejemplo, cuando asignamos una variable a otra o cuando pasamos una variable como parámetro a una función, la variable original ya no puede acceder a la porción de memoria a la que sí pasa a poder acceder la nueva variable/parámetro.
+En Rust todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
 
-El compilador se encarga de que sea imposible saltarse este mecanismo. Es la esencia por la que se considera Rust un lenguaje "memory safe". Cada porción de memoria se reserva cuando su primera "dueña" se crea; puede ir pasando de una a otra "dueña", pero en todo momento tiene una única "dueña" a lo largo de todo el programa; y se libera automáticamente cuando la última "dueña" conocida deja de existir.
+Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una única propietaria por cada trozo de memoria.)
 
-Este mecanismo es uno de los principales responsables de que Rust tenga fama de ser un lenguaje complicado de aprender. Pero una vez se domina el concepto de `Ownership` (y el de `Lifetime`), se avanza rápidamente en el aprendizaje.
+También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (`&`). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
 
-Un consejo: siempre, pero sobre todo en los primeros programas que escribamos, procurar leer atentamente (y de cabo a rabo) los mensajes de error que nos dé el compilador. El compilador (y el linter) de Rust son especialmente buenos en las explicaciones que dan; llegando en muchos casos hasta a proponer cómo solucionar el error que nos están reportando.
+> nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
+
+Este mecanismo de 'Ownership' y 'Borrowing' es uno de los principales responsables de que Rust tenga fama de ser un lenguaje complicado de aprender. Pero una vez se dominan esos dos conceptos (más el de 'Lifetime'), se avanza rápidamente en el aprendizaje.
+
+Un consejo: siempre, pero sobre todo en los primeros programas que escribamos, procurar leer atentamente (y de cabo a rabo) los mensajes de error que nos dé el compilador. 
+
+El compilador (y el linter) de Rust son especialmente buenos en las explicaciones que dan; llegando en muchos casos hasta a proponer cómo solucionar el error que nos están reportando.
 
 [Understanding Ownership - The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
 
@@ -237,147 +251,12 @@ error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
 
 [RustOwl tool - Github](https://github.com/cordx56/rustowl)
 
-nota: Hay más información más adelante en este documento, en las secciones de "Ownership, Borrow-checker" y de "Lifetimes"
-
-## structs
-
-[Using Structs to Structure Related Data - The Rust Programming Language](https://doc.rust-lang.org/book/ch05-00-structs.html)
-
-En cierta medida, los `struct` de Rust son como las clases en otros lenguajes. Pueden tener tanto propiedades (datos) como métodos (acciones).
-
-Pero no perder de vista que Rust no es un lenguaje orientado a objeto. Sino más bien un lenguaje funcional.
-
-En Rust la principal función de los `struct` es definir nuevos tipos de dato.
-
-Así es que no conviene llevar demasiado lejos la aparente similitud entre `struct` en Rust y "clase" en lenguajes orientados a objeto.
-
-## enums
- 
-[Enums and Pattern Matching](https://doc.rust-lang.org/book/ch06-00-enums.html)
-
-Los `enum` permiten acotar y definir todos los posibles valores permitidos en un cierto tipo de dato.
-
-La biblioteca base estandard incorpora algunos `enum` importantes. De los que destacan dos: `Option` y `Result`.
-
-### Option enum, para gestionar la ausencia de valor en una variable
-
-[The Option enum](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum)
-
-Toda aquella variable o parámetro que pueda carecer de valor en un momento dado, conviene que sea del tipo 'Option'. Así puede expresar con claridad sus dos posibles variantes:
-- Some(T), si tiene un valor (de tipo T)
-- None, si no tiene valor.
-
-En cualquier parte del código donde se use una variable de tipo 'Option', el compilador obliga a tratar ambas posibilidades.
-
-### Result enum, para gestionar la posibilidad de error en una función
-
-[Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
-
-Toda función que pueda tener problemas predecibles, conviene que devuelva un resultado de tipo `Result` (valga la redundancia ;-)
-
-Sus dos variantes dejan queda claramente indicado si:
-
-- Ok( ), todo ha ido bien.
-
-- Err( ), se ha producido un error.
-
-En cualquier parte del código donde se llame a la función que devuelva un tipo `Result`, el compilador obliga a tratar ambas posibilidades.
-
-
-## traits
-
-[Traits: Defining Shared Behavior - The Rust Programming Language](https://doc.rust-lang.org/book/ch10-02-traits.html)
-
-En cierta medida, los `trait` de Rust con como los interfaces en otros lenguajes. Definen signaturas de funciones que han de implementar obligatoriamente todos aquellos `struct` que implementen el `trait`. 
-
-```
-pub trait DatosDeHuespedes {
-    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String>;
-    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String>;
-}
-```
-
-```
-pub struct HuespedesParaPruebas {
-    datos: Vec<Huesped>,
-}
-
-impl DatosDeHuespedes for HuespedesParaPruebas {
-
-    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
-       let huesped = self
-            .datos
-            .iter()
-            .find(|x| x.get_id_interno() == id);
-        match huesped {
-            Some(h) => Ok(h.clone()),
-            None => Err(format!(
-                "No existe huesped con id_interno {id}"
-            )),
-        }
-    }
-
-    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
-        let huesped = self
-            .datos
-            .iter()
-            .find(|x| x.numero_documento_id == numero_documento_id);
-        match huesped {
-            Some(h) => Ok(h.clone()),
-            None => Err(format!(
-                "No existe huesped con documento_id {numero_documento_id}"
-            )),
-        }
-    }
-    
-}
-```
-
-```
-pub struct HuespedesEnPostgreSQL {
-    ../..
-}
-
-impl DatosDeHuespedes for HuespedesEnPostgreSQL {
-
-    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
-        ../..
-    }
-
-    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
-        ../..
-    }
-    
-}
-```
-
-De esa forma, se puedan utilizar de forma intercambiable. Ayudando a cumplir con la L, la I y la D de los principios SOLID.
- 
-
-
-
-# Ownership , Borrow-checker
-
-[Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
-
-[Ownership - examples](https://doc.rust-lang.org/rust-by-example/scope/move.html)
-
-[Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
-
-En Rust, todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
-
-Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una única propietaria por cada trozo de memoria.)
-
-También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (&). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
-
-nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
-
 
 ## Move semantics
 
-Este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes. Cuando una variable se asigna a otra o se pasa como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro. La variable original pierde el derecho de usar el trozo de memoria al que hacia referencia. 
+Como ya se ha indicado, este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna a otra o se pasa como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro; la variable original pierde el derecho de usar el trozo de memoria al que hacia referencia. 
 
-Es decir: solo puede existir un único puntero a cada trozo de memoria reservado.
+Es decir: **solo puede existir un único puntero a cada trozo de memoria reservado**.
 
 Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
 
@@ -386,10 +265,7 @@ nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programac
 
 nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
 
-aviso: Aunque Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir, sobre todo en programación concurrente). Son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
-
-
-## algo de documentación
+aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir, sobre todo en programación concurrente o en programación de sistemas), [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html). Pero, ¡ojo!, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
 
 [Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
 
@@ -401,12 +277,21 @@ aviso: Aunque Rust tiene mecanismos para compartir la propiedad de un trozo de m
 
 [Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
 
-[`Rc<T>`, the Reference Counted Smart Pointer](https://doc.rust-lang.org/book/ch15-04-rc.html)
-
 [Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
 
 [deadly mistakes beginner Rust developers make](https://youtu.be/PbR4ECFIckg?t=545)
 
+# Lifetimes
+
+[Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
+
+[Lifetimes - examples](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
+
+Como se ha comentado, cada trozo de memoria es propiedad de una sola variable y se libera cuando dicha variable deja de existir. Por eso, es importante indicarle al compilador cuando se necesite prolongar el ciclo de vida normal de alguna variable.
+
+Normalmente, una variable solo está viva en el alcance (scope) donde se defina: dentro de una instancia de un `struct`, dentro de una función `fn`, dentro de un bucle `for`, dentro de una rama condicional `if`,...
+
+Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
 
 
 # Strong typed
@@ -689,11 +574,17 @@ Mucha mierda, querido Benzirpi el griunquy!.
 ```
 
 
-## Structs
+## structs
 
-Como se ha comentado anteriormente, los `struct` permiten definir tipos específicos. Pero también pueden ir más allá e implementar métodos específicos para tratar con esos tipos específicos. Esta implementación de métodos se hace utilizando la palabra reservada `impl`.
+[Using Structs to Structure Related Data - The Rust Programming Language](https://doc.rust-lang.org/book/ch05-00-structs.html)
 
-Es decir, en el fondo los struct en Rust son como las clases en los lenguajes orientados a objeto.
+En cierta medida, los `struct` de Rust son como las clases en otros lenguajes. Pueden tener tanto propiedades (datos) como métodos (acciones).
+
+Pero no perder de vista que Rust no es un lenguaje orientado a objeto. Sino más bien un lenguaje funcional.
+
+En Rust la principal función de los `struct` es definir nuevos tipos de dato.
+
+Así es que no conviene llevar demasiado lejos la aparente similitud entre `struct` en Rust y "clase" en lenguajes orientados a objeto.
 
 Por ejemplo:
 ```
@@ -796,15 +687,40 @@ impl Edificio {
 
 [Enums and Pattern Matching](https://doc.rust-lang.org/book/ch06-00-enums.html)
 
-## Option
+Los `enum` permiten acotar y definir todos los posibles valores permitidos en un cierto tipo de dato.
 
-Para cuando necesitamos distinguir claramente si una variable tiene un valor (`Some`) o no lo tiene (`None`).
+La biblioteca base estandard incorpora algunos `enum` importantes. De los que destacan dos: `Option` y `Result`.
+
+### Option , para gestionar la ausencia de valor en una variable
+
+[The Option enum](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum)
+
+Toda aquella variable o parámetro que pueda carecer de valor en un momento dado, conviene que sea del tipo 'Option'. Así puede expresar con claridad sus dos posibles variantes:
+- Some(T), si tiene un valor (de tipo T)
+- None, si no tiene valor.
+
+En cualquier parte del código donde se use una variable de tipo 'Option', el compilador obliga a tratar ambas posibilidades.
+
+Es muy útil cuando necesitamos distinguir claramente si una variable tiene un valor (`Some`) o no lo tiene (`None`).
 
 [The Option Enum and Its Advantages Over Null Values](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
 
-## Result
 
-Para cuando necesitamos distinguir claramente si una función devuelve un resultado (`Ok`) o un error (`Error`).
+### Result , para gestionar la posibilidad de error en una función
+
+[Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
+
+Toda función que pueda tener problemas predecibles, conviene que devuelva un resultado de tipo `Result` (valga la redundancia ;-)
+
+Sus dos variantes dejan queda claramente indicado si:
+
+- Ok( ), todo ha ido bien.
+
+- Err( ), se ha producido un error.
+
+En cualquier parte del código donde se llame a la función que devuelva un tipo `Result`, el compilador obliga a tratar ambas posibilidades.
+
+Es muy útil cuando necesitamos distinguir claramente si una función devuelve un resultado (`Ok`) o un error (`Error`).
 
 [Error Handling](https://doc.rust-lang.org/book/ch09-00-error-handling.html)
 
@@ -814,20 +730,165 @@ Para cuando necesitamos distinguir claramente si una función devuelve un result
 
 [You’re Doing Exceptions Wrong - Matt Burke - NDC London 2025](https://www.youtube.com/watch?v=oWvX-hdIAQo) Conclusión extraida de esta conferencia: `Result` es con lo que Rust evita las "Vexing Exceptions" y trata los casos de "Exogenous Exceptions" en los que podemos hacer algo para mitigar la excepción; `panic` es con lo que Rust trata las "Fatal Exceptions", las "Boneheaded Exceptions" (en su primera fase, antes de corregir el bug que la causaba) y los casos de "Exogenous Exceptions" en los que no podemos hacer nada.
 
-## ControlFlow
 
-Para cuando necesitamos distinguir claramente entre continuar (`Continue`) o parar (`Break`).
+### ControlFlow , para detener bucles o largas operaciones
+
+Es muy útil cuando necesitamos distinguir claramente entre continuar (`Continue`) o parar (`Break`).
 
 [The ControlFlow Enum](https://doc.rust-lang.org/stable/std/ops/enum.ControlFlow.html)
 
 
-## Pattern matching
+# Traits
+
+[Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
+
+Podemos pensar en los `trait` de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. 
+
+Es decir, los `struct` que implementen (`impl`) un `trait` concreto han de tener todas esas funciones, justo con esas signaturas concretas. Cada `struct` puede implementar internamente cada función como  desee, pero respetando su signatura. Y las ha de implementar todas (si no el código no se compilará)
+
+Se podria decir que los "trait" definen tareas que se han de realizar; mientras que sus implementaciones deciden cómo se van a llevar a cabo esas tareas.
+
+[Trait objects](https://doc.rust-lang.org/reference/types/trait-object.html)
+
+A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que implemente varios `trait`. Es decir, que tenga todas las funciones requeridas por todos los `trait` que se indiquen.)
+
+[Traits as Parameters](https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters)
+
+
+## Un ejemplo ilustrativo
+
+```
+pub trait DatosDeHuespedes {
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String>;
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String>;
+}
+```
+
+```
+pub struct HuespedesParaPruebas {
+    datos: Vec<Huesped>,
+}
+
+impl DatosDeHuespedes for HuespedesParaPruebas {
+
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
+       let huesped = self
+            .datos
+            .iter()
+            .find(|x| x.get_id_interno() == id);
+        match huesped {
+            Some(h) => Ok(h.clone()),
+            None => Err(format!(
+                "No existe huesped con id_interno {id}"
+            )),
+        }
+    }
+
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
+        let huesped = self
+            .datos
+            .iter()
+            .find(|x| x.numero_documento_id == numero_documento_id);
+        match huesped {
+            Some(h) => Ok(h.clone()),
+            None => Err(format!(
+                "No existe huesped con documento_id {numero_documento_id}"
+            )),
+        }
+    }
+    
+}
+```
+
+```
+pub struct HuespedesEnPostgreSQL {
+    ../..
+}
+
+impl DatosDeHuespedes for HuespedesEnPostgreSQL {
+
+    fn get_huesped_con_id_interno(&self, id: uuid::Uuid) -> Result<Huesped, String> {
+        ../..
+    }
+
+    fn get_huesped(&self, numero_documento_id: &str) -> Result<Huesped, String> {
+        ../..
+    }
+    
+}
+```
+
+De esa forma, se puedan utilizar de forma intercambiable. Ayudando a cumplir con la L, la I y la D de los principios SOLID.
+ 
+## Traits de uso habitual
+
+Existen una serie de `trait`s estándares de uso habitual, para asegurar que ciertas funcionalidades se implementen siempre de la misma manera. 
+
+- [Debug](https://doc.rust-lang.org/std/fmt/trait.Debug.html) para generar descripciones textuales básicas.
+
+- [Display](https://doc.rust-lang.org/std/fmt/trait.Display.html) para generar descripciones textuales elaboradas.
+
+- [Default](https://doc.rust-lang.org/core/default/trait.Default.html) para crear instancias de un tipo con valores por defecto.
+
+- [PartialEq](https://doc.rust-lang.org/core/cmp/trait.PartialEq.html) para permitir comparaciones y ordenamientos.
+  - [Eq](https://doc.rust-lang.org/core/cmp/trait.Eq.html)
+  - [Hash](https://doc.rust-lang.org/core/hash/trait.Hash.html)
+  - [Ord](https://doc.rust-lang.org/std/cmp/trait.Ord.html)
+  - [PartialOrd](https://doc.rust-lang.org/core/cmp/trait.PartialOrd.html)
+
+- [From](https://doc.rust-lang.org/std/convert/trait.From.html) para  implementar conversiones entre tipos diversos.
+
+- [Clone](https://doc.rust-lang.org/core/clone/trait.Clone.html) para hacer duplicados de valores que se van a pasar a otra variable o función; para que la "dueña" (owner) original pueda seguir utilizandolos también. (nota: sobre todo al principio de comenzar a trabajar con Rust, intentar evitar este mecanismo.)
+
+- [Send](https://doc.rust-lang.org/std/marker/trait.Send.html) and [Sync](https://doc.rust-lang.org/std/marker/trait.Sync.html) para enviar información entre threads de forma segura.
+
+**Es muy importante que los tipos de datos que definamos los implementen**. Facilitan mucho programar de forma natural (idiomática) en Rust.
+
+En casos sencillos, hasta es posible implementarlos de forma automática. Usando la [macro `#[derive(.....)]`](https://doc.rust-lang.org/reference/attributes/derive.html)
+
+
+
+# Iterators, Functional Iterators
+
+Rust trabaja con formas propias de un lenguaje funcional al tratar con colecciones. Por ejemplo:
+
+- [for_each](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.for_each)
+- [find](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find)
+- [filter](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.filter)
+- [map](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.map)
+- [reduce](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.reduce)
+- [fold](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold)
+- [flatten](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.flatten)
+- [zip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip)
+- [unzip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.unzip)
+- [collect](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect)
+
+[Iterator trait](https://doc.rust-lang.org/std/iter/trait.Iterator.html)
+
+[Processing a Series of Items with Iterators](https://doc.rust-lang.org/book/ch13-02-iterators.html)
+
+[Comparing Performance: Loops vs. Iterators](https://doc.rust-lang.org/book/ch13-04-performance.html)
+
+[Making Code Clearer with Iterator Adapters](https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html?highlight=filter#making-code-clearer-with-iterator-adapters)
+
+[Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
+
+# Pattern matching
+
+El pattern matching es también una forma de trabajar de los lenguajes funcionales. Permite verificar la forma de los datos, para decidir qué hacer según las diversas casuísticas que puedan presentarse.
 
 [Patterns and Matching](https://doc.rust-lang.org/book/ch19-00-patterns.html?highlight=Patterns#patterns-and-matching)
 
+# Slices
+
+[The Slice Type](https://doc.rust-lang.org/book/ch04-03-slices.html)
+
+Son trozos de una colección. Muy útiles cuando se necesita trabajar con una parte de la misma en lugar de con la colección completa.
 
 
 # Tests
+
+## Test unitarios
 
 Los test unitarios se pueden escribir directamente en cada archivo del código fuente, normalmente al fondo del mismo. El bloque de tests se marca con la anotación `#[cfg(test)]` y cada función test con la anotación `#[test]`
 
@@ -851,6 +912,7 @@ mod tests {
 
 [Unit Tests](https://doc.rust-lang.org/book/ch11-03-test-organization.html#unit-tests)
 
+## Test de integración
 
 Los test de integración van en una carpeta `tests` fuera de la carpeta `src`. Desde ahí, solo pueden utilizar la parte pública del código funcional.
 
@@ -865,73 +927,6 @@ Resumiendo, en Rust existen tres tipos de tests:
 - Unitarios: dentro de cada archivo `.rs` del código fuente.
 - Integración: en carpeta `tests` colgando de la raiz del proyecto.
 - Documentación: los ejemplos de código puestos en la documentación.
-
-# Lifetimes
-
-[Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
-
-[Lifetimes - examples](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
-
-Como se ha comentado antes, cada trozo de memoria es propiedad de una sola variable y se libera cuando dicha variable deja de existir. Por eso, es importante indicarle al compilador las ocasiones en que se necesite prolongar el ciclo de vida normal de alguna variable.
-
-Normalmente, una variable solo está viva en el alcance (scope) donde se defina: dentro de una instancia de un `struct`, dentro de una función `fn`, dentro de un bucle `for`, dentro de una rama condicional `if`,...
-
-Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
-
-
-# Traits
-
-[Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
-
-Podemos pensar en los `trait` de Rust como en los "interface" de otros lenguajes. Son un conjunto de funciones que se han de implementar con una signatura concreta. 
-
-Es decir, los `struct` que implementen (`impl`) un `trait` concreto han de tener todas esas funciones, justo con esas signaturas concretas. Cada `struct` puede implementar internamente cada función como  desee, pero respetando su signatura. Y las ha de implementar todas (si no el código no se compilará)
-
-Se podria decir que los "trait" definen tareas que se han de realizar; mientras que sus implementaciones deciden cómo se van a llevar a cabo esas tareas.
-
-[Trait objects](https://doc.rust-lang.org/reference/types/trait-object.html)
-
-A la hora de utilizar "trait objects", se puede requerir a un mismo objeto que implemente varios `trait`. Es decir, que tenga todas las funciones requeridas por todos los `trait` que se indiquen.)
-
-[Traits as Parameters](https://doc.rust-lang.org/book/ch10-02-traits.html#traits-as-parameters)
-
-Para terminar, comentar que existen una serie de `trait`s estándares para asegurar que ciertas funcionalidades se implementen siempre de la misma manera. Por ejemplo,
-- el `trait` [Display](https://doc.rust-lang.org/std/fmt/trait.Display.html) para generar descripciones textuales.
-- el `trait` [Ord](https://doc.rust-lang.org/std/cmp/trait.Ord.html) para definir la forma en que se han de comparar/ordenar elementos.
-- el `trait` [From](https://doc.rust-lang.org/std/convert/trait.From.html) para  implementar conversiones entre tipos diversos.
-- etc.
-
-# Slices
-
-[The Slice Type](https://doc.rust-lang.org/book/ch04-03-slices.html)
-
-Son trozos de una colección. Muy útiles cuando se necesita trabajar con una parte de la misma en lugar de con la colección completa.
-
-# Iterators, Functional Iterators
-
-https://doc.rust-lang.org/std/iter/trait.Iterator.html
-
-Rust trabaja con formas propias de un lenguaje funcional al tratar con colecciones. Por ejemplo:
-
-- [for_each](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.for_each)
-- [find](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.find)
-- [filter](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.filter)
-- [map](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.map)
-- [reduce](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.reduce)
-- [fold](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.fold)
-- [flatten](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.flatten)
-- [zip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.zip)
-- [unzip](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.unzip)
-- [collect](https://doc.rust-lang.org/std/iter/trait.Iterator.html#method.collect)
-
-
-[Processing a Series of Items with Iterators](https://doc.rust-lang.org/book/ch13-02-iterators.html)
-
-[Comparing Performance: Loops vs. Iterators](https://doc.rust-lang.org/book/ch13-04-performance.html)
-
-[Making Code Clearer with Iterator Adapters](https://doc.rust-lang.org/book/ch13-03-improving-our-io-project.html?highlight=filter#making-code-clearer-with-iterator-adapters)
-
-[Iterators in Rust](https://dev.to/francescoxx/iterators-in-rust-fm)
 
 
 
@@ -959,6 +954,12 @@ Algunos comandos útiles:
 
 # Interoperabilidad de Rust con otros lenguajes
 
+Sobre todo con C y C++, Rust puede interoperar con código compilado desde otros lenguajes:
+
+[`unsafe` Rust](https://doc.rust-lang.org/book/ch20-01-unsafe-rust.html)
+
+[Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
+
 [The bindgen User Guide](https://rust-lang.github.io/rust-bindgen/)
 
 [Interop with C](https://paandahl.github.io/rust-interop/c-intro.html)
@@ -968,8 +969,6 @@ Algunos comandos útiles:
 [CXX — safe interop between Rust and C++](https://cxx.rs/)
 
 [rust-cpp — embed C++ code directly in Rust](https://github.com/mystor/rust-cpp)
-
-[Foreign Function Interface](https://doc.rust-lang.org/nomicon/ffi.html)
 
 
 
@@ -2040,7 +2039,7 @@ Y, más concretamente, podemos usar el BSP (Board Support Package) específico p
 
 Otro HAL interesante: [avr-hal](https://github.com/Rahix/avr-hal/tree/main), con bastantes [ejemplos de uso de diversos periféricos](https://github.com/Rahix/avr-hal/tree/main/examples/arduino-uno/src/bin)
 
-# Apéndice: documentación adicional ; algunos enlaces que he ido encontrando...
+# Apéndice: documentación adicional
 
 Aquí voy recogiendo aquello que no veo claro dónde encajar...
 
