@@ -2,45 +2,59 @@
 
 [https://bevy.org/](https://bevy.org/)
 
-Prácticamente todo el Bevy se implementa de forma modular, usando [plugins](https://bevy.org/learn/quick-start/getting-started/plugins/). Así se tiene la flexibilidad de usar o no cada módulo (plugin); aprovechando la ventaja de incorporar (o no) múltiples elementos de golpe.
+[https://crates.io/crates/bevy](https://crates.io/crates/bevy)
+
+Algunos crates auxiliares interesantes:
+- [bevy-inspector-egui](https://crates.io/crates/bevy-inspector-egui)
+- [bevy_picking](https://crates.io/crates/bevy_picking)
+- [transform-gizmo-bevy](https://crates.io/crates/transform-gizmo-bevy)
+
+Prácticamente todo Bevy se implementa de forma modular, usando [plugins](https://bevy.org/learn/quick-start/getting-started/plugins/). Así se tiene la flexibilidad de usar o no cada módulo (plugin); aprovechando la ventaja de incorporar (o no) múltiples elementos de golpe.
 
 nota: A la hora de comenzar un nuevo proyecto Bevy, tener en cuenta ciertos factores de optimización que pueden afectar al tiempo que tarda en compilarse: [Compile with Performance Optimizations](https://bevy.org/learn/quick-start/getting-started/setup/#compile-with-performance-optimizations)
 
 
-# ECS (Entity Component System)
+# ECS (Entity - Component - System)
 
 Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_system). Dividiendo el programa entre:
-- Entidades: estructuras unicas con un solo dato: su ID (un número `u64`); cada entidad puede tener asignados ciertos componentes.
-- Componentes: estructuras puras de datos; cada componente soporta un cierto tipo de comportamiento.
-- Sistemas: funciones que recorren todas las entidades que tengan un cierto componente asignado y hacen algo sobre ese componente.
 
-Las **entidades** representan objetos o personajes del juego.
-```
-let the_amazing_main_rock = world
-    .spawn((Position { x: 0.0, y: 0.0 }))
-    .id();
-```
+- Las **entidades** representan objetos o personajes del juego.
+  
+  Son estructuras que solo contienen un único dato, su ID (un número `u64`). Cada entidad puede tener asociados ciertos componentes (el resto de datos necesarios).
+  ```
+  let the_amazing_main_rock = world
+      .spawn((Position { x: 0.0, y: 0.0 }))
+      .id();
+  ```
 
-Los **componentes** representan propiedades que tienen las entidades.
-```
-#[derive(Component)]
-struct Position { x: f32, y: f32 }
-```
+- Los **componentes** representan propiedades que tienen las entidades.
 
-Los **sistemas** actuan sobre los componentes de las entidades.
-```
-fn print_position(query: Query<(Entity, &Position)>) {
-    for (entity_id, position) in &query {
-        println!("Entity {} is at position: x {}, y {}", entity_id, position.x, position.y);
-    }
-}
-```
+  Son estructuras puras de datos. Cada componente soporta un cierto tipo de comportamiento.
+  ```
+  #[derive(Component)]
+  struct Position { x: f32, y: f32 }
+  ```
 
-Es decir, en ECS la información (los datos) reside en los componentes y el comportamiento reside en los sistemas. Con una clara separación entre ambas cosas. Lo que da mucha flexibilidad y permite trabajar en paralelo.
+- Los **sistemas** actuan sobre los componentes de las entidades.
+
+  Son funciones que recorren todas las entidades que tengan un cierto tipo de componente asignado y, en cada una, hacen algo sobre ese componente de esa entidad.
+  ```
+  fn print_position(query: Query<(Entity, &Position)>) {
+      for (entity_id, position) in &query {
+          println!("Entity {} is at position: x {}, y {}", entity_id, position.x, position.y);
+      }
+  }
+  ```
+
+Es decir, en ECS:
+- la *información* reside en los componentes 
+- y el *comportamiento* reside en los sistemas. 
+
+Con esta clara separación entre ambas cosas, se obtiene una gran flexibilidad y se facilita trabajar en paralelo.
 
 Otros elementos:
-- Los **mensajes** (`Message`) ofrecen canales de comunicación entre sistemas.
-- Los **eventos** (`Event`), ofrecen una vía reactiva para ejecutar sistemas.
+- Los **mensajes** [`Message`](https://docs.rs/bevy/latest/bevy/prelude/trait.Message.html) ofrecen canales de comunicación entre sistemas.
+- Los **eventos** [`Event`](https://docs.rs/bevy/latest/bevy/prelude/trait.Event.html), ofrecen una vía reactiva para ejecutar sistemas a través de los [`Observer`](https://docs.rs/bevy/latest/bevy/prelude/struct.Observer.html)
 - 
 
 Para más información sobre la implementación de ECS en Bevy:
@@ -51,25 +65,57 @@ Para más información sobre la implementación de ECS en Bevy:
 # `App`, la aplicación
 
 La parte de *aplicación* (`App`) de un programa Bevy es la que implementa:
-- el mundo (`World`) que conforma el juego 
-- y la lógica del bucle exterior que gobierna el juego.
 
-`App` se usa para montar la estructura general:
+- El mundo [`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html) que conforma el juego. Este mundo se puede inicializar manualmente y/o usando sistemas de un solo uso ("startup systems").
 
-- Inicializa `World` para llenarlo de entidades. Manualmente y/o usando sistemas de un solo uso ("startup systems").
+- La lógica del bucle exterior que gobierna el juego. Las estratégias de ejecución (`Schedule`) de los distintos sistemas.
 
-- Añade sistemas a diversos `Schedule`, para que sean ejecutados según diversas estratégias:
+## Estrategias de ejecución de los sistemas: schedules
+
+`App` añade sistemas a diversos `Schedule`, para que sean ejecutados según diversas estratégias:
   - `Startup`: ejecutar una sola vez, cuando arranca la app.
   - `FixedMain`: ejecutar de forma retardada, después de que haya pasado un cierto intervalo de tiempo.
   - `FixedUpdate`: ejecutar cada cierto tiempo, a intervalos regulares.
   - `Update`: ejecutar en cada frame, antes de mostrar ese frame en pantalla.
-  - Otras estratégias predefinidas en Bevy.
+  - Otras estratégias predefinidas en Bevy: `PreStartup`, `PostStartup`, `PreUpdate`, `PostUpdate`, `First`, `Last`, etc.
   - Otras estratégias definidas por nosotros.
 
 Para más información sobre estratégias de ejecución:
 - [Main ScheduleLabel](https://docs.rs/bevy/latest/bevy/prelude/struct.Main.html)
 
 > nota: Los `Schedule` disponen de un *parallel executor* capaz de analizar las dependencias entre sistemas y ejecutar en paralelo tantos sistemas como sea posible.
+
+## Organizar la aplicación: plugins
+
+Suele ser conveniente estructurar la aplicación en `Plugin`s. Cada plugin es un trozo que se puede (o no) activar cargandolo (o no) en la aplicación con la expresión `.add_plugins()`.
+
+Hay una serie de Plugins predefinidos dentro de Bevy:
+- [DefaultPlugins](https://docs.rs/bevy/latest/bevy/struct.DefaultPlugins.html)
+- [MinimalPlugins](https://docs.rs/bevy/latest/bevy/struct.MinimalPlugins.html)
+- [DefaultPanOrbitCameraPlugins](https://docs.rs/bevy/latest/bevy/camera_controller/pan_orbit_camera/struct.DefaultPanOrbitCameraPlugins.html)
+- [DefaultPickingPlugins](https://docs.rs/bevy/latest/bevy/picking/struct.DefaultPickingPlugins.html)
+- [UiWidgetsPlugins](https://docs.rs/bevy/latest/bevy/ui_widgets/struct.UiWidgetsPlugins.html)
+- [FeathersPlugins](https://docs.rs/bevy/latest/bevy/feathers/struct.FeathersPlugins.html)
+- etc.
+
+Aparte de los predefinidos, se pueden definir tantos plugins como sean necesarios. Cada plugin suele escribirse en su propio módulo (xxxxxxxxx.rs) y ha de implementar una función `build`.
+```
+fn build(&self, app: &mut App){
+    app.add_systems(......);
+    app.add.......;
+}
+```
+
+## Leer entrada del usuario
+
+Teclado
+
+Ratón
+
+Joystick o gamepad
+
+
+
 
 
 # `World`, el mundo
@@ -80,11 +126,13 @@ La parte del *mundo* (`World`) de un programa Bevy es un contenedor especializad
 - Sistemas: realizan operaciones sobre las entidades (sobre sus propiedades).
 - y Recursos: una forma especial de componente. No suelen ir asociados a ninguna entidad. Aportan cosas tales como: imágenes, visualizadores, servicios de audio, temporizadores,...
 
-Tiene **comandos** (`Command`) para modificar el estado del mundo. Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar.
+El mundo tiene **comandos** [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html) para modificar su estructura. Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar.
 
-Tiene **consultas** (`Query`) para buscar y acceder a determinados componentes. Los sistemas usan consultas para recuperar la información que van a tratar.
+> Por ejemplo, las entidades y componentes se asocian en el momento de crearlas con [`Commands::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn)
 
-### coordenadas
+El mundo tiene **consultas** [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html) para buscar y acceder a determinados componentes. Los sistemas usan consultas para recuperar la información que van a tratar.
+
+### Coordenadas
 
 El sistema de coordenadas de Bevy es el mismo para 2D y para 3D:
 - Eje X: de izquierda (-) a derecha (-).
@@ -94,6 +142,57 @@ Proyectado sobre una pantalla:
 - +X apunta hacia la derecha de la pantalla.
 - +Y apunta hacia arriba de la pantalla.
 - +Z sale de la pantalla hacia tí.
+
+La posición, rotación y escala de una entidad vienen definidas en su `Transform`.
+
+Bevy trae predefinidos conjuntos de propiedades útiles para representar entidades dentro del mundo. Por ejemplo `SpatialBundle` incluye visibilidad (`Visibility`, `ComputedVisibility`) y posicionamiento global (`GlobalTransform`), además de soporte para el movimiento (`Transform`).
+
+nota: Se suele suponer que una unidad corresponde a 1 metro.
+
+### Tiempo
+
+Por defecto `Update` ocurre en cada **frame**, típicamente 60 fps. 
+```
+fn update_position(mut query: Query<(&Velocity, &mut Transform)>) {
+    for (velocity, mut transform) in query.iter_mut() {
+        transform.translation.x += velocity.value.x;
+        transform.translation.y += velocity.value.y;
+        transform.translation.z += velocity.value.z;
+    }
+}
+```
+
+Si deseamos un control más estable, tenemos que usar un **reloj** de tiempo real ([`Time`](https://docs.rs/bevy/latest/bevy/prelude/struct.Time.html)).
+```
+fn update_position(mut query: Query<(&Velocity, &mut Transform)>, time: Res<Time>) {
+    for (velocity, mut transform) in query.iter_mut() {
+        transform.translation += velocity.value * time.delta_seconds();
+    }
+}
+```
+
+También tenemos **cronómetros** ([`Timer`](https://docs.rs/bevy/latest/bevy/prelude/struct.Timer.html)) para controlar temporizaciones determinadas.
+
+
+### Cámaras y luces
+
+Una cámara ([`Camera`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera.html)) nos permite "ver" (hacer asomar a la pantalla) una parte del mundo.
+
+Una luz nos permite "iluminar" una parte del mundo. (Sin iluminación, el mundo suele estar muy oscuro y no se ve ;-)
+- [AmbientLight](https://docs.rs/bevy/latest/bevy/light/struct.AmbientLight.html)
+- [SpotLight](https://docs.rs/bevy/latest/bevy/light/struct.SpotLight.html)
+- [PointLight](https://docs.rs/bevy/latest/bevy/light/struct.PointLight.html)
+- [RectLight](https://docs.rs/bevy/latest/bevy/light/struct.RectLight.html)
+- etc.
+
+### Recursos (assets)
+
+Objetos físicos pueden ser modelos en formato glTF:
+- La geometria (mesh) de estos modelos se puede leer con `asset_server.load(pathtoyourmodel)`.
+- Un manejador (handle) a una instancia de un modelo se puede clonar para tener varias instancias de ese modelo.
+
+
+
 
 
 
@@ -105,7 +204,10 @@ Proyectado sobre una pantalla:
 
 [los ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
-[Zymartu Games - Bevy 0,12 Beginner Tutorial](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)
+[Zymartu Games - Bevy 0,12 Beginner Tutorial - Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)
+
+[Zymartu Games - Bevy 0,12 Beginner Tutorial - Github repository](https://github.com/marcelchampagne/bevy-basics)
+
 
 # apéndice: recursos varios
 
@@ -115,3 +217,4 @@ Proyectado sobre una pantalla:
 
 [Avian Pickup, a plugin for implementing picking up dynamic rigid bodies](https://github.com/janhohenheim/avian_pickup)
 
+[Poly Pizza](https://poly.pizza/)
