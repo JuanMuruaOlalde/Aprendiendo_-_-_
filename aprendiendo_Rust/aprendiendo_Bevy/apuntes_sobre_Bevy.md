@@ -26,6 +26,8 @@ Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_sys
       .spawn((Position { x: 0.0, y: 0.0 }))
       .id();
   ```
+  [bevy_ecs::entity](https://docs.rs/bevy_ecs/0.18.1/bevy_ecs/entity/struct.Entity.html)
+
 
 - Los **componentes** representan propiedades que tienen las entidades.
 
@@ -34,6 +36,8 @@ Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_sys
   #[derive(Component)]
   struct Position { x: f32, y: f32 }
   ```
+  [bevy_ecs::component](https://docs.rs/bevy_ecs/0.18.1/bevy_ecs/component/trait.Component.html)
+
 
 - Los **sistemas** actuan sobre los componentes de las entidades.
 
@@ -45,6 +49,8 @@ Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_sys
       }
   }
   ```
+  [bevy_ecs::system](https://docs.rs/bevy_ecs/0.18.1/bevy_ecs/system/trait.System.html)
+
 
 Es decir, en ECS:
 - la *información* reside en los componentes 
@@ -60,7 +66,6 @@ Otros elementos:
 Para más información sobre la implementación de ECS en Bevy:
 - [Getting Started - ECS](https://bevy.org/learn/quick-start/getting-started/ecs/)
 - [crate ecs - Bevy ECS](https://docs.rs/bevy/latest/bevy/ecs/index.html)
-
 
 # `App`, la aplicación
 
@@ -126,13 +131,15 @@ La parte del *mundo* (`World`) de un programa Bevy es un contenedor especializad
 - Sistemas: realizan operaciones sobre las entidades (sobre sus propiedades).
 - y Recursos: una forma especial de componente. No suelen ir asociados a ninguna entidad. Aportan cosas tales como: imágenes, visualizadores, servicios de audio, temporizadores,...
 
-El mundo tiene **comandos** [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html) para modificar su estructura. Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar.
+El mundo como tal, [`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html), no se suele manejar directamente. (Salvo en casos como el de ejecutar tests "headless"; donde, por ejemplo, [`world.run_system_once(...)`](https://docs.rs/bevy/latest/bevy/ecs/system/trait.RunSystemOnce.html) permite trabajar sin ventana ni render.)
 
-> Por ejemplo, las entidades y componentes se asocian en el momento de crearlas con [`Commands::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn)
+La forma de interactuar con el mundo son los **comandos** [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar.
+
+> Por ejemplo, las entidades y componentes se asocian con [`Commands::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) en el momento de crearlas.
 
 El mundo tiene **consultas** [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html) para buscar y acceder a determinados componentes. Los sistemas usan consultas para recuperar la información que van a tratar.
 
-### Coordenadas
+### Coordenadas (transform)
 
 El sistema de coordenadas de Bevy es el mismo para 2D y para 3D:
 - Eje X: de izquierda (-) a derecha (-).
@@ -149,7 +156,7 @@ Bevy trae predefinidos conjuntos de propiedades útiles para representar entidad
 
 nota: Se suele suponer que una unidad corresponde a 1 metro.
 
-### Tiempo
+### Tiempo (time)
 
 Por defecto `Update` ocurre en cada **frame**, típicamente 60 fps. 
 ```
@@ -185,14 +192,35 @@ Una luz nos permite "iluminar" una parte del mundo. (Sin iluminación, el mundo 
 - [RectLight](https://docs.rs/bevy/latest/bevy/light/struct.RectLight.html)
 - etc.
 
+### Geometria (mesh)
+
+[`Mesh`](https://docs.rs/bevy/latest/bevy/prelude/struct.Mesh.html)
+
+La geometria
+- Puede representarse en 2D: [`Mesh2d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh2d.html).
+- O representarse en 3D: [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html)
+
+La geometria
+- Puede generarse manualmente en el código. Por ejemplo [Bevy_mesh/src/primitives](https://github.com/bevyengine/bevy/tree/main/crates/bevy_mesh/src/primitives).
+- O puede cargarse desde modelos en formato glTF creados en programas de diseño como, por ejemplo, el [módulo de modelado en Blender](https://docs.blender.org/manual/en/latest/modeling/meshes/introduction.html).
+
 ### Recursos (assets)
 
-Objetos físicos pueden ser modelos en formato glTF:
-- La geometria (mesh) de estos modelos se puede leer con `asset_server.load(pathtoyourmodel)`.
-- Un manejador (handle) a una instancia de un modelo se puede clonar para tener varias instancias de ese modelo.
+En general, los recursos se cargan al [`AssetServer`](https://docs.rs/bevy/latest/bevy/prelude/struct.AssetServer.html). Con la función [asset_server.load(pathtotheasset)](https://docs.rs/bevy/latest/bevy/prelude/struct.AssetServer.html#method.load).
 
+Hay variados tipos de recursos. por ejemplo, echar un vistazo a [Bevy 3rd party assets](https://bevy.org/assets/#assets)
 
+#### Objetos físicos
 
+La manera más práctica de incorporar objetos físicos es  cargarlos desde modelos en formato glTF:
+- La geometria (**mesh**) del modelo se carga al `AssetServer`.
+- Un manejador (**handle**) a una instancia de un modelo se puede clonar para tener varias instancias de ese modelo.
+
+Los modelos en formato glTF pueden crearse en programas de diseño como, por ejemplo, el [módulo de modelado en Blender](https://docs.blender.org/manual/en/latest/modeling/meshes/introduction.html).
+
+[soporte glTF en Bevy](https://docs.rs/bevy/latest/bevy/gltf/struct.Gltf.html)
+
+[soporte glTF en Blender](https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html)
 
 
 
@@ -200,21 +228,22 @@ Objetos físicos pueden ser modelos en formato glTF:
 
 [bevy.org - Learn Bevy](https://bevy.org/learn/)
 
-[los ejemplos oficiales](https://github.com/bevyengine/bevy/tree/latest/examples#examples)
+Los [ejemplos oficiales para desktop](https://github.com/bevyengine/bevy/tree/latest/examples#examples)
 
-[los ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
+Los [ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
-[Zymartu Games - Bevy 0,12 Beginner Tutorial - Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)
-
-[Zymartu Games - Bevy 0,12 Beginner Tutorial - Github repository](https://github.com/marcelchampagne/bevy-basics)
+ El tutorial de Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)), explica muy bien los conceptos básicos. Pero sus ejemplos de código están un tanto desfasados: por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
 
 
 # apéndice: recursos varios
 
-[A collection of third-party Bevy assets, plugins, learning resources, and apps made by the community](https://bevy.org/assets/)
+[Some templates](https://bevy.org/assets/#templates) to start a Bevy app.
 
-[Avian, an ECS-driven 2D and 3D physics engine](https://github.com/avianphysics/avian)
+A collection of [third-party Bevy assets, plugins, learning resources, and apps](https://bevy.org/assets/)  made by the community
 
-[Avian Pickup, a plugin for implementing picking up dynamic rigid bodies](https://github.com/janhohenheim/avian_pickup)
+[Avian](https://github.com/avianphysics/avian), an ECS-driven 2D and 3D physics engine
 
-[Poly Pizza](https://poly.pizza/)
+[Avian Pickup](https://github.com/janhohenheim/avian_pickup), a plugin for implementing picking up dynamic rigid bodies
+
+[Poly Pizza](https://poly.pizza/), a collection of low-poly objects.
+
