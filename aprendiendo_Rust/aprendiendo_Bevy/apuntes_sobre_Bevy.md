@@ -113,12 +113,7 @@ fn build(&self, app: &mut App){
 
 ## Leer entrada del usuario
 
-Teclado
-
-Ratón
-
-Joystick o gamepad
-
+[https://github.com/bevyengine/bevy/tree/latest/examples/input](https://github.com/bevyengine/bevy/tree/latest/examples/input)
 
 
 
@@ -232,7 +227,19 @@ Los [ejemplos oficiales para desktop](https://github.com/bevyengine/bevy/tree/la
 
 Los [ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
- El tutorial de Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)), explica muy bien los conceptos básicos. Pero sus ejemplos de código están un tanto desfasados: por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
+[PhaestusFox - Youtube channel](https://www.youtube.com/@PhaestusFox/featured)
+
+[tbillington - best practices with Bevy](https://github.com/tbillington/bevy_best_practices)
+
+[encetroc - skills for Bevy and Avian](https://github.com/encetroc/bevy-skills)
+
+El tutorial de Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)), explica muy bien los conceptos básicos. Pero sus ejemplos de código están desfasados: por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
+
+
+
+[Bevyengine - RFCs (Requests For Comments)](https://github.com/bevyengine/rfcs)
+
+[Designing The Bevy Editor - vision, roadmap, architecture, constraints, guidelines,...](https://bevyengine.github.io/bevy_editor_prototypes/vision.html)
 
 
 # apéndice: recursos varios
