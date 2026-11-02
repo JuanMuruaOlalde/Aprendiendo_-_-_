@@ -9,7 +9,6 @@ impl Plugin for UnMundoSencillo {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, iluminacion_base_y_camara_principal);
         app.add_systems(Startup, paisaje_base);
-        app.add_systems(Update, animacion_basica);
     }
 }
 
@@ -38,12 +37,7 @@ fn iluminacion_base_y_camara_principal(mut commands: Commands) {
         Camera3d::default(),
         Transform::from_xyz(4.0, 4.0, 6.0).looking_at(Vec3::ZERO, Vec3::Y),
     ));
-    // let _luz_ambiente = commands.spawn(AmbientLight {
-    //     color: Color::WHITE,
-    //     brightness: 100.,
-    //     affects_lightmapped_meshes: true,
-    // }).id();
-    let _foco = commands
+    let _un_foco = commands
         .spawn((
             DirectionalLight {
                 shadows_enabled: true,
@@ -53,5 +47,3 @@ fn iluminacion_base_y_camara_principal(mut commands: Commands) {
         ))
         .id();
 }
-
-fn animacion_basica() {}

@@ -67,6 +67,28 @@ Para más información sobre la implementación de ECS en Bevy:
 - [Getting Started - ECS](https://bevy.org/learn/quick-start/getting-started/ecs/)
 - [crate ecs - Bevy ECS](https://docs.rs/bevy/latest/bevy/ecs/index.html)
 
+## Trabajando con entidades y componentes
+
+Para agregar o quitar entidades|componentes en el mundo, la manera más segura es utilizar comandos: [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Concretamente, utilizando el comando [`spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) o sus derivados.
+
+Las cosas se construyen por composición. Por ejemplo, este cubo está compuesto por una superficie (mesh), un material y una posición (transform)
+```
+    let _un_cubo_azul = commands
+        .spawn((
+            Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
+            MeshMaterial3d(materials.add(AZUL_VERDOSO)),
+            Transform::from_xyz(0.0, 0.5, 0.0),
+        ))
+        .id();
+```
+
+## Trabajando con sistemas
+
+Como se ha comentado, un sistema no es más que una función. Para pasar como parámetro a la función los componentes sobre los que ha de actuar, tenemos las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
+
+
+
+
 # `App`, la aplicación
 
 La parte de *aplicación* (`App`) de un programa Bevy es la que implementa:
@@ -90,6 +112,13 @@ Para más información sobre estratégias de ejecución:
 
 > nota: Los `Schedule` disponen de un *parallel executor* capaz de analizar las dependencias entre sistemas y ejecutar en paralelo tantos sistemas como sea posible.
 
+## Estrategias de ejecución de los sistemas: events
+
+Además de ejecutarse según cierta periodicidad, los sistemas también pueden reaccionar a ciertos eventos.
+
+?
+
+
 ## Organizar la aplicación: plugins
 
 Suele ser conveniente estructurar la aplicación en `Plugin`s. Cada plugin es un trozo que se puede (o no) activar cargandolo (o no) en la aplicación con la expresión `.add_plugins()`.
@@ -110,6 +139,11 @@ fn build(&self, app: &mut App){
     app.add.......;
 }
 ```
+
+## Organizar la aplicación: bundles
+
+Cuando ciertos componentes se asignan habitualmente juntos, suele ser conveniente definir también un [Bundle](https://docs.rs/bevy/latest/bevy/ecs/bundle/trait.Bundle.html) que los agrupe y utilizar dicho grupo cuando se desea asignarlos juntos.
+
 
 ## Leer entrada del usuario
 
@@ -227,11 +261,15 @@ Los [ejemplos oficiales para desktop](https://github.com/bevyengine/bevy/tree/la
 
 Los [ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
+Algunos [recursos para aprender](https://bevy.org/assets/#learning). (nota: fijarse en la versión de Bevy, 0.xx, para la que se escribió cada recurso.)
+
+[The Impatient Programmer's Guide to Bevy and Rust](https://aibodh.com/)
+
+[encetroc - skills for Bevy and Avian](https://github.com/encetroc/bevy-skills)
+
 [PhaestusFox - Youtube channel](https://www.youtube.com/@PhaestusFox/featured)
 
 [tbillington - best practices with Bevy](https://github.com/tbillington/bevy_best_practices)
-
-[encetroc - skills for Bevy and Avian](https://github.com/encetroc/bevy-skills)
 
 El tutorial de Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)), explica muy bien los conceptos básicos. Pero sus ejemplos de código están desfasados: por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
 

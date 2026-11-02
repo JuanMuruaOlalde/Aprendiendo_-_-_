@@ -8,12 +8,12 @@ pub struct UnPersonajeSencillo {}
 
 impl Plugin for UnPersonajeSencillo {
     fn build(&self, app: &mut App) {
-        app.add_systems(Startup, crear_un_personaje);
-        app.add_systems(Update, mover);
+        app.add_systems(Startup, crear_personaje);
+        app.add_systems(Update, mover_personaje);
     }
 }
 
-fn crear_un_personaje(
+fn crear_personaje(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
@@ -25,7 +25,7 @@ fn crear_un_personaje(
     ));
 }
 
-fn mover(
+fn mover_personaje(
     entrada_teclado: Res<ButtonInput<KeyCode>>,
     tiempo: Res<Time>,
     mut personaje: Single<&mut Transform, With<UnPersonajeSencillo>>,
