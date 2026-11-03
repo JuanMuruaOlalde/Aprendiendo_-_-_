@@ -16,6 +16,8 @@ nota: A la hora de comenzar un nuevo proyecto Bevy, tener en cuenta ciertos fact
 
 # ECS (Entity - Component - System)
 
+## Introducción
+
 Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_system). Dividiendo el programa entre:
 
 - Las **entidades** representan objetos o personajes del juego.
@@ -67,9 +69,13 @@ Para más información sobre la implementación de ECS en Bevy:
 - [Getting Started - ECS](https://bevy.org/learn/quick-start/getting-started/ecs/)
 - [crate ecs - Bevy ECS](https://docs.rs/bevy/latest/bevy/ecs/index.html)
 
-## Trabajando con entidades y componentes
+## Crear entidades y componentes
 
-Para agregar o quitar entidades|componentes en el mundo, la manera más segura es utilizar comandos: [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Concretamente, utilizando el comando [`spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) o sus derivados.
+Para agregar o quitar entidades|componentes en el mundo, la manera más segura es utilizar comandos: [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Concretamente, utilizando el comando [`spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) o sus derivados. 
+
+> El framework interno de Bevy se encarga de:
+> - Proveer los parámetros adecuados a la función donde se utiliza el comando.
+> - Ejecutar el comando en un momento adecuado dentro el bucle del juego.
 
 Las cosas se construyen por composición. Por ejemplo, este cubo está compuesto por una superficie (mesh), un material y una posición (transform)
 ```
@@ -82,9 +88,11 @@ Las cosas se construyen por composición. Por ejemplo, este cubo está compuesto
         .id();
 ```
 
-## Trabajando con sistemas
+## Definir sistemas
 
 Como se ha comentado, un sistema no es más que una función. Para pasar como parámetro a la función los componentes sobre los que ha de actuar, tenemos las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
+
+> El framework interno de Bevy se encarga de proveer los parámetros adecuados a la función donde se utiliza la consulta.
 
 
 
@@ -112,12 +120,19 @@ Para más información sobre estratégias de ejecución:
 
 > nota: Los `Schedule` disponen de un *parallel executor* capaz de analizar las dependencias entre sistemas y ejecutar en paralelo tantos sistemas como sea posible.
 
-## Estrategias de ejecución de los sistemas: events
+Por otro lado, también es posible indicar condiciones para la ejecución de cada sistema: [common_conditions](https://docs.rs/bevy/latest/bevy/ecs/schedule/common_conditions/index.html). Utilizando el comando `.run_if()` sobre el sistema cuando lo añadimos a un `Schedule` determinado.
 
-Además de ejecutarse según cierta periodicidad, los sistemas también pueden reaccionar a ciertos eventos.
+## Coordinación entre sistemas: mensajes y eventos
 
-?
+Los **mensajes** son para ser escritos/leidos a/desde un buffer. Un buffer específico para cada tipo de mensaje definido.
 
+[Message](https://docs.rs/bevy/latest/bevy/ecs/message/trait.Message.html)
+
+Los **eventos** son para ser consumidos por los **observadores** que se han subscrito a ellos. Cuando se produce (trigger) un evento en el mundo, se ejecutan automáticamente todos los sistemas (funciones) que estaban subscritos a ese tipo de evento.
+
+[Event](https://docs.rs/bevy/latest/bevy/ecs/event/trait.Event.html)
+
+[Observer](https://docs.rs/bevy/latest/bevy/prelude/struct.Observer.html)
 
 ## Organizar la aplicación: plugins
 
@@ -230,7 +245,7 @@ La geometria
 - O representarse en 3D: [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html)
 
 La geometria
-- Puede generarse manualmente en el código. Por ejemplo [Bevy_mesh/src/primitives](https://github.com/bevyengine/bevy/tree/main/crates/bevy_mesh/src/primitives).
+- Puede generarse manualmente en el código, usando primitivas como por ejemplo [Bevy_mesh/src/primitives](https://github.com/bevyengine/bevy/tree/main/crates/bevy_mesh/src/primitives).
 - O puede cargarse desde modelos en formato glTF creados en programas de diseño como, por ejemplo, el [módulo de modelado en Blender](https://docs.blender.org/manual/en/latest/modeling/meshes/introduction.html).
 
 ### Recursos (assets)
@@ -255,29 +270,41 @@ Los modelos en formato glTF pueden crearse en programas de diseño como, por eje
 
 # apéndice: documentación varia
 
+> ¡Importante!. Bevy evoluciona muy rápido; nueva versión dos o tres veces al año. Con frecuencia, los ejemplos que aparecen en documentaciones y tutoriales suelen corresponder a versiones desfasadas. Por eso, también es habitual que se indique expresamente, en la caratula u otro lugar prominente, la versión utilizada.
+> 
+> Realmente hay muchas diferencias de una versión a otra: [migration guide](https://bevy.org/learn/migration-guides/introduction/)
+>
+> Por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
+
 [bevy.org - Learn Bevy](https://bevy.org/learn/)
 
 Los [ejemplos oficiales para desktop](https://github.com/bevyengine/bevy/tree/latest/examples#examples)
 
 Los [ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
-Algunos [recursos para aprender](https://bevy.org/assets/#learning). (nota: fijarse en la versión de Bevy, 0.xx, para la que se escribió cada recurso.)
+Algunos [recursos para aprender](https://bevy.org/assets/#learning).
+
+Caitlin Sar Campbell: [Making games in Rust with Bevy](https://youtu.be/BzrZoJZcmVI)
+
+[Unofficial Bevy Cheat Book](https://bevy-cheatbook.github.io/)
+
+[taintedcoders.com](https://taintedcoders.com/)
 
 [The Impatient Programmer's Guide to Bevy and Rust](https://aibodh.com/)
 
 [encetroc - skills for Bevy and Avian](https://github.com/encetroc/bevy-skills)
 
-[PhaestusFox - Youtube channel](https://www.youtube.com/@PhaestusFox/featured)
-
 [tbillington - best practices with Bevy](https://github.com/tbillington/bevy_best_practices)
 
-El tutorial de Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube videos](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)), explica muy bien los conceptos básicos. Pero sus ejemplos de código están desfasados: por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
+PhaestusFox -Your First Bevy Game: Bevy Basics remastered to 0.16-, ([Youtube video](https://youtu.be/nE76GGICofU) , [Github repository](https://github.com/PhaestusFox/bevy_basics_remastered)).
 
+Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube video](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)).
 
+[chris biscardi](https://www.youtube.com/@chrisbiscardi/videos)
 
-[Bevyengine - RFCs (Requests For Comments)](https://github.com/bevyengine/rfcs)
-
-[Designing The Bevy Editor - vision, roadmap, architecture, constraints, guidelines,...](https://bevyengine.github.io/bevy_editor_prototypes/vision.html)
+Desarrollos en curso dentro del ecosistema Bevy:
+- [Bevyengine - RFCs (Requests For Comments)](https://github.com/bevyengine/rfcs)
+- [Designing The Bevy Editor - vision, roadmap, architecture, constraints, guidelines,...](https://bevyengine.github.io/bevy_editor_prototypes/vision.html)
 
 
 # apéndice: recursos varios

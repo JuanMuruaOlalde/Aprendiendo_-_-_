@@ -1,3 +1,4 @@
+mod marcador_orientado;
 mod un_mundo_sencillo;
 mod un_personaje_sencillo;
 mod utilidades;
@@ -9,7 +10,7 @@ use bevy::prelude::*;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugins(UnMundoSencillo {})
-        .add_plugins(UnPersonajeSencillo {})
+        .add_plugins(UnMundoSencillo)
+        .add_plugins(UnPersonajeSencillo)
         .run();
 }

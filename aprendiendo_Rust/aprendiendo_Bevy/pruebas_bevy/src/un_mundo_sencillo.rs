@@ -3,7 +3,7 @@ use bevy::prelude::*;
 const NARANJA_TIERRA: bevy::prelude::Color = Color::oklch(0.7, 0.15, 55.2);
 const AZUL_VERDOSO: bevy::prelude::Color = Color::oklch(0.58, 0.10, 173.6);
 
-pub struct UnMundoSencillo {}
+pub struct UnMundoSencillo;
 
 impl Plugin for UnMundoSencillo {
     fn build(&self, app: &mut App) {
@@ -27,7 +27,14 @@ fn paisaje_base(
         .spawn((
             Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
             MeshMaterial3d(materials.add(AZUL_VERDOSO)),
-            Transform::from_xyz(0.0, 0.5, 0.0),
+            Transform::from_xyz(3.0, 0.5, 0.0),
+        ))
+        .id();
+    let _otro_cubo_azul = commands
+        .spawn((
+            Mesh3d(meshes.add(Cuboid::new(1.0, 1.0, 1.0))),
+            MeshMaterial3d(materials.add(AZUL_VERDOSO)),
+            Transform::from_xyz(0.0, 0.5, 3.0),
         ))
         .id();
 }
