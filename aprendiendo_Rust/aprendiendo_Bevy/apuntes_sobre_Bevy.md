@@ -270,11 +270,13 @@ Los modelos en formato glTF pueden crearse en programas de diseño como, por eje
 
 # apéndice: documentación varia
 
-> ¡Importante!. Bevy evoluciona muy rápido; nueva versión dos o tres veces al año. Con frecuencia, los ejemplos que aparecen en documentaciones y tutoriales suelen corresponder a versiones desfasadas. Por eso, también es habitual que se indique expresamente, en la caratula u otro lugar prominente, la versión utilizada.
+>¡Importante!: Bevy evoluciona muy rápido; hay una nueva versión cada cuatro o cinco meses. 
 > 
-> Realmente hay muchas diferencias de una versión a otra: [migration guide](https://bevy.org/learn/migration-guides/introduction/)
+>El desarrollo de Bevy es muy dinámico; se dan bastantes diferencias de una versión a otra. Es importante consultar la [migration guide](https://bevy.org/learn/migration-guides/introduction/).
 >
-> Por ejemplo, en la versión 0.16 de Bevy se cambió la API para utilizar tuplas directas de [`Mesh3d`](https://docs.rs/bevy/latest/bevy/mesh/struct.Mesh3d.html) y [`MeshMaterial3D`](https://docs.rs/bevy/latest/bevy/pbr/struct.MeshMaterial3d.html) o [`Camera3d`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera3d.html) y [`Transform`](https://docs.rs/bevy/latest/bevy/prelude/struct.Transform.html) en lugar de usar bundles explícitos tales como [`PbrBundle`](https://docs.rs/bevy/0.12/bevy/pbr/prelude/type.PbrBundle.html) o [`Camera3dBundle`](https://docs.rs/bevy/0.12/bevy/prelude/struct.Camera3dBundle.html).
+>¡Aviso!: debido a este dinamismo, los ejemplos que aparecen en documentaciones y tutoriales suelen quedar rápidamente desfasados. Es importante prestar atención a la versión utilizada en cada documento o tutorial; habitualmente suele venir indicada en la caratula o en el título.
+> 
+
 
 [bevy.org - Learn Bevy](https://bevy.org/learn/)
 
