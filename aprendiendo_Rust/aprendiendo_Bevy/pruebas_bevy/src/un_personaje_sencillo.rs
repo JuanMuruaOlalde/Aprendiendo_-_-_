@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
+use crate::marcador_orientado::ColocarUnMarcadorOrientado;
+
 const GRIS: bevy::prelude::Color = Color::oklch(0.55, 0.0, 0.0);
+const TAMAÑO: f32 = 0.3;
 const VELOCIDAD: f32 = 1.0;
 
 pub struct UnPersonajeSencillo;
@@ -21,7 +24,12 @@ fn crear_personaje(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     commands.spawn((
-        Mesh3d(meshes.add(Sphere::new(0.3))),
+        Mesh3d(meshes.add(Tetrahedron::new(
+            Vec3::new(0.0, 0.0, 0.0),
+            Vec3::new(TAMAÑO, 0.0, 0.0),
+            Vec3::new(0.0, 0.0, TAMAÑO),
+            Vec3::new(0.0, TAMAÑO, 0.0),
+        ))),
         MeshMaterial3d(materials.add(GRIS)),
         Movimiento {},
     ));
@@ -31,8 +39,15 @@ fn mover_personaje(
     entrada_teclado: Res<ButtonInput<KeyCode>>,
     tiempo: Res<Time>,
     mut query: Query<&mut Transform, With<Movimiento>>,
+    mut commands: Commands,
 ) {
     for mut transform in &mut query {
+        if entrada_teclado.pressed(KeyCode::KeyM) {
+            commands.trigger(ColocarUnMarcadorOrientado {
+                posicion: transform.translation,
+                orientacion: transform.rotation,
+            });
+        }
         let mut direccion = Vec3::ZERO;
         if entrada_teclado.pressed(KeyCode::KeyX) {
             direccion.x += 1.0
