@@ -14,6 +14,7 @@ pub struct Movimiento {}
 impl Plugin for UnPersonajeSencillo {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, crear_personaje);
+        app.add_systems(PostStartup, poner_explicacion_de_controles);
         app.add_systems(Update, mover_personaje);
     }
 }
@@ -42,7 +43,7 @@ fn mover_personaje(
     mut commands: Commands,
 ) {
     for mut transform in &mut query {
-        if entrada_teclado.pressed(KeyCode::KeyM) {
+        if entrada_teclado.pressed(KeyCode::KeyK) {
             commands.trigger(ColocarUnMarcadorOrientado {
                 posicion: transform.translation,
                 orientacion: transform.rotation,
@@ -58,15 +59,31 @@ fn mover_personaje(
         if entrada_teclado.pressed(KeyCode::KeyZ) {
             direccion.z += 1.0
         }
-        if entrada_teclado.pressed(KeyCode::KeyA) {
+        if entrada_teclado.pressed(KeyCode::KeyF) {
             direccion.x -= 1.0
         }
-        if entrada_teclado.pressed(KeyCode::KeyB) {
+        if entrada_teclado.pressed(KeyCode::KeyG) {
             direccion.y -= 1.0
         }
-        if entrada_teclado.pressed(KeyCode::KeyC) {
+        if entrada_teclado.pressed(KeyCode::KeyH) {
             direccion.z -= 1.0
         }
         transform.translation += direccion.normalize_or_zero() * VELOCIDAD * tiempo.delta_secs();
     }
+}
+
+fn poner_explicacion_de_controles(mut commands: Commands) {
+    commands.spawn((
+        Node {
+            position_type: PositionType::Absolute,
+            top: px(12),
+            left: px(12),
+            ..default()
+        },
+        children![Text::new(concat![
+            "teclas X Y Z avanzan el personaje en esos ejes.\n",
+            "teclas F G H retroceden el personaje en los ejes X Y Z, respectivamente.\n",
+            "tecla K pone un marcador en la posicion donde este el personaje en ese momento."
+        ]),],
+    ));
 }

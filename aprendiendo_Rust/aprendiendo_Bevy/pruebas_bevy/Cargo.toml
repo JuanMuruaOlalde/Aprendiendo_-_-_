@@ -10,5 +10,5 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-bevy = "0.20.1"
+bevy = {version = "0.20.1", features = ["bevy_camera_controller", "free_camera"]}
 rand = "0.10.3"
