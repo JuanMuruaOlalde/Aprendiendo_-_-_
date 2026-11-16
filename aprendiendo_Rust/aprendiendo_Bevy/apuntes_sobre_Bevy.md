@@ -2,6 +2,10 @@
 
 [https://bevy.org/](https://bevy.org/)
 
+[https://bevy.org/learn/](https://bevy.org/learn/)
+
+[https://bevy.org/learn/book/](https://bevy.org/learn/book/intro/)
+
 [https://crates.io/crates/bevy](https://crates.io/crates/bevy)
 
 Algunos crates auxiliares interesantes:
@@ -162,9 +166,19 @@ Cuando ciertos componentes se asignan habitualmente juntos, suele ser convenient
 
 ## Leer entrada del usuario
 
+Desde teclado, ratón, controlador de juego, pantalla táctil,...
+
+[https://docs.rs/bevy/latest/bevy/input/index.html](https://docs.rs/bevy/latest/bevy/input/index.html)
+
 [https://github.com/bevyengine/bevy/tree/latest/examples/input](https://github.com/bevyengine/bevy/tree/latest/examples/input)
 
+## Interface de usuario (UI)
 
+Widgets variados para componer un interfaz de usuario en la pantalla.
+
+[https://docs.rs/bevy/latest/bevy/ui/index.html](https://docs.rs/bevy/latest/bevy/ui/index.html)
+
+[https://github.com/bevyengine/bevy/tree/latest/examples/ui](https://github.com/bevyengine/bevy/tree/latest/examples/ui)
 
 
 # `World`, el mundo
@@ -182,6 +196,8 @@ La forma de interactuar con el mundo son los **comandos** [`Commands`](https://d
 > Por ejemplo, las entidades y componentes se asocian con [`Commands::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) en el momento de crearlas.
 
 El mundo tiene **consultas** [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html) para buscar y acceder a determinados componentes. Los sistemas usan consultas para recuperar la información que van a tratar.
+
+## Algunos elementos a tener en cuenta
 
 ### Coordenadas (transform)
 
@@ -229,6 +245,8 @@ También tenemos **cronómetros** ([`Timer`](https://docs.rs/bevy/latest/bevy/pr
 
 Una cámara ([`Camera`](https://docs.rs/bevy/latest/bevy/camera/struct.Camera.html)) nos permite "ver" (hacer asomar a la pantalla) una parte del mundo.
 
+[TaintedCoders - Bevy cameras](https://taintedcoders.com/bevy/cameras)
+
 Una luz nos permite "iluminar" una parte del mundo. (Sin iluminación, el mundo suele estar muy oscuro y no se ve ;-)
 - [AmbientLight](https://docs.rs/bevy/latest/bevy/light/struct.AmbientLight.html)
 - [SpotLight](https://docs.rs/bevy/latest/bevy/light/struct.SpotLight.html)
@@ -266,6 +284,12 @@ Los modelos en formato glTF pueden crearse en programas de diseño como, por eje
 
 [soporte glTF en Blender](https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html)
 
+
+## `Scene` and `bsn!` macro
+
+[https://docs.rs/bevy/latest/bevy/scene/index.html](https://docs.rs/bevy/latest/bevy/scene/index.html)
+
+Está disponible desde la versión `0.20.1`.
 
 
 # apéndice: documentación varia
