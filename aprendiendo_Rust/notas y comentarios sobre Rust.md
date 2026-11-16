@@ -1311,7 +1311,9 @@ Cuatro tipos de documentación técnica:
 
 [The Good Docs Project](https://www.thegooddocsproject.dev/)
 
-## Actualizar versiones de las dependencias
+## Actualizar versiones
+
+[How to Update Rust to the Latest Version](https://www.rustfaq.org/en/how-to-update-rust-to-the-latest-version/)
 
 [How to Keep Rust Dependencies Up to Date](https://www.rustfaq.org/en/how-to-keep-rust-dependencies-up-to-date/)
 
