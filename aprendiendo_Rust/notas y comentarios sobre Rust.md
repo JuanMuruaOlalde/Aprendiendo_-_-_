@@ -123,6 +123,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
 
+[The Rust Performance Book](https://nnethercote.github.io/perf-book/introduction.html)
+
 [The rustup book](https://rust-lang.github.io/rustup/index.html)
 
 [The rustc book](https://doc.rust-lang.org/nightly/rustc/what-is-rustc.html)
