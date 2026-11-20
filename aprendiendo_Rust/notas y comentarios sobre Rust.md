@@ -253,21 +253,38 @@ error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
 
 [RustOwl tool - Github](https://github.com/cordx56/rustowl)
 
+## algunos consejos
+
+En la medida de lo posible es preferible ser flexible en los argumentos de las funciones:
+
+- `&str` aceptar trozos de texto (string slice) en lugar de textos completos (owned string) `&String 
+
+- `&[T]` aceptar cualquier trozo (slice) en lugar de todo el contenedor concreto `&Vec<T>`
+
+- `&T` tomar prestado (borrow) el contenido en lugar del contenedor `&Box<T>`
+
+- `Option<&T>` tomar prestado (borrow) el contenido en lugar del contenedor `&Option<T>`
+
 
 ## Move semantics
 
-Como ya se ha indicado, este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna a otra o se pasa como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro; la variable original pierde el derecho de usar el trozo de memoria al que hacia referencia. 
+Como ya se ha indicado, este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna tal cual a otra o se pasa tal cual como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro; la variable original pierde el derecho de usar el trozo de memoria al que hacia referencia.
 
-Es decir: **solo puede existir un único puntero a cada trozo de memoria reservado**.
+Es decir: **solo puede existir un único puntero de escritura a cada trozo de memoria reservado**.
 
 Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
 
+nota: Pasar tal cual se refiere a pasarla sin usar `&`.
 
-nota: Ayuda mucho si previamente estamos acostumbrados al paradigma de programación funcional y su énfasis en trabajar hasta donde sea posible con funciones puras; funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver; funciones sin "efectos colaterales" sobre nada externo a ellas.
+### dos consejos
 
-nota: Ayuda mucho si previamente estamos acostumbrados al uso de tests unitarios y a trabajar con mentalidad TDD. Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código, reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
+Ayuda mucho si previamente estamos acostumbrados al paradigma de **programación funcional** y al énfasis que hace este paradigma de trabajar hasta donde sea posible con funciones puras. Funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver. Es decir, funciones sin "efectos colaterales" sobre nada externo a ellas.
 
-aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir, sobre todo en programación concurrente o en programación de sistemas), [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html). Pero, ¡ojo!, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
+Ayuda mucho si previamente estamos acostumbrados al uso de **tests unitarios** y a **trabajar con mentalidad TDD** (Test Driven Development). Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código. Reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
+
+### una advertencia
+
+aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir; sobre todo en programación concurrente o en programación de sistemas), [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html). Pero, ¡ojo!, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
 
 [Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
 
