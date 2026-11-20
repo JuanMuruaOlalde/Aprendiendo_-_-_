@@ -164,6 +164,8 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Rust Design Patterns](https://rust-unofficial.github.io/patterns/intro.html)
 
+[The Complete Rust Ecosystem Explained](https://www.youtube.com/watch?v=fMWThgQmibw)
+
 [Why Rust?](https://rerun.io/blog/why-rust)
 
 [Rust stole C++'s best features - YouTube](https://www.youtube.com/watch?v=sjsnuirLyKM)
@@ -2189,6 +2191,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 
 ## videos y lecturas varias
+
+[The Complete Rust Ecosystem Explained](https://www.youtube.com/watch?v=fMWThgQmibw)
 
 [10 Reasons Not To Use Rust (The Whole Truth) - fasterthanlime](https://www.youtube.com/watch?v=ul9vyWuT8SU)
 
