@@ -4,18 +4,11 @@
 
 [https://bevy.org/learn/](https://bevy.org/learn/)
 
-[https://bevy.org/learn/book/](https://bevy.org/learn/book/intro/)
+[bevy.org - The Book](https://bevy.org/learn/book/intro/)
 
 [https://crates.io/crates/bevy](https://crates.io/crates/bevy)
 
-Algunos crates auxiliares interesantes:
-- [bevy-inspector-egui](https://crates.io/crates/bevy-inspector-egui)
-- [bevy_picking](https://crates.io/crates/bevy_picking)
-- [transform-gizmo-bevy](https://crates.io/crates/transform-gizmo-bevy)
-
-Prácticamente todo Bevy se implementa de forma modular, usando [plugins](https://bevy.org/learn/quick-start/getting-started/plugins/). Así se tiene la flexibilidad de usar o no cada módulo (plugin); aprovechando la ventaja de incorporar (o no) múltiples elementos de golpe.
-
-nota: A la hora de comenzar un nuevo proyecto Bevy, tener en cuenta ciertos factores de optimización que pueden afectar al tiempo que tarda en compilarse: [Compile with Performance Optimizations](https://bevy.org/learn/quick-start/getting-started/setup/#compile-with-performance-optimizations)
+> Importante leer esto antes de comenzar un proyecto serio en Bevy: [Compile with Performance Optimizations](https://bevy.org/learn/quick-start/getting-started/setup/#compile-with-performance-optimizations). Si el proyecto es más o menos grande, es necesario tener en cuenta ciertos factores de optimización que pueden afectar al tiempo que tarda en compilarse.
 
 
 # ECS (Entity - Component - System)
@@ -94,9 +87,11 @@ Las cosas se construyen por composición. Por ejemplo, este cubo está compuesto
 
 ## Definir sistemas
 
-Como se ha comentado, un sistema no es más que una función. Para pasar como parámetro a la función los componentes sobre los que ha de actuar, tenemos las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
+Como se ha comentado, un sistema no es más que una función. Eso sí, cada uno de sus argumentos ha de implementar el trait `SystemParam`. Como, por ejemplo, lo hacen `Query`, `Commands`, `Res`, `ResMut`, `MessageReader`, `MessageWriter`, `Local`,...
 
-> El framework interno de Bevy se encarga de proveer los parámetros adecuados a la función donde se utiliza la consulta.
+Por ejemplo, para pasar como argumento a la función los componentes sobre los que ha de actuar se utilizan las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
+
+> El framework interno de Bevy se encarga de proveer a esos argumentos los datos correspondientes.
 
 
 
@@ -140,7 +135,9 @@ Los **eventos** son para ser consumidos por los **observadores** que se han subs
 
 ## Organizar la aplicación: plugins
 
-Suele ser conveniente estructurar la aplicación en `Plugin`s. Cada plugin es un trozo que se puede (o no) activar cargandolo (o no) en la aplicación con la expresión `.add_plugins()`.
+Prácticamente todo Bevy se implementa de forma modular, usando [plugins](https://bevy.org/learn/quick-start/getting-started/plugins/). Así se tiene la flexibilidad de usar o no cada módulo (plugin); aprovechando la ventaja de incorporar (o no) múltiples elementos de golpe.
+
+Cada plugin es un trozo que se puede (o no) activar cargandolo (o no) en la aplicación con la expresión `.add_plugins()`.
 
 Hay una serie de Plugins predefinidos dentro de Bevy:
 - [DefaultPlugins](https://docs.rs/bevy/latest/bevy/struct.DefaultPlugins.html)
@@ -151,7 +148,7 @@ Hay una serie de Plugins predefinidos dentro de Bevy:
 - [FeathersPlugins](https://docs.rs/bevy/latest/bevy/feathers/struct.FeathersPlugins.html)
 - etc.
 
-Aparte de los predefinidos, se pueden definir tantos plugins como sean necesarios. Cada plugin suele escribirse en su propio módulo (xxxxxxxxx.rs) y ha de implementar una función `build`.
+Es conveniente estructurar también nuestro código usando `Plugin`s. Se pueden definir tantos plugins como sean necesarios. Cada plugin suele escribirse en su propio módulo (xxxxxxxxx.rs) y ha de implementar una función `build`.
 ```
 fn build(&self, app: &mut App){
     app.add_systems(......);
@@ -292,7 +289,7 @@ Los modelos en formato glTF pueden crearse en programas de diseño como, por eje
 Está disponible desde la versión `0.20.1`.
 
 
-# apéndice: documentación varia
+# Apéndice: documentación varia
 
 >¡Importante!: Bevy evoluciona muy rápido; hay una nueva versión cada cuatro o cinco meses. 
 > 
@@ -301,6 +298,7 @@ Está disponible desde la versión `0.20.1`.
 >¡Aviso!: debido a este dinamismo, los ejemplos que aparecen en documentaciones y tutoriales suelen quedar rápidamente desfasados. Es importante prestar atención a la versión utilizada en cada documento o tutorial; habitualmente suele venir indicada en la caratula o en el título.
 > 
 
+[bevy.org - The Book](https://bevy.org/learn/book/intro/)
 
 [bevy.org - Learn Bevy](https://bevy.org/learn/)
 
@@ -333,15 +331,24 @@ Desarrollos en curso dentro del ecosistema Bevy:
 - [Designing The Bevy Editor - vision, roadmap, architecture, constraints, guidelines,...](https://bevyengine.github.io/bevy_editor_prototypes/vision.html)
 
 
-# apéndice: recursos varios
+# Apéndice: recursos varios
 
 [Some templates](https://bevy.org/assets/#templates) to start a Bevy app.
 
 A collection of [third-party Bevy assets, plugins, learning resources, and apps](https://bevy.org/assets/)  made by the community
 
+[Poly Pizza](https://poly.pizza/), a collection of low-poly objects.
+
+## Algunos crates auxiliares interesantes:
+
+[bevy-inspector-egui](https://crates.io/crates/bevy-inspector-egui)
+
+[bevy_picking](https://crates.io/crates/bevy_picking)
+
+[transform-gizmo-bevy](https://crates.io/crates/transform-gizmo-bevy)
+
 [Avian](https://github.com/avianphysics/avian), an ECS-driven 2D and 3D physics engine
 
 [Avian Pickup](https://github.com/janhohenheim/avian_pickup), a plugin for implementing picking up dynamic rigid bodies
 
-[Poly Pizza](https://poly.pizza/), a collection of low-poly objects.
 
