@@ -10,9 +10,15 @@ En otros lenguajes no solemos prestar excesiva atención a aspectos tales como:
 
 - Los distintos tipos de datos. (Por ejemplo: no es lo mismo un número entero que número real; no son lo mismo los valores true|false que los números 1|0; no es lo mismo una cantidad monetaria que una medida de longitud; etc.)
 
+  > Mirar la sección "Strong typed".
+
 - Quién (qué variable) maneja cada porción de la memoria. Quién arbitra los accesos a cada porción desde distintas partes concurrentes. Cuánto tiempo ha de mantenerse activa cada porción (hasta que todas las variables que la usen ya no la necesiten). Quién se encarga de liberar cada porción cuando ya no es necesaria (la última variable que la utilice).
 
+  > Mirar las secciones "Ownership, Borrow-checker" y "Lifetimes".
+
 - Qué problemas se pueden presentar al realizar cada operación. (Por ejemplo: una lectura de disco puede no encontrar el archivo; un acceso a red puede toparse con una línea caida; una persona puede teclear un valor no válido; etc.)
+
+  > Mirar los apartados "Option" y "Result" de la sección "Strong typed".
 
 En esos otros lenguajes, aunque no prestemos la debida atención a esos aspectos,  el código fuente que escribimos suele compilar y se puede ejecutar. Pero luego nos topamos con errores y problemas en tiempo de ejecución. Errores tan "habituales" como, por ejemplo: "buffer overflow", "null reference", "incorrect format", "xxxxxx exception",... 
 
@@ -48,9 +54,9 @@ Y, en gran medida, gracias al gran esfuerzo de la comunidad Rust para escribir m
 
 Two books are key:
 
-- [The Rust Lang Book - The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
+- [**The Rust Lang Book** - The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
 
-- [The Cargo Book - The Rust Package Manager](https://doc.rust-lang.org/cargo/index.html)
+- [**The Cargo Book** - The Rust Package Manager](https://doc.rust-lang.org/cargo/index.html)
 
 It is very paintful to try any work without mastering these three main concepts:
 
@@ -117,9 +123,9 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [The Dev Method - Youtube channel](https://www.youtube.com/@TheDevMethod)
 
-[Clippy - The Rust Linter](https://doc.rust-lang.org/clippy/)
+[**Clippy** - The Rust Linter](https://doc.rust-lang.org/clippy/)
 
-[rustfmt - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
+[**rustfmt** - A tool for formatting Rust code according to style guidelines](https://github.com/rust-lang/rustfmt)
 
 [The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
 
@@ -184,135 +190,6 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [Common Newbie Mistakes and Bad Practices in Rust](https://adventures.michaelfbryan.com/posts/rust-best-practices/bad-habits/)
 
-
-
-# Ownership , Borrow-checker
-
-[Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
-
-[Ownership - examples](https://doc.rust-lang.org/rust-by-example/scope/move.html)
-
-[Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
-
-En Rust todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
-
-Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una única propietaria por cada trozo de memoria.)
-
-También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (`&`). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
-
-> nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
-
-Este mecanismo de 'Ownership' y 'Borrowing' es uno de los principales responsables de que Rust tenga fama de ser un lenguaje complicado de aprender. Pero una vez se dominan esos dos conceptos (más el de 'Lifetime'), se avanza rápidamente en el aprendizaje.
-
-Un consejo: siempre, pero sobre todo en los primeros programas que escribamos, procurar leer atentamente (y de cabo a rabo) los mensajes de error que nos dé el compilador. 
-
-El compilador (y el linter) de Rust son especialmente buenos en las explicaciones que dan; llegando en muchos casos hasta a proponer cómo solucionar el error que nos están reportando.
-
-[Understanding Ownership - The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
-
-```
-    let s1 = String::from("hello");
-    let s2 = s1;
-
-    println!("{s1}, world!");
-```
-
-```
-$ cargo run
-   Compiling ownership v0.1.0 (file:///projects/pruebas)
-error[E0382]: borrow of moved value: `s1`
- --> src/main.rs:5:15
-  |
-2 |     let s1 = String::from("hello");
-  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
-3 |     let s2 = s1;
-  |              -- value moved here
-4 |
-5 |     println!("{s1}, world!");
-  |               ^^^^ value borrowed here after move
-  |
-  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
-help: consider cloning the value if the performance cost is acceptable
-  |
-3 |     let s2 = s1.clone();
-  |                ++++++++
-
-For more information about this error, try `rustc --explain E0382`.
-error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
-```
-
-[Ownership and Functions](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#ownership-and-functions)
-
-[References and Borrowing](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
-
-[Understanding Ownership - Brown University](https://rust-book.cs.brown.edu/ch04-00-understanding-ownership.html)
-
-[Rust Does Not Permit Manual Memory Management](https://rust-book.cs.brown.edu/ch04-01-what-is-ownership.html#rust-does-not-permit-manual-memory-management)
-
-[References and Borrowing](https://rust-book.cs.brown.edu/ch04-02-references-and-borrowing.html)
-
-[RustOwl, a new tool for visualizing Rust lifetimes - Let's Get Rusty - Youtube](https://youtu.be/NV6Xo_el_2o)
-
-[RustOwl tool - Github](https://github.com/cordx56/rustowl)
-
-## algunos consejos
-
-En la medida de lo posible es preferible ser flexible en los argumentos de las funciones:
-
-- `&str` aceptar trozos de texto (string slice) en lugar de textos completos (owned string) `&String 
-
-- `&[T]` aceptar cualquier trozo (slice) en lugar de todo el contenedor concreto `&Vec<T>`
-
-- `&T` tomar prestado (borrow) el contenido en lugar del contenedor `&Box<T>`
-
-- `Option<&T>` tomar prestado (borrow) el contenido en lugar del contenedor `&Option<T>`
-
-
-## Move semantics
-
-Como ya se ha indicado, este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna tal cual a otra o se pasa tal cual como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro; la variable original pierde el derecho de usar el trozo de memoria al que hacia referencia.
-
-Es decir: **solo puede existir un único puntero de escritura a cada trozo de memoria reservado**.
-
-Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
-
-nota: Pasar tal cual se refiere a pasarla sin usar `&`.
-
-### dos consejos
-
-Ayuda mucho si previamente estamos acostumbrados al paradigma de **programación funcional** y al énfasis que hace este paradigma de trabajar hasta donde sea posible con funciones puras. Funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver. Es decir, funciones sin "efectos colaterales" sobre nada externo a ellas.
-
-Ayuda mucho si previamente estamos acostumbrados al uso de **tests unitarios** y a **trabajar con mentalidad TDD** (Test Driven Development). Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código. Reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
-
-### una advertencia
-
-aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir; sobre todo en programación concurrente o en programación de sistemas), [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html). Pero, ¡ojo!, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
-
-[Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
-
-[Clone and Copy for Duplicating Values](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html#clone-and-copy-for-duplicating-values)
-
-[begginer mistakes, Clone() everywhere](https://youtu.be/SWwTD2neodE?t=270)
-
-[Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
-
-[Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
-
-[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
-
-[deadly mistakes beginner Rust developers make](https://youtu.be/PbR4ECFIckg?t=545)
-
-# Lifetimes
-
-[Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
-
-[Lifetimes - examples](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
-
-Como se ha comentado, cada trozo de memoria es propiedad de una sola variable y se libera cuando dicha variable deja de existir. Por eso, es importante indicarle al compilador cuando se necesite prolongar el ciclo de vida normal de alguna variable.
-
-Normalmente, una variable solo está viva en el alcance (scope) donde se defina: dentro de una instancia de un `struct`, dentro de una función `fn`, dentro de un bucle `for`, dentro de una rama condicional `if`,...
-
-Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
 
 
 # Strong typed
@@ -712,7 +589,7 @@ Los `enum` permiten acotar y definir todos los posibles valores permitidos en un
 
 La biblioteca base estandard incorpora algunos `enum` importantes. De los que destacan dos: `Option` y `Result`.
 
-### Option , para gestionar la ausencia de valor en una variable
+### **Option** , para gestionar la ausencia de valor en una variable
 
 [The Option enum](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum)
 
@@ -727,7 +604,7 @@ Es muy útil cuando necesitamos distinguir claramente si una variable tiene un v
 [The Option Enum and Its Advantages Over Null Values](https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html?highlight=Option#the-option-enum-and-its-advantages-over-null-values)
 
 
-### Result , para gestionar la posibilidad de error en una función
+### **Result** , para gestionar la posibilidad de error en una función
 
 [Recoverable Errors with Result](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html)
 
@@ -757,6 +634,137 @@ Es muy útil cuando necesitamos distinguir claramente si una función devuelve u
 Es muy útil cuando necesitamos distinguir claramente entre continuar (`Continue`) o parar (`Break`).
 
 [The ControlFlow Enum](https://doc.rust-lang.org/stable/std/ops/enum.ControlFlow.html)
+
+
+# Ownership , Borrow-checker
+
+[Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
+
+[Ownership - examples](https://doc.rust-lang.org/rust-by-example/scope/move.html)
+
+[Borrowing - examples](https://doc.rust-lang.org/rust-by-example/scope/borrow.html)
+
+En Rust todo trozo de memoria es propiedad de una sola variable (una variable es simplemente el nombre con el que se accede a ese trozo). Un trozo de memoria es liberado cuando su variable propietaria deja de existir (queda fuera de alcance -scope-).
+
+Se puede traspasar la propiedad -ownership-, asignando el valor a otra variable o pasándolo como parámetro a una función. Pero, ¡ojo!, al contrario que en otros lenguajes, la variable propietaria original pierde la propiedad y esta pasa a la variable o al parámetro destinatario. (Recordar que solo puede haber una única propietaria por cada trozo de memoria.)
+
+También se puede prestar -borrow- la propiedad, incluso a varias variables, haciendo que esas otras variables tengan una referencia de solo lectura (`&`). Pero, en ese caso, ninguna de esas variables podrá actualizar el valor, ni tener una vida (lifetime) más larga que la variable propietaria.
+
+> nota colateral: Rust intenta potenciar el uso de variables inmutables (paradigma funcional). Si se desea poder cambiar el valor de un trozo de memoria, es necesario indicarlo expresamente con `mut` al asignar, traspasar o prestar su propiedad.
+
+Este mecanismo de 'Ownership' y 'Borrowing' es uno de los principales responsables de que Rust tenga fama de ser un lenguaje complicado de aprender. Pero una vez se dominan esos dos conceptos (más el de 'Lifetime'), se avanza rápidamente en el aprendizaje.
+
+Un consejo: siempre, pero sobre todo en los primeros programas que escribamos, procurar leer atentamente (y de cabo a rabo) los mensajes de error que nos dé el compilador. 
+
+El compilador (y el linter) de Rust son especialmente buenos en las explicaciones que dan; llegando en muchos casos hasta a proponer cómo solucionar el error que nos están reportando.
+
+[Understanding Ownership - The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html)
+
+```
+    let s1 = String::from("hello");
+    let s2 = s1;
+
+    println!("{s1}, world!");
+```
+
+```
+$ cargo run
+   Compiling ownership v0.1.0 (file:///projects/pruebas)
+error[E0382]: borrow of moved value: `s1`
+ --> src/main.rs:5:15
+  |
+2 |     let s1 = String::from("hello");
+  |         -- move occurs because `s1` has type `String`, which does not implement the `Copy` trait
+3 |     let s2 = s1;
+  |              -- value moved here
+4 |
+5 |     println!("{s1}, world!");
+  |               ^^^^ value borrowed here after move
+  |
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider cloning the value if the performance cost is acceptable
+  |
+3 |     let s2 = s1.clone();
+  |                ++++++++
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `pruebas` (bin "pruebas") due to 1 previous error
+```
+
+[Ownership and Functions](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html#ownership-and-functions)
+
+[References and Borrowing](https://doc.rust-lang.org/book/ch04-02-references-and-borrowing.html)
+
+[Understanding Ownership - Brown University](https://rust-book.cs.brown.edu/ch04-00-understanding-ownership.html)
+
+[Rust Does Not Permit Manual Memory Management](https://rust-book.cs.brown.edu/ch04-01-what-is-ownership.html#rust-does-not-permit-manual-memory-management)
+
+[References and Borrowing](https://rust-book.cs.brown.edu/ch04-02-references-and-borrowing.html)
+
+[RustOwl, a new tool for visualizing Rust lifetimes - Let's Get Rusty - Youtube](https://youtu.be/NV6Xo_el_2o)
+
+[RustOwl tool - Github](https://github.com/cordx56/rustowl)
+
+## algunos consejos
+
+En la medida de lo posible, cuando solo necesitamos datos inmutables, es preferible ser flexible en los argumentos de las funciones:
+
+- `&str` aceptar trozos de texto (string slice) en lugar de textos completos (owned string) `&String 
+
+- `&[T]` aceptar cualquier trozo (slice) en lugar de todo el contenedor concreto `&Vec<T>`
+
+- `&T` tomar prestado (borrow) el contenido en lugar del contenedor `&Box<T>`
+
+- `Option<&T>` tomar prestado (borrow) el contenido en lugar del contenedor `&Option<T>`
+
+
+## Move semantics
+
+Como ya se ha indicado, este es quizá el aspecto que más sorprende a quienes se acercan a Rust por primera vez desde otros lenguajes: cuando una variable se asigna tal cual a otra o se pasa tal cual como parámetro a una función, se mueve la propiedad de ese trozo de memoria a esa otra variable o a ese parámetro; la variable original pierde el derecho de usar el trozo de memoria al que hacia referencia.
+
+Es decir: **solo puede existir un único puntero de escritura a cada trozo de memoria reservado**.
+
+Esto suele obligar a organizar el código de manera diferente a como podamos estar acostumbrados. Puede resultar algo frustrante al principio. Pero perseverando, intentando pensar otras posibilidades, leyendo atentamente los mensajes de error del compilador y siguiendo sus indicaciones, se suele acabar llegando a una estructura de código normalmente más clara y lógica de la que habíamos pensado en un primer momento.
+
+nota: Pasar tal cual se refiere a pasarla sin usar `&`.
+
+### dos consejos
+
+Ayuda mucho si previamente estamos acostumbrados al paradigma de **programación funcional** y al énfasis que hace este paradigma de trabajar hasta donde sea posible con funciones puras. Funciones que hacen lo que tengan que hacer utilizando solo aquellos valores que se le pasan a través de sus parámetros y que devuelven los resultados que tengan que devolver. Es decir, funciones sin "efectos colaterales" sobre nada externo a ellas.
+
+Ayuda mucho si previamente estamos acostumbrados al uso de **tests unitarios** y a **trabajar con mentalidad TDD** (Test Driven Development). Esa forma de trabajar suele conducir de manera natural hacia una separación clara de responsabilidades entre las distintas partes del código. Reduciendo dependencias entre partes y potenciando flujos de datos claros entre unas partes y otras.
+
+### una advertencia
+
+aviso: Rust tiene mecanismos para compartir la propiedad de un trozo de memoria (ya que hay algoritmos que lo suelen requerir; sobre todo en programación concurrente o en programación de sistemas), [Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html). Pero, ¡ojo!, son mecanismos de los que conviene no abusar. Sobre todo al principio, cuando aún no estamos acostumbrados a la forma de programar de Rust y puede resultar tentador utilizarlos masivamente para poder seguir programando como estábamos acostumbrados a hacerlo en otros lenguajes. 
+
+[Rust: Ownership and Borrowing - The Dev Method](https://www.youtube.com/watch?v=DFx1Eo6apkQ)
+
+[Clone and Copy for Duplicating Values](https://doc.rust-lang.org/book/appendix-03-derivable-traits.html#clone-and-copy-for-duplicating-values)
+
+[begginer mistakes, Clone() everywhere](https://youtu.be/SWwTD2neodE?t=270)
+
+[Capturing References or Moving Ownership](https://doc.rust-lang.org/book/ch13-01-closures.html#capturing-references-or-moving-ownership)
+
+[Using move Closures with Threads](https://doc.rust-lang.org/book/ch16-01-threads.html#using-move-closures-with-threads)
+
+[Shared-State Concurrency](https://doc.rust-lang.org/book/ch16-03-shared-state.html)
+
+[deadly mistakes beginner Rust developers make](https://youtu.be/PbR4ECFIckg?t=545)
+
+# Lifetimes
+
+[Preventing Dangling References with Lifetimes](https://doc.rust-lang.org/book/ch10-03-lifetime-syntax.html)
+
+[Lifetimes - examples](https://doc.rust-lang.org/rust-by-example/scope/lifetime.html)
+
+Como se ha comentado, cada trozo de memoria es propiedad de una sola variable y se libera cuando dicha variable deja de existir. Por eso, es importante indicarle al compilador cuando se necesite prolongar el ciclo de vida normal de alguna variable.
+
+Normalmente, una variable solo está viva en el alcance (scope) donde se defina: dentro de una instancia de un `struct`, dentro de una función `fn`, dentro de un bucle `for`, dentro de una rama condicional `if`,...
+
+Pero, en ciertas ocasiones, puede resultar interesante ligar su ciclo de vida al de otras variables con las que ha de trabajar conjuntamente. De tal manera que todas ellas estén vivas durante el mismo tiempo (es decir, tengan el mismo "lifetime").
+
+
 
 
 # Traits
@@ -2160,6 +2168,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [Rust for Rustaceans by Jon Gjengset](https://nostarch.com/rust-rustaceans)
 
+[Rust Compiler Development Guide](https://rustc-dev-guide.rust-lang.org/getting-started.html)
+
 
 ## cursos y tutoriales
 
@@ -2266,6 +2276,8 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 
 [The existential threat against C++ and where to go from here](https://www.youtube.com/watch?v=gG4BJ23BFBE)
 
+[Google Rust Style Guide](https://google.github.io/styleguide/rustguide.html)
+
 [Rust in the Android platform](https://security.googleblog.com/2021/04/rust-in-android-platform.html)
 
 [Deploy your Rust project in 20 minutes](https://www.youtube.com/watch?v=_gMzg77Qjm0)
@@ -2273,8 +2285,6 @@ Some profiles from [C++ Core Guidelines](https://isocpp.github.io/CppCoreGuideli
 [Encapsulation in Rust - David Choi](https://www.youtube.com/watch?v=3Oj_McqC_ys)
 
 [JC -  Rust Programming - Top Techniques and Tutorials](https://www.youtube.com/playlist?list=PL7r-PXl6ZPcCTiOerk-Nd9uw56KVXKtNV)
-
-
 
 
 ## conferencias, canales, blogs,...
