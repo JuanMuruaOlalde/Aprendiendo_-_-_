@@ -281,12 +281,32 @@ Los modelos en formato glTF pueden crearse en programas de diseño como, por eje
 
 [soporte glTF en Blender](https://docs.blender.org/manual/en/latest/addons/scene_gltf2.html)
 
+#### Sonidos
+
 
 ## `Scene` and `bsn!` macro
 
 [https://docs.rs/bevy/latest/bevy/scene/index.html](https://docs.rs/bevy/latest/bevy/scene/index.html)
 
 Está disponible desde la versión `0.20.1`.
+
+
+
+# "Renderer", el pipeline que muestra gráficos en la pantalla
+
+
+Los elementos del mundo son "captados" por las camaras y esas imagenes son procesadas hasta mostrase en pantalla.
+
+> Obviamente, las cámaras necesitan algo de luz (iluminación) para poder "ver" el mundo. ;-)
+
+Este proceso pasa por una serie de capas. En cada una de las cuales se puede influir en la visualización:
+- Render de Bevy
+- [WGPU](https://wgpu.rs/): una biblioteca Rust para tratamiento de gráficos.
+- API gráfica: dependiente del sistema operativo. Algunas populares son: [Vulkan](https://docs.vulkan.org/), [Metal](https://developer.apple.com/metal/), [DirectX12](https://learn.microsoft.com/en-us/windows/win32/direct3d12/direct3d-12-graphics), [WebGPU](https://webgpu.org/), etc.
+- Driver del fabricante de la tarjeta gráfica.
+- La tarjeta gráfica propiamente dicha a la que está conectada la pantalla.
+
+El resultado final de ir pasando por todo ese stack gráfico (pipeline) son cuadros (frames) que se van mostrando en la pantalla.
 
 
 # Apéndice: documentación varia
