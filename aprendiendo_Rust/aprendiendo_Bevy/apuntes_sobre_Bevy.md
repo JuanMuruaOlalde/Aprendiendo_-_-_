@@ -17,7 +17,7 @@
 
 Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_system). Dividiendo el programa entre:
 
-- Las **entidades** representan objetos o personajes del juego.
+- **Entidades**: representan objetos o personajes del juego.
   
   Son estructuras que solo contienen un único dato, su ID (un número `u64`). Cada entidad puede tener asociados ciertos componentes (el resto de datos necesarios).
   ```
@@ -28,7 +28,7 @@ Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_sys
   [bevy_ecs::entity](https://docs.rs/bevy_ecs/0.18.1/bevy_ecs/entity/struct.Entity.html)
 
 
-- Los **componentes** representan propiedades que tienen las entidades.
+- **Componentes**: representan propiedades que tienen las entidades.
 
   Son estructuras puras de datos. Cada componente soporta un cierto tipo de comportamiento.
   ```
@@ -38,7 +38,7 @@ Bevy sigue el [paradigma ECS](https://en.wikipedia.org/wiki/Entity_component_sys
   [bevy_ecs::component](https://docs.rs/bevy_ecs/0.18.1/bevy_ecs/component/trait.Component.html)
 
 
-- Los **sistemas** actuan sobre los componentes de las entidades.
+- **Sistemas**: actuan sobre los componentes de las entidades.
 
   Son funciones que recorren todas las entidades que tengan un cierto tipo de componente asignado y, en cada una, hacen algo sobre ese componente de esa entidad.
   ```
@@ -58,8 +58,8 @@ Es decir, en ECS:
 Con esta clara separación entre ambas cosas, se obtiene una gran flexibilidad y se facilita trabajar en paralelo.
 
 Otros elementos:
-- Los **mensajes** [`Message`](https://docs.rs/bevy/latest/bevy/prelude/trait.Message.html) ofrecen canales de comunicación entre sistemas.
-- Los **eventos** [`Event`](https://docs.rs/bevy/latest/bevy/prelude/trait.Event.html), ofrecen una vía reactiva para ejecutar sistemas a través de los [`Observer`](https://docs.rs/bevy/latest/bevy/prelude/struct.Observer.html)
+-  **Mensajes**: [`Message`](https://docs.rs/bevy/latest/bevy/prelude/trait.Message.html) ofrecen canales de comunicación entre sistemas.
+- **Eventos**: [`Event`](https://docs.rs/bevy/latest/bevy/prelude/trait.Event.html), ofrecen una vía reactiva para ejecutar sistemas a través de los [`Observer`](https://docs.rs/bevy/latest/bevy/prelude/struct.Observer.html)
 - 
 
 Para más información sobre la implementación de ECS en Bevy:
@@ -68,7 +68,7 @@ Para más información sobre la implementación de ECS en Bevy:
 
 ## Crear entidades y componentes
 
-Para agregar o quitar entidades|componentes en el mundo, la manera más segura es utilizar comandos: [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Concretamente, utilizando el comando [`spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) o sus derivados. 
+Para agregar o quitar entidades|componentes en el mundo, la manera más segura es utilizar comandos ([`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html)). Concretamente, utilizando el comando [`spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) o sus derivados. 
 
 > El framework interno de Bevy se encarga de:
 > - Proveer los parámetros adecuados a la función donde se utiliza el comando.
@@ -89,9 +89,9 @@ Las cosas se construyen por composición. Por ejemplo, este cubo está compuesto
 
 Como se ha comentado, un sistema no es más que una función. Eso sí, cada uno de sus argumentos ha de implementar el trait `SystemParam`. Como, por ejemplo, lo hacen `Query`, `Commands`, `Res`, `ResMut`, `MessageReader`, `MessageWriter`, `Local`,...
 
-Por ejemplo, para pasar como argumento a la función los componentes sobre los que ha de actuar se utilizan las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
+> Por ejemplo, para pasarle los componentes sobre los que ha de actuar se utilizan las consultas: [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)
 
-> El framework interno de Bevy se encarga de proveer a esos argumentos los datos correspondientes.
+Al sistema (función) solo se le ha de poner esos argumentos al definirlo. El framework interno de Bevy se encarga automaticamente de proveer los datos correspondientes a cada argumento en cada ejecución. 
 
 
 
@@ -100,11 +100,13 @@ Por ejemplo, para pasar como argumento a la función los componentes sobre los q
 
 La parte de *aplicación* (`App`) de un programa Bevy es la que implementa:
 
-- El mundo [`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html) que conforma el juego. Este mundo se puede inicializar manualmente y/o usando sistemas de un solo uso ("startup systems").
+- El mundo [`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html) que conforma el juego.
 
 - La lógica del bucle exterior que gobierna el juego. Las estratégias de ejecución (`Schedule`) de los distintos sistemas.
 
-## Estrategias de ejecución de los sistemas: schedules
+## Estrategias de ejecución de los sistemas
+
+### Schedules
 
 `App` añade sistemas a diversos `Schedule`, para que sean ejecutados según diversas estratégias:
   - `Startup`: ejecutar una sola vez, cuando arranca la app.
@@ -121,19 +123,25 @@ Para más información sobre estratégias de ejecución:
 
 Por otro lado, también es posible indicar condiciones para la ejecución de cada sistema: [common_conditions](https://docs.rs/bevy/latest/bevy/ecs/schedule/common_conditions/index.html). Utilizando el comando `.run_if()` sobre el sistema cuando lo añadimos a un `Schedule` determinado.
 
+### Run Conditions
+
+[run_if()](https://docs.rs/bevy/latest/bevy/prelude/trait.IntoScheduleConfigs.html#method.run_if)
+
 ## Coordinación entre sistemas: mensajes y eventos
 
-Los **mensajes** son para ser escritos/leidos a/desde un buffer. Un buffer específico para cada tipo de mensaje definido.
+Los **mensajes** son para ser escritos/leidos a/desde un buffer. Un buffer específico para cada tipo de mensaje definido. Cada sistema puede leer mensajes desde cualquier buffer de su elección y actuar en función de ellos.
 
 [Message](https://docs.rs/bevy/latest/bevy/ecs/message/trait.Message.html)
 
-Los **eventos** son para ser consumidos por los **observadores** que se han subscrito a ellos. Cuando se produce (trigger) un evento en el mundo, se ejecutan automáticamente todos los sistemas (funciones) que estaban subscritos a ese tipo de evento.
+Los **eventos** son para ser consumidos por los **observadores** que se han subscrito a ellos. Cuando se produce (trigger) un evento en el mundo, se ejecutan automáticamente todos los sistemas (funciones) que estaban observando ese tipo de evento.
 
 [Event](https://docs.rs/bevy/latest/bevy/ecs/event/trait.Event.html)
 
 [Observer](https://docs.rs/bevy/latest/bevy/prelude/struct.Observer.html)
 
-## Organizar la aplicación: plugins
+## Organizar la aplicación
+
+### Plugins
 
 Prácticamente todo Bevy se implementa de forma modular, usando [plugins](https://bevy.org/learn/quick-start/getting-started/plugins/). Así se tiene la flexibilidad de usar o no cada módulo (plugin); aprovechando la ventaja de incorporar (o no) múltiples elementos de golpe.
 
@@ -156,7 +164,7 @@ fn build(&self, app: &mut App){
 }
 ```
 
-## Organizar la aplicación: bundles
+### Bundles
 
 Cuando ciertos componentes se asignan habitualmente juntos, suele ser conveniente definir también un [Bundle](https://docs.rs/bevy/latest/bevy/ecs/bundle/trait.Bundle.html) que los agrupe y utilizar dicho grupo cuando se desea asignarlos juntos.
 
@@ -180,19 +188,17 @@ Widgets variados para componer un interfaz de usuario en la pantalla.
 
 # `World`, el mundo
 
-La parte del *mundo* (`World`) de un programa Bevy es un contenedor especializado para:
+La parte del *mundo* ([`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html)) de un programa Bevy es un contenedor especializado para:
 - Entidades: cada elemento único que participa en el juego. Cada una tiene su ID.
 - Componentes: aportan propiedades a las entidades.
 - Sistemas: realizan operaciones sobre las entidades (sobre sus propiedades).
 - y Recursos: una forma especial de componente. No suelen ir asociados a ninguna entidad. Aportan cosas tales como: imágenes, visualizadores, servicios de audio, temporizadores,...
 
-El mundo como tal, [`World`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.World.html), no se suele manejar directamente. (Salvo en casos como el de ejecutar tests "headless"; donde, por ejemplo, [`world.run_system_once(...)`](https://docs.rs/bevy/latest/bevy/ecs/system/trait.RunSystemOnce.html) permite trabajar sin ventana ni render.)
+La forma de interactuar con el mundo es a través de **comandos** [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar. Por ejemplo, las entidades y componentes se asocian con [`Commands::spawn()`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) en el momento de crearlas.
 
-La forma de interactuar con el mundo son los **comandos** [`Commands`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html). Los comandos no son inmediatos, Bevy se encarga de que actuen en el momento en que sea seguro modificar el estado que pretenden modificar.
+> Nota: No se suele manejar directamente el mundo; puede ser peligroso. Existir existen instrucciones inmediatas, pero solo se suelen emplear para ejecutar tests unitarios "headless" (sin ventana gráfica ni render). Por ejemplo, para crear entidades con [`World::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.World.html#method.spawn) o para ejecutar sistemas con [`RunSystemOnce`](https://docs.rs/bevy/latest/bevy/ecs/system/trait.RunSystemOnce.html).
 
-> Por ejemplo, las entidades y componentes se asocian con [`Commands::spawn`](https://docs.rs/bevy/latest/bevy/prelude/struct.Commands.html#method.spawn) en el momento de crearlas.
-
-El mundo tiene **consultas** [`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html) para buscar y acceder a determinados componentes. Los sistemas usan consultas para recuperar la información que van a tratar.
+Por otro lado, el mundo tiene **consultas** ([`Query`](https://docs.rs/bevy/latest/bevy/ecs/prelude/struct.Query.html)). Las consultas permiten buscar y acceder a determinados componentes concretos. Los sistemas las usan para recuperar los componentes sobre los que van a actuar.
 
 ## Algunos elementos a tener en cuenta
 
@@ -318,36 +324,31 @@ El resultado final de ir pasando por todo ese stack gráfico (pipeline) son cuad
 >¡Aviso!: debido a este dinamismo, los ejemplos que aparecen en documentaciones y tutoriales suelen quedar rápidamente desfasados. Es importante prestar atención a la versión utilizada en cada documento o tutorial; habitualmente suele venir indicada en la caratula o en el título.
 > 
 
+Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube video](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)).
 [bevy.org - The Book](https://bevy.org/learn/book/intro/)
 
-[bevy.org - Learn Bevy](https://bevy.org/learn/)
+PhaestusFox -Your First Bevy Game: Bevy Basics remastered to 0.16-, ([Youtube video](https://youtu.be/nE76GGICofU) , [Github repository](https://github.com/PhaestusFox/bevy_basics_remastered)).
+
+[Bevy Guides from taintedcoders.com](https://taintedcoders.com/)
 
 Los [ejemplos oficiales para desktop](https://github.com/bevyengine/bevy/tree/latest/examples#examples)
 
 Los [ejemplos oficiales para web (WebGL2)](https://bevy.org/examples/)
 
-Algunos [recursos para aprender](https://bevy.org/assets/#learning).
+Algunos [recursos para aprender](https://bevy.org/learn/)
+
+Algunos otros [recursos para aprender](https://bevy.org/assets/#learning).
 
 Caitlin Sar Campbell: [Making games in Rust with Bevy](https://youtu.be/BzrZoJZcmVI)
 
-[Unofficial Bevy Cheat Book](https://bevy-cheatbook.github.io/)
-
-[taintedcoders.com](https://taintedcoders.com/)
-
 [The Impatient Programmer's Guide to Bevy and Rust](https://aibodh.com/)
 
-[encetroc - skills for Bevy and Avian](https://github.com/encetroc/bevy-skills)
+[chris biscardi - Youtube channel](https://www.youtube.com/@chrisbiscardi/videos)
 
-[tbillington - best practices with Bevy](https://github.com/tbillington/bevy_best_practices)
+Documentación sobre algunos desarrollos que se están llevando a cabo  dentro del ecosistema Bevy:
 
-PhaestusFox -Your First Bevy Game: Bevy Basics remastered to 0.16-, ([Youtube video](https://youtu.be/nE76GGICofU) , [Github repository](https://github.com/PhaestusFox/bevy_basics_remastered)).
-
-Zymartu Games -Bevy 0.12 Beginner Tutorial-, ([Youtube video](https://www.youtube.com/playlist?list=PL2wAo2qwCxGDp9fzBOTy_kpUTSwM1iWWd)) , ([Github repository](https://github.com/marcelchampagne/bevy-basics)).
-
-[chris biscardi](https://www.youtube.com/@chrisbiscardi/videos)
-
-Desarrollos en curso dentro del ecosistema Bevy:
 - [Bevyengine - RFCs (Requests For Comments)](https://github.com/bevyengine/rfcs)
+
 - [Designing The Bevy Editor - vision, roadmap, architecture, constraints, guidelines,...](https://bevyengine.github.io/bevy_editor_prototypes/vision.html)
 
 
@@ -359,7 +360,7 @@ A collection of [third-party Bevy assets, plugins, learning resources, and apps]
 
 [Poly Pizza](https://poly.pizza/), a collection of low-poly objects.
 
-## Algunos crates auxiliares interesantes:
+## Apéndice: algunos crates auxiliares interesantes
 
 [bevy-inspector-egui](https://crates.io/crates/bevy-inspector-egui)
 
