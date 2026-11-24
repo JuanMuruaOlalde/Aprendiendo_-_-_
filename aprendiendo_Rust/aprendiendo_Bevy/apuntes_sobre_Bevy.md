@@ -356,6 +356,8 @@ Documentación sobre algunos desarrollos que se están llevando a cabo  dentro d
 
 [Some templates](https://bevy.org/assets/#templates) to start a Bevy app.
 
+[Github CI template](https://github.com/bevyengine/bevy_github_ci_template) to set up CI on a GitHub project for Bevy.
+
 A collection of [third-party Bevy assets, plugins, learning resources, and apps](https://bevy.org/assets/)  made by the community
 
 [Poly Pizza](https://poly.pizza/), a collection of low-poly objects.
