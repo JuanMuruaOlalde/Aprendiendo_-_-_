@@ -129,6 +129,10 @@ A peer-reviewed collection of articles-talks-repos which teach concise, idiomati
 
 [The Rust Style Guide book](https://doc.rust-lang.org/stable/style-guide/)
 
+[The **rustdoc** book](https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html)
+
+[The **mdBook** book](https://rust-lang.github.io/mdBook/index.html)
+
 [The Rust Performance Book](https://nnethercote.github.io/perf-book/introduction.html)
 
 [The rustup book](https://rust-lang.github.io/rustup/index.html)
@@ -1315,6 +1319,7 @@ The advantage of using trait objects and Rust’s type system to write code simi
 
 [mdBook - a command line tool to create books with Markdown](https://rust-lang.github.io/mdBook/)
 
+[The mdBook book](https://rust-lang.github.io/mdBook/index.html)
 
 Algunas ideas para documentar software:
 
