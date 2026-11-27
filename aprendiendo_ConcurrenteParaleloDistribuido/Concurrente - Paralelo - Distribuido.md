@@ -17,23 +17,34 @@ Por tanto, se hace especialmente importante organizar los trabajos de forma que 
 
 ## Algunas consideraciones teóricas
 
-### Paralelizable , Concurrentizable
+### Concurrentizable , Paralelizable 
 
-Si un trabajo se puede hacer a trozos autónomos ==> es paralelizable.
+Una distinción importante: [Concurrency , Parallelism](https://youtu.be/5sw9XJokAqw?t=298)
+
+Si un trabajo tiene varias tareas (más o menos) independientes ==> es **concurrentizable**.
+
+- Se puede realizar con un solo trabajador.
+
+- Analizar las tareas y determinar:
+  - Los puntos de intersección (cuándo una debe esperar a otra).
+  - Los puntos de espera (cuando una debe esperar a recursos externos).
+ 
+- Ir alternando tareas, aprovechando los puntos de intersección o de espera; de tal forma que el trabajador esté ocioso el mínimo tiempo posible.
+
+  > Nota: si se hace lo suficientemente rápido, el usuario no distinguirá las transiciones y tendrá la impresión de que todas las tareas se ejecutan simultáneamente; aunque no sea así en realidad.
+
+Si un trabajo se puede hacer en trozos o tareas autónomas independientes y tenemos varios trabajadores ==> es **paralelizable**.
 
 - ¿Cuántos trabajadores tenemos? -> n
 
-- Dividir la tarea en n trozos independientes.
+- Dividir el trabajo en n trozos|tareas y asignar uno a cada trabajador.
 
-- Recoger los n resultados parciales y combinarlos.
+- Repetir hasta completar todo el trabajo.
 
-Si un trabajo tiene varias tareas (más o menos) independientes ==> es concurrentizable.
+Nota: La concurrencia no ahorra tiempo, las tareas tardan lo mismo en ejecutarse que si se hicieran de forma secuencial. El paralelismo es quien sí ahorra tiempo.
 
-- Asignar un trabajador para cada tarea.
+Nota: Concurrencia se puede aplicar siempre (incluso aunque no haya puntos de intersección o de espera). Paralelismo, en cambio, solo se puede aplicar cuando las tareas (o trozos de tarea) permiten simultaneidad (no tienen dependencias).
 
-- Determinar los puntos de intersección.
-
-- Establecer los mecanismos adecuados de comunicación/coordinación.
 
 ### Intercambio de datos entre hilos de ejecución
 
@@ -227,6 +238,8 @@ Por ejemplo, en Java tenemos:
 ## apéndice
 
 ### algunos enlaces variados
+
+[Concurrency vs. Parallelism](https://youtu.be/5sw9XJokAqw?t=298)
 
 [Some posts about to the fallacies of distributed systems](https://particular.net/blog/topics/fallacies)
 
